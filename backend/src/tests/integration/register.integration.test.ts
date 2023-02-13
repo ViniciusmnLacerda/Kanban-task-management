@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 const { app } = new App();
 const { expect } = chai; 
 
-describe.only('Register integration tests', function() {
+describe('Register integration tests', function() {
   afterEach(function() {
     sinon.restore()
   });
