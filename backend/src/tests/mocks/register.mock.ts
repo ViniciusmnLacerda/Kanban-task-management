@@ -31,11 +31,35 @@ const secondCreateOutput = {
   lastName: "Bragança",
 }
 
+const invalidInputs = [
+  {
+    password: "MyPassword",
+    name: "Marianne",
+    lastName: "Bragança",
+  },
+  {
+    email: "marianne@email.com",
+    name: "Marianne",
+    lastName: "Bragança",
+  },
+  {
+    email: "marianne@email.com",
+    password: "MyPassword",
+    lastName: "Bragança",
+  },
+  {
+    email: "marianne@email.com",
+    password: "MyPassword",
+    name: "Marianne",
+  }
+]
+
 export {
   emailNotAvailableInput,
   firstInput,
   firstCreateOutput,
   secondCreateOutput,
   secondInput,
+  invalidInputs,
 }
 
