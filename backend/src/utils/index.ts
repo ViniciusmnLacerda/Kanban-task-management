@@ -1,7 +1,9 @@
-import IToken from '../interfaces/IToken';
+import ErrorClient from './ErrorClient';
 import HandleToken from './HandleToken';
+import Schemas from './Schemas';
 
 export {
   HandleToken,
-  IToken,
+  ErrorClient,
+  Schemas,
 };

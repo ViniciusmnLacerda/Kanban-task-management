@@ -10,7 +10,7 @@ export default class HandleToken {
   }
 
   public createToken = ({ id, email }: IUser): IToken => {
-    const token = jwt.sign({ id, email }, this.secret, this.jwtConfig);
+    const token = jwt.sign({ userId: id, email }, this.secret, this.jwtConfig);
     return token as unknown as IToken;
   }
 };
