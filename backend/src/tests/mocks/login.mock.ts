@@ -18,8 +18,16 @@ const user = {
   passoword: "falta arrumar o bcrypt",
 }
 
+const inputWithoutEmail = {
+  password: "MyPassword",
+}
+
+const inputWithoutPassword = {
+  email: "vinicius@email.com",
+}
+
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpbmljaXVzQGVtYWlsLmNvbSIsImlhdCI6MTY3NjMwNTgwNSwiZXhwIjoxNjc2MzkyMjA1fQ.Q1bKqnsdSSkEU_QBRjPc4GVdYWrKZ4EkmK7_3H0OAlg"
-//remeber this token will be expires
+//remember this token will be expires
 
 
 export {
@@ -28,5 +36,7 @@ export {
   validLoginInput,
   user,
   token,
+  inputWithoutEmail,
+  inputWithoutPassword,
 }
 
