@@ -3,14 +3,14 @@ module.exports = {
     await queryInterface.bulkInsert('users', [
       {
         email: 'vinicius@email.com',
-        password: 'MyPassword'
-          // senha: secret_admin
+        password: '$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui',
+          // password: MyPassword
       },
       {
         email: 'maria@email.com',
-        password: 'MyPassowrd', 
-          // senha: secret_user
-      },
+        password: '$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui', 
+          // password: MyPassword
+        },
     ], {});
   },
 
