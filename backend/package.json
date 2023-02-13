@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx -y tsc",
+    "dev": "nodemon --watch \"./src/**\" ./src/server.ts",
+    "db:reset": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "test:unit": "mocha -r ts-node/register src/tests/unit/*.test.ts --exit -t 60000",
+    "test:integration": "mocha -r ts-node/register src/tests/integration/*.test.ts --exit -t 60000"
   },
   "keywords": [],
   "author": "",
