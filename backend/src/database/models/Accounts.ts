@@ -29,7 +29,7 @@ Accounts.init({
   },
   image: {
     type: STRING,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   underscored: true,
@@ -39,7 +39,7 @@ Accounts.init({
   tableName: 'accounts',
 });
 
-Accounts.belongsTo(Users, { foreignKey: 'accountId', as: 'accountId' });
-Users.hasOne(Accounts, { foreignKey: 'accountId', as: 'accountId' });
+Accounts.belongsTo(Users);
+Users.hasOne(Accounts);
 
 export default Accounts;
