@@ -3,7 +3,6 @@ import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import userModel from '../../../database/models/Users';
-import { IUser } from '../../../interfaces';
 import { LoginService } from '../../../services';
 import { HandleToken } from '../../../utils';
 import {
@@ -34,7 +33,7 @@ describe('Login service tests', function() {
   });
 
   it('with invalid password should return error', async function() {
-    sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
+    sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(false);
     try {
       await loginService.login(invalidPassowrdlInput);
@@ -43,8 +42,8 @@ describe('Login service tests', function() {
     }
   });
 
-  it('successfully should return token', async function() {
-    sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
+  it('successfully', async function() {
+    sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(true);
     sinon.stub(jwt, 'sign').resolves(token);
 

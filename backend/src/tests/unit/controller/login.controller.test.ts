@@ -5,7 +5,6 @@ import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import { LoginController } from '../../../controllers';
 import userModel from '../../../database/models/Users';
-import { IUser } from '../../../interfaces';
 import { LoginService } from '../../../services';
 import { token, user, validLoginInput } from '../../mocks/login.mock';
 
@@ -30,7 +29,7 @@ describe('Login controller tests', function() {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
 
-    sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
+    sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(true);
     sinon.stub(jwt, 'sign').resolves(token);
 

@@ -1,3 +1,3 @@
-import LoginValidations from "./Login.validations";
+import UserValidations from "./User.validations";
 
-export { LoginValidations };
+export { UserValidations };

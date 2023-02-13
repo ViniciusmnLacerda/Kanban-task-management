@@ -1,13 +1,13 @@
 import { IToken, IUser } from "../interfaces";
 import { HandleToken } from "../utils";
-import { LoginValidations } from "./validations";
+import { UserValidations } from "./validations";
 
 const handleToken = new HandleToken();
-const loginValidations = new LoginValidations();
+const userValidations = new UserValidations();
 
 export default class LoginService {
   public login = async (credentials: IUser): Promise<IToken> => {
-    const user = await loginValidations.validateCreadentials(credentials);
+    const user = await userValidations.validateCreadentials(credentials);
     const token = handleToken.createToken(user);
     return token;
   }
