@@ -8,6 +8,7 @@
     "dev": "nodemon --watch \"./src/**\" ./src/server.ts",
     "db:reset": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "test:unit": "mocha -r ts-node/register src/tests/unit/*.test.ts --exit -t 60000",
+    "compose:up": "docker compose up -d --build && npm run db:reset",
     "test:integration": "mocha -r ts-node/register src/tests/integration/*.test.ts --exit -t 60000"
   },
   "keywords": [],
