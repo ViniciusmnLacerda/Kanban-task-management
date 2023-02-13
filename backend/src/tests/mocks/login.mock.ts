@@ -15,7 +15,7 @@ const validLoginInput = {
 
 const user = {
   email: "vinicius@email.com",
-  passoword: "falta arrumar o bcrypt",
+  passoword: "$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui",
 }
 
 const inputWithoutEmail = {

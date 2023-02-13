@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs';
 import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
@@ -34,7 +35,7 @@ describe('Login service tests', function() {
 
   it('with invalid password should return error', async function() {
     sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
-
+    sinon.stub(bcrypt, 'compareSync').resolves(false);
     try {
       await loginService.login(invalidPassowrdlInput);
     } catch (err) {
@@ -44,6 +45,7 @@ describe('Login service tests', function() {
 
   it('successfully should return token', async function() {
     sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
+    sinon.stub(bcrypt, 'compareSync').resolves(true);
     sinon.stub(jwt, 'sign').resolves(token);
 
     const result = await loginService.login(validLoginInput);

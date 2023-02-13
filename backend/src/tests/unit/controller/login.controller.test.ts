@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs';
 import * as chai from 'chai';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -30,6 +31,7 @@ describe('Login controller tests', function() {
     res.json = sinon.stub().returns(res);
 
     sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
+    sinon.stub(bcrypt, 'compareSync').resolves(true);
     sinon.stub(jwt, 'sign').resolves(token);
 
     req.body = validLoginInput;
