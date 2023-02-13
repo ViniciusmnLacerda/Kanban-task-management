@@ -1,5 +1,5 @@
-'use strict'
-
+/* eslint-disable max-lines-per-function */
+/* eslint-disable camelcase */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const usersAccounts = await queryInterface.createTable('accounts', {
@@ -7,29 +7,27 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       account_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       last_name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       image: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-    })
-    return usersAccounts
+    });
+    return usersAccounts;
   },
 
-  down: async (queryInterface, _Sequelize) => {
-    return await queryInterface.dropTable('accounts')
-  }
-}
+  down: async (queryInterface, _Sequelize) => queryInterface.dropTable('accounts'),
+};
