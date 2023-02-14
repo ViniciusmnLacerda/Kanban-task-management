@@ -10,6 +10,7 @@ const errorMiddleware: ErrorRequestHandler = (
   if (err instanceof ErrorClient) {
     return res.status(err.statusCode).json({ message: err.message });
   }
+  console.log('aqui: ', err);
   
   return res.status(500).json({ message: 'Internal error' });
 };

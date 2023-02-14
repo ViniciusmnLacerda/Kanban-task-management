@@ -1,13 +1,14 @@
+/* eslint-disable camelcase */
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.bulkInsert('accounts', [
       {
-        account_id: 1,
+        user_id: 1,
         name: 'Vinicius',
         last_name: 'Lacerda',
       },
       {
-        account_id: 2,
+        user_id: 2,
         name: 'Maria',
         last_name: 'Lacerda',
       },

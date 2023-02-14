@@ -13,7 +13,7 @@ const firstInput = {
 }
 
 const secondInput = {
-  accountId: 3,
+  userId: 3,
   name: "Marianne",
   lastName: "Bragança",
 }
@@ -26,7 +26,7 @@ const firstCreateOutput = {
 
 const secondCreateOutput = { 
   id: 3,
-  accountId: 3,
+  userId: 3,
   name: "Marianne",
   lastName: "Bragança",
 }

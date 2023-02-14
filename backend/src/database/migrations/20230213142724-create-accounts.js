@@ -9,9 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      account_id: {
-        type: Sequelize.INTEGER,
+      user_id: {
         allowNull: false,
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,

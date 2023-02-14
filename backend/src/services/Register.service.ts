@@ -16,7 +16,7 @@ export default class RegisterService {
         const salt = genSaltSync(10);
         const hash = hashSync(password, salt);
         const { id } = await userModel.create({ email, password: hash });
-        const user = await accountModel.create({ accountId: id, name, lastName});
+        const user = await accountModel.create({ userId: id, name, lastName});
         return user;
       })
 

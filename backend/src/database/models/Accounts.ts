@@ -4,7 +4,7 @@ import Users from './Users';
 
 class Accounts extends Model {
   declare id: number;
-  declare accountId: number;
+  declare userId: number;
   declare name: string;
   declare lastName: string;
   declare image: string;
@@ -16,8 +16,8 @@ Accounts.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  accountId: {
-    type: INTEGER,
+  userId: {
+    type:INTEGER,
   },
   name: {
     type: STRING,

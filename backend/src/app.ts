@@ -2,7 +2,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import 'express-async-errors';
 import { errorMiddleware } from './middlwares';
-import { loginRouter, registerRouter } from './routes';
+import { accountRouter, loginRouter, registerRouter } from './routes';
 
 export default class App {
   public app: express.Express;
@@ -16,6 +16,7 @@ export default class App {
 
     this.app.use('/login', loginRouter);
     this.app.use('/register', registerRouter);
+    this.app.use('/account', accountRouter);
 
     this.app.use(errorMiddleware);
   }
