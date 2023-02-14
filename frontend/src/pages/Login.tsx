@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { IoPersonOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
+import StatusCode from '../enums/StatusCode';
+import HandleAPI from '../service/HandleAPI';
 import '../styles/Login.css';
 
 export default function Login() {
   const [creadentials, setCretendials] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState({ token: '' });
+  const [badRequest, setBadRequest] = useState(false);
+  const navigate = useNavigate();
+  const handleAPI = new HandleAPI();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
@@ -23,9 +29,19 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setLoading(true);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setBadRequest(false);
+    setLoading(true);
+    const result = await handleAPI.postLogin(creadentials);
+    if (result?.status === StatusCode.OK) {
+      setToken(result.data.token);
+      setLoading(false);
+      navigate('/home');
+    } else {
+      setBadRequest(true);
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,6 +95,7 @@ export default function Login() {
           </button>
           <footer className="login-footer">
             <Link to="/register">Don&apos;t have an account?</Link>
+            {badRequest && <p>Email or password are invalid</p>}
           </footer>
         </form>
       </div>

@@ -124,7 +124,7 @@
   position: relative;
   top: 15px;
 }
-.login-footer a {
+.login-footer a, .login-footer p {
   text-decoration: none;
   font-family: 'Questrial', serif;
   font-size: 16px;
@@ -132,4 +132,8 @@
   margin: 5px;
   padding: 0px;
   color: #808080;
+}
+
+.login-footer p {
+  color: red;
 }
