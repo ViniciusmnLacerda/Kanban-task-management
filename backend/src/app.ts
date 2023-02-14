@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import 'express-async-errors';
 import { errorMiddleware } from './middlwares';
@@ -8,6 +9,8 @@ export default class App {
 
   constructor() {
     this.app = express();
+
+    this.app.use(cors());
 
     this.app.use(express.json());
 
