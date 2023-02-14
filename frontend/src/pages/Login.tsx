@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { IoPersonOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import Loading from '../components/Loading';
 import '../styles/Login.css';
 
 export default function Login() {
   const [creadentials, setCretendials] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
@@ -21,6 +23,11 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
+    e.preventDefault();
+  };
+
   return (
     <div
       className="login"
@@ -30,7 +37,7 @@ export default function Login() {
           <IoPersonOutline />
         </div>
         <h1>Kanban</h1>
-        <form>
+        <form onSubmit={ (e) => handleSubmit(e) }>
           <label className="lbl" htmlFor="email">
             <input
               className="text-box"
@@ -64,7 +71,11 @@ export default function Login() {
             />
           </label>
           <button className="login-btn">
-            Login
+            {loading ? <Loading
+              color="#fdfefb"
+              width="25px"
+              height="25px"
+            /> : 'Login'}
           </button>
           <footer className="login-footer">
             <Link to="/register">Don&apos;t have an account?</Link>
