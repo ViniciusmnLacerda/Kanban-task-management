@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import StatusCode from '../enums/StatusCode';
-import { setUser } from '../redux/sliceUser';
 import HandleAPI from '../service/HandleAPI';
 import '../styles/Login.css';
 
@@ -13,7 +12,6 @@ export default function Login() {
   const [creadentials, setCretendials] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState({ token: '' });
   const [badRequest, setBadRequest] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,15 +36,7 @@ export default function Login() {
     setLoading(true);
     const result = await handleAPI.postLogin(creadentials);
     if (result?.status === StatusCode.OK) {
-      setToken(result.data.token);
-      dispatch(setUser({
-        id: 1,
-        accountId: 1,
-        name: 'Vinicius',
-        lastName: 'Lacerda',
-        image: '',
-        token: result.data.token,
-      }));
+      localStorage.setItem('userData', JSON.stringify(result.data));
       setLoading(false);
       navigate('/home');
     } else {
