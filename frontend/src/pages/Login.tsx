@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { IoPersonOutline } from 'react-icons/io5';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import StatusCode from '../enums/StatusCode';
@@ -13,7 +12,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [badRequest, setBadRequest] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAPI = new HandleAPI();
 
