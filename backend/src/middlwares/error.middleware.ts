@@ -13,7 +13,7 @@ const errorMiddleware: ErrorRequestHandler = (
   }
 
   if (err instanceof JsonWebTokenError) {
-    return res.status(401).json({ message: 'Token not found' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
   
   return res.status(500).json({ message: 'Internal error' });

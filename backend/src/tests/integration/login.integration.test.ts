@@ -27,7 +27,7 @@ describe('Login integration tests', function() {
   });
 
   it('without the email in the body of the request it should return error', async function() {
-    const { body, status  } = await chai.request(app).post('/login').send(inputWithoutEmail);
+    const { body, status } = await chai.request(app).post('/login').send(inputWithoutEmail);
     expect(status).to.be.equal(400);
     expect(body).to.be.deep.equal({ message: 'Some required fields are missing' });
   });
