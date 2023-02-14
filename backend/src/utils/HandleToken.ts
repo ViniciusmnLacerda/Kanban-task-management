@@ -13,4 +13,9 @@ export default class HandleToken {
     const token = jwt.sign({ userId: id, email }, this.secret, this.jwtConfig);
     return token as unknown as IToken;
   }
+
+  public verifyToken = (token: string): jwt.JwtPayload => {
+    const user = jwt.verify(token, this.secret);
+    return user as jwt.JwtPayload;
+  }
 };

@@ -1,4 +1,5 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { ErrorClient } from '../utils';
 
 const errorMiddleware: ErrorRequestHandler = (
@@ -10,7 +11,10 @@ const errorMiddleware: ErrorRequestHandler = (
   if (err instanceof ErrorClient) {
     return res.status(err.statusCode).json({ message: err.message });
   }
-  console.log('aqui: ', err);
+
+  if (err instanceof JsonWebTokenError) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
   
   return res.status(500).json({ message: 'Internal error' });
 };
