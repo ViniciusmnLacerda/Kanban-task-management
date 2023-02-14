@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { IoPersonOutline } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import StatusCode from '../enums/StatusCode';
+import { setUser } from '../redux/sliceUser';
 import HandleAPI from '../service/HandleAPI';
 import '../styles/Login.css';
 
@@ -13,6 +15,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState({ token: '' });
   const [badRequest, setBadRequest] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAPI = new HandleAPI();
 
@@ -36,6 +39,14 @@ export default function Login() {
     const result = await handleAPI.postLogin(creadentials);
     if (result?.status === StatusCode.OK) {
       setToken(result.data.token);
+      dispatch(setUser({
+        id: 1,
+        accountId: 1,
+        name: 'Vinicius',
+        lastName: 'Lacerda',
+        image: '',
+        token: result.data.token,
+      }));
       setLoading(false);
       navigate('/home');
     } else {

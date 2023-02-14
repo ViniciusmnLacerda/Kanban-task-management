@@ -4,4 +4,5 @@ export default interface IUser {
   name: string;
   lastName: string;
   image?: string;
+  token: string;
 }
