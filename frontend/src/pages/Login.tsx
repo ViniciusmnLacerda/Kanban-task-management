@@ -29,7 +29,7 @@ export default function Login() {
         <div className="logo">
           <IoPersonOutline />
         </div>
-        <h1>Login</h1>
+        <h1>Kanban</h1>
         <form>
           <label className="lbl" htmlFor="email">
             <input
