@@ -16,6 +16,7 @@ const validLoginInput = {
 const user = {
   email: "vinicius@email.com",
   passoword: "$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui",
+  id: 1,
 }
 
 const inputWithoutEmail = {
@@ -29,6 +30,10 @@ const inputWithoutPassword = {
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpbmljaXVzQGVtYWlsLmNvbSIsImlhdCI6MTY3NjMwNTgwNSwiZXhwIjoxNjc2MzkyMjA1fQ.Q1bKqnsdSSkEU_QBRjPc4GVdYWrKZ4EkmK7_3H0OAlg"
 //remember this token will be expires
 
+const loginOutput = {
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpbmljaXVzQGVtYWlsLmNvbSIsImlhdCI6MTY3NjMwNTgwNSwiZXhwIjoxNjc2MzkyMjA1fQ.Q1bKqnsdSSkEU_QBRjPc4GVdYWrKZ4EkmK7_3H0OAlg",
+  id: 1,
+}
 
 export {
   invalidEmailInput,
@@ -38,5 +43,6 @@ export {
   token,
   inputWithoutEmail,
   inputWithoutPassword,
+  loginOutput,
 }
 

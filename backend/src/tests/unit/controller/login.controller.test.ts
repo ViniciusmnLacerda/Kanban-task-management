@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { LoginController } from '../../../controllers';
 import userModel from '../../../database/models/Users';
 import { LoginService } from '../../../services';
-import { token, user, validLoginInput } from '../../mocks/login.mock';
+import { loginOutput, token, user, validLoginInput } from '../../mocks/login.mock';
 
 // @ts-ignore
 import sinonChai = require('sinon-chai');
@@ -31,13 +31,13 @@ describe('Login controller tests', function() {
 
     sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(true);
-    sinon.stub(jwt, 'sign').resolves(token);
+    sinon.stub(jwt, 'sign').returns(token as any);
 
     req.body = validLoginInput;
 
     await loginController.login(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith({ token });
+    expect(res.json).to.have.been.calledWith(loginOutput);
   });
 });

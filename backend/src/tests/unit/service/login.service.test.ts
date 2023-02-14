@@ -4,17 +4,14 @@ import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import userModel from '../../../database/models/Users';
 import { LoginService } from '../../../services';
-import { HandleToken } from '../../../utils';
 import {
   invalidEmailInput,
-  invalidPassowrdlInput,
-  token,
+  invalidPassowrdlInput, loginOutput, token,
   user,
   validLoginInput
 } from '../../mocks/login.mock';
 
 const loginService = new LoginService();
-const handleToken = new HandleToken();
 const { expect } = chai;
 
 describe('Login service tests', function() {
@@ -45,9 +42,9 @@ describe('Login service tests', function() {
   it('successfully', async function() {
     sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(true);
-    sinon.stub(jwt, 'sign').resolves(token);
+    sinon.stub(jwt, 'sign').returns(token as any);
 
     const result = await loginService.login(validLoginInput);
-    expect(result).to.be.equal(token);
+    expect(result).to.be.deep.equal(loginOutput);
   });
 });

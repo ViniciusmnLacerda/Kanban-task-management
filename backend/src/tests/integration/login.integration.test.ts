@@ -9,7 +9,7 @@ import {
   inputWithoutEmail,
   inputWithoutPassword,
   invalidEmailInput,
-  invalidPassowrdlInput, token, user,
+  invalidPassowrdlInput, loginOutput, token, user,
   validLoginInput
 } from '../mocks/login.mock';
 
@@ -58,11 +58,11 @@ describe('Login integration tests', function() {
   it('successfully should return token', async function() {
     sinon.stub(userModel, 'findOne').resolves(user as IUser | any);
     sinon.stub(bcrypt, 'compareSync').resolves(true);
-    sinon.stub(jwt, 'sign').resolves(token);
+    sinon.stub(jwt, 'sign').returns(token as any);
 
     const { body, status } = await chai.request(app).post('/login').send(validLoginInput)
 
     expect(status).to.be.equal(200);
-    expect(body).to.be.deep.equal({ token });
+    expect(body).to.be.deep.equal(loginOutput);
   });
 });
