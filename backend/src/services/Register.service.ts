@@ -24,6 +24,5 @@ export default class RegisterService {
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
-
   }
 }
