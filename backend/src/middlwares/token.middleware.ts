@@ -7,7 +7,7 @@ const tokenMiddleare = (req: Request, res: Response, next: NextFunction): void =
   const { authorization: token } = req.headers;
   if (!token) throw new ErrorClient(401, 'Token not found');
   const user = handleToken.verifyToken(token);
-  req.body = user;
+  req.body = { ...req.body, user };
   next();
 };
 
