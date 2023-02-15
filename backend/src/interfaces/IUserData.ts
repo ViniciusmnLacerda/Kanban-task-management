@@ -4,4 +4,4 @@ export default interface IUserData {
   name: string;
   lastName: string;
   image?: string;
-};
+}

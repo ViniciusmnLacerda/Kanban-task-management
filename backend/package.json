@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx -y tsc",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "dev": "nodemon --watch \"./src/**\" ./src/server.ts",
     "db:reset": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "test:unit": "mocha -r ts-node/register src/tests/unit/**/*.test.ts --exit -t 60000",

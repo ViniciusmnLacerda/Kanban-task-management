@@ -1,3 +1,4 @@
+/* eslint-disable import/no-import-module-exports */
 import 'dotenv/config';
 import { Options } from 'sequelize';
 
@@ -8,6 +9,6 @@ const config: Options = {
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT) || 3002,
   dialect: 'mysql',
-}
+};
 
 module.exports = config;
