@@ -10,4 +10,10 @@ workspaceRouter.get(
   new WorkspacesController().getAll,
 );
 
+workspaceRouter.post(
+  '/',
+  tokenMiddleare,
+  new WorkspacesController().create,
+);
+
 export default workspaceRouter;

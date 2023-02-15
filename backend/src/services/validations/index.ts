@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 import UserValidations from './User.validations';
+import WorkspacesValidations from './Workspaces.validations';
 
-export { UserValidations };
+export { UserValidations, WorkspacesValidations };
