@@ -49,4 +49,44 @@ const workspaceOutput = [
   },
 ]
 
-export { workspaceOutput, accountWorkspacesOutput, getWorkspacesOutput }
+const validCreateInput = {
+  name: "New workspace",
+  emails: ["vinicius@email.com", "zita@email.com", "igor@email.com"]
+}
+
+const invalidCreateInput = {
+  name: "New workspace",
+  emails: ["invalid@email.com", "zita@email.com", "igor@email.com"]
+}
+
+const createOutput = [
+  {
+    accountId: 1,
+    workspaceId: 5
+  },
+  {
+    accountId: 2,
+    workspaceId: 5
+  },
+  {
+    accountId: 4,
+    workspaceId: 5
+  }
+]
+
+const usersOutput = [
+  { id: 1 },
+  { id: 2 },
+  { id: 4 },
+]
+
+export {
+  workspaceOutput,
+  accountWorkspacesOutput,
+  getWorkspacesOutput,
+  validCreateInput,
+  invalidCreateInput,
+  createOutput,
+  usersOutput,
+}
+
