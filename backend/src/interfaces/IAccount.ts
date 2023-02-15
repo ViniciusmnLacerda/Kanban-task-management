@@ -3,4 +3,4 @@ export default interface IAccount {
   name: string;
   lastName: string;
   image?: string;
-}
+};
