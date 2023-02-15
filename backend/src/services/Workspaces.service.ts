@@ -8,11 +8,12 @@ export default class WorkspacesService {
     if (userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
+      attributes: ['workspaceId'],
       include: [
         {
           model: workspacesModel,
           as: 'workspace',
-          attributes: ['name', 'createdAt', 'updatedAt'],
+          attributes: ['name', 'createdAt', 'lastUpdate'],
         },
       ],
     });
