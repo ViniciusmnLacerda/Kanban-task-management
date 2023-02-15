@@ -39,7 +39,7 @@ describe('Workspaces integration tests', function() {
     expect(body).to.be.deep.equal({ message: 'Unauthorized' });
   });
 
-  it('successfully should return account', async function() {
+  it('successfully should return workspaces', async function() {
     tokenVerifyOutput.userId = 1;
     sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
     sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as IWorkspace[] | any);
