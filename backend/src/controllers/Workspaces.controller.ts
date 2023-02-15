@@ -12,8 +12,8 @@ export default class WorkspacesController {
   };
 
   public create = async (req: Request, res: Response) => {
-    const { name, emails } = req.body;
-    const workspaces = await workspacesService.create(name, emails);
+    const { name, emails, user } = req.body;
+    const workspaces = await workspacesService.create(name, emails, user);
     res.status(201).json(workspaces);
   };
 }

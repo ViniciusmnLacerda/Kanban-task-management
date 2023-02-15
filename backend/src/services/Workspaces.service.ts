@@ -1,9 +1,11 @@
 import sequelize from '../database/models';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
-import userModel from '../database/models/Users';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
+import { WorkspacesValidations } from './validations';
+
+const workspacesValidations = new WorkspacesValidations();
 
 export default class WorkspacesService {
   public getAll = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
@@ -22,17 +24,8 @@ export default class WorkspacesService {
     return workspaces as unknown as IWorkspace[];
   };
 
-  private getUsers = async (emails: string[]) => {
-    const users = await Promise.all(emails.map(async (email) => {
-      const user = await userModel.findOne({ where: { email }, attributes: ['id'] });
-      if (!user) throw new ErrorClient(404, 'User not found');
-      return user;
-    }));
-    return users;
-  };
-
-  public create = async (name: string, emails: string[]) => {
-    const users = await this.getUsers(emails);
+  public create = async (name: string, emails: string[], user: IToken) => {
+    const users = await workspacesValidations.validateUsers(emails, user);
     try {
       const workspace = await sequelize.transaction(async (t) => {
         const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });

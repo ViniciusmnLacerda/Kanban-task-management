@@ -62,15 +62,18 @@ const invalidCreateInput = {
 const createOutput = [
   {
     accountId: 1,
-    workspaceId: 5
+    workspaceId: 5,
+    owner: true,
   },
   {
     accountId: 2,
-    workspaceId: 5
+    workspaceId: 5,
+    owner: false,
   },
   {
     accountId: 4,
-    workspaceId: 5
+    workspaceId: 5,
+    owner: false,
   }
 ]
 
