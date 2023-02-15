@@ -34,7 +34,7 @@ describe('Workspaces service test', function() {
     });
   });
 
-  describe('creating e new workspace', function() {
+  describe('creating a new workspace', function() {
     afterEach(function() {
       sinon.restore();
     });
