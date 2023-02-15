@@ -8,5 +8,5 @@ export default class AccountService {
     const account = await accountModel.findByPk(id);
     if (!account) throw new ErrorClient(404, 'Account not found');
     return account;
-  }
-};
+  };
+}

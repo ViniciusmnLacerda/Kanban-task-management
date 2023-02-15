@@ -1,6 +1,6 @@
-import { IUser } from "../interfaces";
-import { HandleToken } from "../utils";
-import { UserValidations } from "./validations";
+import { IUser } from '../interfaces';
+import { HandleToken } from '../utils';
+import { UserValidations } from './validations';
 
 const handleToken = new HandleToken();
 const userValidations = new UserValidations();
@@ -10,5 +10,5 @@ export default class LoginService {
     const user = await userValidations.validateCreadentials(credentials);   
     const token = handleToken.createToken(user);
     return { token, id: user.id };
-  }
-};
+  };
+}
