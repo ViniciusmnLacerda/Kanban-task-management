@@ -8,6 +8,6 @@ registerRouter.post(
   '/',
   registerMiddleware,
   new RegisterController().register,
-)
+);
 
 export default registerRouter;

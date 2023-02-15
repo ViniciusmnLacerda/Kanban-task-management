@@ -8,6 +8,6 @@ accountRouter.get(
   '/:id',
   tokenMiddleare,
   new AccountController().getAccount,
-)
+);
 
 export default accountRouter;

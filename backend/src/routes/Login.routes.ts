@@ -8,6 +8,6 @@ loginRouter.post(
   '/',
   loginMiddleware,
   new LoginController().login,
-)
+);
 
 export default loginRouter;
