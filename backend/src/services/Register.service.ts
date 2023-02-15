@@ -12,11 +12,11 @@ export default class RegisterService {
   public register = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
     await userValidations.validateEmail(email);
     try {
-      const result = await sequelize.transaction(async (_t) => {
+      const result = await sequelize.transaction(async (t) => {
         const salt = genSaltSync(10);
         const hash = hashSync(password, salt);
-        const { id } = await userModel.create({ email, password: hash });
-        const user = await accountModel.create({ userId: id, name, lastName });
+        const { id } = await userModel.create({ email, password: hash }, { transaction: t });
+        const user = await accountModel.create({ userId: id, name, lastName }, { transaction: t });
         return user;
       });
 
