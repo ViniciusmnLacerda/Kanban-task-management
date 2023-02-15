@@ -1,4 +1,4 @@
-import { DataTypes, INTEGER, Model, STRING } from 'sequelize';
+import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
 
 class Users extends Model {
@@ -22,7 +22,6 @@ Users.init({
   password: {
     type: STRING,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
   },
 }, {
   underscored: true,
