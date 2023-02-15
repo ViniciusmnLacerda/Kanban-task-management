@@ -1,4 +1,4 @@
-import { INTEGER, Model, STRING } from 'sequelize';
+import { BOOLEAN, INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
 import Accounts from './Accounts';
 import Workspaces from './Workspaces';
@@ -20,6 +20,10 @@ AccountWorkspaces.init({
   accountId: {
     type: INTEGER,
     primaryKey: true,
+    allowNull: false,
+  },
+  owner: {
+    type: BOOLEAN,
     allowNull: false,
   },
 }, {

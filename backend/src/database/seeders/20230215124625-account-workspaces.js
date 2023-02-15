@@ -7,54 +7,67 @@ module.exports = {
       {
         workspace_id: 1,
         account_id: 1,
+        owner: true,
       },
       {
         workspace_id: 1,
         account_id: 2,
+        owner: false,
       },
       {
         workspace_id: 1,
         account_id: 3,
+        owner: false,
       },
       {
         workspace_id: 1,
         account_id: 4,
+        owner: false,
       },
       {
         workspace_id: 2,
         account_id: 1,
+        owner: false,
       },    
       {
         workspace_id: 2,
         account_id: 3,
+        owner: true,
       },
       {
         workspace_id: 2,
         account_id: 4,
+        owner: false,
       },
       {
         workspace_id: 3,
         account_id: 1,
+        owner: false,
       },
       {
         workspace_id: 3,
         account_id: 3,
+        owner: false,
       },
       {
         workspace_id: 3,
         account_id: 4,
+        owner: true,
       },
       {
         workspace_id: 4,
         account_id: 2,
+        owner: true,
       },
       {
         workspace_id: 4,
         account_id: 3,
+        owner: false,
       },
       {
         workspace_id: 4,
         account_id: 4,
+        owner: false,
       },
     ], {});
   },

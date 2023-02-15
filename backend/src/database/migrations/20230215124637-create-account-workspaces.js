@@ -10,6 +10,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      owner: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
     });
     return workspacesTable;
   },
