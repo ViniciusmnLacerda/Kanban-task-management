@@ -10,7 +10,7 @@ export default class WorkspacesService {
     if (user.userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
-      attributes: ['workspaceId'],
+      attributes: ['workspaceId', 'owner'],
       include: [
         {
           model: workspacesModel,
@@ -36,9 +36,10 @@ export default class WorkspacesService {
     try {
       const workspace = await sequelize.transaction(async (t) => {
         const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });
-        const newAccountWorkspaces = await Promise.all(users.map(async ({ id: accountId }) => {
+        const newAccountWorkspaces = await Promise.all(users
+          .map(async ({ id: accountId }, index) => {
           const accountWorkspaces = await accountWorkspacesModel
-            .create({ accountId, workspaceId }, { transaction: t });
+            .create({ accountId, workspaceId, owner: index === 0 }, { transaction: t });
           return accountWorkspaces;
         }));
         return newAccountWorkspaces;
