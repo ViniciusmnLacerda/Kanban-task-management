@@ -6,7 +6,13 @@ import workspacesModel from '../../../database/models/Workspaces';
 import { IUser, IWorkspace } from '../../../interfaces';
 import { WorkspacesService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { createOutput, getWorkspacesOutput, invalidCreateInput, wrongOwnerInput } from '../../mocks/workspaces.mock';
+import {
+  createOutput,
+  getWorkspacesOutput,
+  invalidCreateInput,
+  validCreateInput,
+  wrongOwnerInput
+} from '../../mocks/workspaces.mock';
 
 const { expect } = chai;
 
@@ -18,7 +24,7 @@ describe('Workspaces service test', function() {
       sinon.restore();
     });
     
-    it('when the client requests workspaces that is not the owner, it should return an error', async function() {
+    it('when the client requests workspaces it is not a member of, it should return an error', async function() {
       try {
         await workspacesService.getAll(2, tokenVerifyOutput);
       } catch (err) {
@@ -70,7 +76,7 @@ describe('Workspaces service test', function() {
         .onSecondCall().returns({ accountId: 2, workspaceId: 5, owner: false } as IWorkspace | any)
         .onThirdCall().returns({ accountId: 4, workspaceId: 5, owner: false } as IWorkspace | any);
 
-      const { name, emails } = invalidCreateInput;
+      const { name, emails } = validCreateInput;
 
       const result = await workspacesService.create(name, emails, tokenVerifyOutput);
 
