@@ -18,7 +18,7 @@ describe('Workspaces service test', function() {
 
   it('when the client requests workspaces that is not the owner, it should return an error', async function() {
     try {
-      await workspacesService.getWorkspaces(2, tokenVerifyOutput);
+      await workspacesService.getAll(2, tokenVerifyOutput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('Unauthorized');
     }
@@ -27,7 +27,7 @@ describe('Workspaces service test', function() {
   it('successfully', async function() {
     sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as IWorkspace[] | any);
 
-    const result = await workspacesService.getWorkspaces(1, tokenVerifyOutput);
+    const result = await workspacesService.getAll(1, tokenVerifyOutput);
     expect(result).to.be.deep.equal(getWorkspacesOutput);
   });
 });

@@ -32,7 +32,7 @@ describe('Workspaces controller test', function() {
     req.body = tokenVerifyOutput;
     req.params = { accountId: '1' }
 
-    await workspacesController.getWorkspaces(req, res);
+    await workspacesController.getAll(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(getWorkspacesOutput);

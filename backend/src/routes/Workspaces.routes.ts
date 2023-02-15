@@ -7,7 +7,7 @@ const workspaceRouter = express.Router();
 workspaceRouter.get(
   '/:accountId',
   tokenMiddleare,
-  new WorkspacesController().getWorkspaces,
+  new WorkspacesController().getAll,
 );
 
 export default workspaceRouter;

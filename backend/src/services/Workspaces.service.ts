@@ -4,7 +4,7 @@ import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
 
 export default class WorkspacesService {
-  public getWorkspaces = async (accountId: number, { userId }: IToken): Promise<IWorkspace[]> => {
+  public getAll = async (accountId: number, { userId }: IToken): Promise<IWorkspace[]> => {
     if (userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
