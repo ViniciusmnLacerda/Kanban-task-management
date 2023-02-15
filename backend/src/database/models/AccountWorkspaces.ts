@@ -30,8 +30,8 @@ AccountWorkspaces.init({
   tableName: 'account_workspaces',
 });
 
-AccountWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspacedId', as: 'workspace' });
-Workspaces.hasMany(AccountWorkspaces, { foreignKey: 'workspacedId', as: 'workspace' });
+AccountWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspaceId', as: 'workspace' });
+Workspaces.hasMany(AccountWorkspaces, { foreignKey: 'workspaceId', as: 'workspace' });
 AccountWorkspaces.belongsTo(Accounts, { foreignKey: 'accountId', as: 'account' });
 Accounts.hasMany(AccountWorkspaces, { foreignKey: 'accountId', as: 'account' });
 
