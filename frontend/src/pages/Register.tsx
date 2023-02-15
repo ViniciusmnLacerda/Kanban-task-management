@@ -31,7 +31,7 @@ export default function Register() {
 
   const toggleVisibility = (
     e: React.FormEvent<HTMLButtonElement>,
-    where: string = '',
+    where = '',
   ) => {
     e.preventDefault();
     if (where === 'check') setShowPasswordCheck(!showPasswordChek);

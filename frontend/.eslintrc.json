@@ -3,35 +3,26 @@
         "browser": true,
         "es2021": true
     },
-    "extends": "@trybe/eslint-config-frontend",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "@trybe/eslint-config-frontend"
+    ],
     "overrides": [
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "@typescript-eslint"
     ],
     "rules": {
-        "no-unused-vars": "off",
-        "import/no-named-as-default": 0,
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "js": "never",
-              "jsx": "never",
-              "ts": "never",
-              "tsx": "never"
-            }
-        ]
-    },
-    "settings": {
-        "import/resolver": {
-          "node": {
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
-          }
-        }
+        "react/jsx-filename-extension": "off",
+        "import/no-unresolved": "off",
+        "import/extensions": "off"
     }
 }
