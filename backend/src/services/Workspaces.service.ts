@@ -49,7 +49,8 @@ export default class WorkspacesService {
         where: { workspaceId },
         attributes: ['accountId', 'admin'], 
       }) as unknown as IAccountWorkspace[];
-
+      
+    if (accountIds.length === 0) throw new ErrorClient(404, 'Workspace not found'); 
     const members = await Promise.all(accountIds
         .map(async ({ accountId, admin }: IAccountWorkspace) => {
       const account = await accountModel.findByPk(accountId, {

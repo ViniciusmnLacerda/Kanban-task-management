@@ -19,6 +19,7 @@ workspaceRouter.post(
 
 workspaceRouter.get(
   '/members/:workspaceId',
+  tokenMiddleare,
   new WorkspacesController().getMembers,
 );
 

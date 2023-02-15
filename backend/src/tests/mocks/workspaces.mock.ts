@@ -105,6 +105,71 @@ const usersOutput = [
   { id: 4 },
 ]
 
+const accountWorkspaceOutput = [
+  { accountId: 1, admin: true },
+  { accountId: 2, admin: false },
+  { accountId: 3, admin: false },
+  { accountId: 4, admin: false },
+]
+
+const accounts = [
+  {
+    accountId: 1,
+    name: "Vinicius",
+    lastName: "Lacerda",
+    image: null,
+  },
+  {
+    accountId: 2,
+    name: "Zita",
+    lastName: "Lacerda",
+    image: null,
+  },
+  {
+    accountId: 3,
+    name: "Marianne",
+    lastName: "Bragança",
+    image: null,
+  },
+  {
+    accountId: 4,
+    name: "Igor",
+    lastName: "Lacerda",
+    image: null,
+  }
+]
+
+const membersOutput = [
+  {
+    accountId: 1,
+    name: "Vinicius",
+    lastName: "Lacerda",
+    image: null,
+    admin: true
+  },
+  {
+    accountId: 2,
+    name: "Zita",
+    lastName: "Lacerda",
+    image: null,
+    admin: false
+  },
+  {
+    accountId: 3,
+    name: "Marianne",
+    lastName: "Bragança",
+    image: null,
+    admin: false
+  },
+  {
+    accountId: 4,
+    name: "Igor",
+    lastName: "Lacerda",
+    image: null,
+    admin: false
+  }
+]
+
 export {
   workspaceOutput,
   accountWorkspacesOutput,
@@ -115,5 +180,8 @@ export {
   usersOutput,
   wrongOwnerInput,
   invalidInputs,
+  accountWorkspaceOutput,
+  accounts,
+  membersOutput,
 }
 
