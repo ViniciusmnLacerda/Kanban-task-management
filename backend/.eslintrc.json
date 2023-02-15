@@ -21,6 +21,7 @@
     "rules": {
         "import/no-unresolved": "off",
         "import/extensions": "off",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }

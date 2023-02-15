@@ -1,5 +1,6 @@
 export default class ErrorClient extends Error {
   public statusCode: number;
+
   public message: string;
 
   constructor(statusCode: number, message: string) {
