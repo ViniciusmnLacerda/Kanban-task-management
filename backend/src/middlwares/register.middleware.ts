@@ -6,6 +6,6 @@ const registerMiddleware = (req: Request, res: Response, next: NextFunction): vo
   const { error } = Schemas.registerSchema.validate(userData);
   if (error) throw new ErrorClient(400, 'Some required fields are missing');
   next();
-}
+};
 
 export default registerMiddleware;

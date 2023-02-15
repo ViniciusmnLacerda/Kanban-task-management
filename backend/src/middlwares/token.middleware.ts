@@ -9,6 +9,6 @@ const tokenMiddleare = (req: Request, res: Response, next: NextFunction): void =
   const user = handleToken.verifyToken(token);
   req.body = user;
   next();
-}
+};
 
 export default tokenMiddleare;
