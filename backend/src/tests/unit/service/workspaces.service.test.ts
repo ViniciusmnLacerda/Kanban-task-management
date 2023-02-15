@@ -52,7 +52,7 @@ describe('Workspaces service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
-    })
+    });
 
     it('when a non-existent email is passed, it should return an error', async function() {
       sinon.stub(userModel, 'findOne').resolves(undefined);
@@ -62,7 +62,7 @@ describe('Workspaces service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
-    })
+    });
 
 
     it('successfully create new workspace', async function() {
