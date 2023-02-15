@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable camelcase */
 module.exports = {
   up: async (queryInterface) => {
@@ -9,7 +10,17 @@ module.exports = {
       },
       {
         user_id: 2,
-        name: 'Maria',
+        name: 'Zita',
+        last_name: 'Lacerda',
+      },
+      {
+        user_id: 3,
+        name: 'Marianne',
+        last_name: 'Bragança',
+      },
+      {
+        user_id: 4,
+        name: 'Igor',
         last_name: 'Lacerda',
       },
     ], {});
