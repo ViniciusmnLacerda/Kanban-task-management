@@ -19,7 +19,7 @@ Workspaces.init({
     type: STRING,
     allowNull: false,
   },
-  createAt: {
+  createdAt: {
     type: DATE,
     allowNull: true,
     defaultValue: DataTypes.NOW,
