@@ -43,7 +43,7 @@ Accounts.init({
   tableName: 'accounts',
 });
 
-Accounts.belongsTo(Users);
-Users.hasOne(Accounts);
+Accounts.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
+Users.hasOne(Accounts, { foreignKey: 'userId', as: 'user' });
 
 export default Accounts;
