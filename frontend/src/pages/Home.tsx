@@ -13,7 +13,14 @@ export default function Home() {
     const getAccount = async (id: number, token: string) => {
       const result = await handleAPI.getAccount(id, token);
       if (result?.status === StatusCode.OK) {
-        dispatch(setUser({ ...result.data, token }));
+        dispatch(setUser({
+          id: result.data.id,
+          accountId: result.data.userId,
+          name: result.data.name,
+          lastName: result.data.lastName,
+          image: result.data.image,
+          token,
+        }));
       } else setIsLoggedIn(false);
     };
 
