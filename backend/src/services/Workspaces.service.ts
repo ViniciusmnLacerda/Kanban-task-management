@@ -24,7 +24,7 @@ export default class WorkspacesService {
     return workspaces as unknown as IWorkspace[];
   };
 
-  public create = async (name: string, emails: string[], user: IToken) => {
+  public create = async (name: string, emails: string[], user: IToken): Promise<IWorkspace[]> => {
     const users = await workspacesValidations.validateUsers(emails, user);
     try {
       const workspace = await sequelize.transaction(async (t) => {
@@ -37,7 +37,7 @@ export default class WorkspacesService {
         }));
         return newAccountWorkspaces;
       });
-      return workspace;
+      return workspace as unknown as IWorkspace[];
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
