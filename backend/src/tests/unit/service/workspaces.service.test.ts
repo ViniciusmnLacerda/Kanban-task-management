@@ -6,7 +6,7 @@ import workspacesModel from '../../../database/models/Workspaces';
 import { IUser, IWorkspace } from '../../../interfaces';
 import { WorkspacesService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { createOutput, getWorkspacesOutput, invalidCreateInput } from '../../mocks/workspaces.mock';
+import { createOutput, getWorkspacesOutput, invalidCreateInput, wrongOwnerInput } from '../../mocks/workspaces.mock';
 
 const { expect } = chai;
 
@@ -43,9 +43,19 @@ describe('Workspaces service test', function() {
       sinon.stub(userModel, 'findOne').resolves(undefined);
       const { name, emails } = invalidCreateInput;
       try {
-        await workspacesService.create(name, emails);
+        await workspacesService.create(name, emails, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
+      }
+    })
+
+    it('when the user is not the first in the mailing list, it should return an error', async function() {
+      sinon.stub(userModel, 'findOne').resolves(undefined);
+      const { name, emails } = wrongOwnerInput;
+      try {
+        await workspacesService.create(name, emails, tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
       }
     })
 
@@ -62,7 +72,7 @@ describe('Workspaces service test', function() {
 
       const { name, emails } = invalidCreateInput;
 
-      const result = await workspacesService.create(name, emails);
+      const result = await workspacesService.create(name, emails, tokenVerifyOutput);
 
       expect(result).to.be.deep.equal(createOutput);
     });
