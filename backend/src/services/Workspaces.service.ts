@@ -47,16 +47,16 @@ export default class WorkspacesService {
   public getMembers = async (workspaceId: number) => {
     const accountIds = await accountWorkspacesModel.findAll({ 
         where: { workspaceId },
-        attributes: ['accountId', 'owner'], 
+        attributes: ['accountId', 'admin'], 
       }) as unknown as IAccountWorkspace[];
 
     const members = await Promise.all(accountIds
-        .map(async ({ accountId, owner }: IAccountWorkspace) => {
+        .map(async ({ accountId, admin }: IAccountWorkspace) => {
       const account = await accountModel.findByPk(accountId, {
         attributes: [['id', 'accountId'], 'name', 'lastName', 'image'],
       });
 
-      const member = { ...account?.dataValues, owner };
+      const member = { ...account?.dataValues, admin };
       return member;
     }));
     return members;

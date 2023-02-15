@@ -111,9 +111,9 @@ describe('Workspaces integration tests', function() {
         .onThirdCall().returns({ id: 4 } as IUser | any);
       sinon.stub(workspacesModel, 'create').resolves({ id: 5 } as IWorkspace | any);
       sinon.stub(accountWorkspacesModel, 'create')
-        .onFirstCall().returns({ accountId: 1, workspaceId: 5, owner: true } as IWorkspace | any)
-        .onSecondCall().returns({ accountId: 2, workspaceId: 5, owner: false } as IWorkspace | any)
-        .onThirdCall().returns({ accountId: 4, workspaceId: 5, owner: false } as IWorkspace | any);
+        .onFirstCall().returns({ accountId: 1, workspaceId: 5, admin: true } as IWorkspace | any)
+        .onSecondCall().returns({ accountId: 2, workspaceId: 5, admin: false } as IWorkspace | any)
+        .onThirdCall().returns({ accountId: 4, workspaceId: 5, admin: false } as IWorkspace | any);
 
       const { body, status  } = await chai.request(app).post('/workspaces').send(invalidCreateInput).set({ authorization: validToken });
       

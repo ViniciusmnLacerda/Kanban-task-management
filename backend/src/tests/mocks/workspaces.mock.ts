@@ -85,17 +85,17 @@ const createOutput = [
   {
     accountId: 1,
     workspaceId: 5,
-    owner: true,
+    admin: true,
   },
   {
     accountId: 2,
     workspaceId: 5,
-    owner: false,
+    admin: false,
   },
   {
     accountId: 4,
     workspaceId: 5,
-    owner: false,
+    admin: false,
   }
 ]
 

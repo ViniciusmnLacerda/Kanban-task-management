@@ -4,11 +4,11 @@ import Accounts from './Accounts';
 import Workspaces from './Workspaces';
 
 class AccountWorkspaces extends Model {
-  declare id: number;
+  declare workspaceId: number;
 
-  declare name: string;
+  declare accountId: string;
 
-  declare createdAt: string;
+  declare admin: boolean;
 }
 
 AccountWorkspaces.init({
@@ -22,7 +22,7 @@ AccountWorkspaces.init({
     primaryKey: true,
     allowNull: false,
   },
-  owner: {
+  admin: {
     type: BOOLEAN,
     allowNull: false,
   },

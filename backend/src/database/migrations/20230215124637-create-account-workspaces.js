@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      owner: {
+      admin: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
