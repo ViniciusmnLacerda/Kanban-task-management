@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable camelcase */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -15,7 +16,11 @@ module.exports = {
       created_at: {
         type: Sequelize.DATE,
         allowNull: true,
-      },  
+      },
+      last_update: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },   
     });
     return workspacesTable;
   },

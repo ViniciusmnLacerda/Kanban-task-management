@@ -24,6 +24,11 @@ Workspaces.init({
     allowNull: true,
     defaultValue: DataTypes.NOW,
   },
+  lastUpdate: {
+    type: DATE,
+    allowNull: true,
+    defaultValue: DataTypes.NOW,
+  },
 }, {
   underscored: true,
   sequelize: db,
