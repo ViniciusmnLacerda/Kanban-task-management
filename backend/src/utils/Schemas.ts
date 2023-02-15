@@ -12,4 +12,9 @@ const registerSchema = Joi.object({
   lastName: Joi.string().required(),
 });
 
-export default { loginSchema, registerSchema };
+const workspacesSchema = Joi.object({
+  name: Joi.string().min(2).required(),
+  emails: Joi.array().min(1).items(Joi.string()).required(),
+});
+
+export default { loginSchema, registerSchema, workspacesSchema };

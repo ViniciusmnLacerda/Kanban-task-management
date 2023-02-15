@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { WorkspacesController } from '../controllers';
-import { tokenMiddleare } from '../middlwares';
+import { tokenMiddleare, workspacesMiddleware } from '../middlwares';
 
 const workspaceRouter = express.Router();
 
@@ -13,6 +13,7 @@ workspaceRouter.get(
 workspaceRouter.post(
   '/',
   tokenMiddleare,
+  workspacesMiddleware,
   new WorkspacesController().create,
 );
 
