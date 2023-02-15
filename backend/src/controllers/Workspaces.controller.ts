@@ -16,4 +16,10 @@ export default class WorkspacesController {
     const workspaces = await workspacesService.create(name, emails, user);
     res.status(201).json(workspaces);
   };
+
+  public getMembers = async (req: Request, res: Response) => {
+    const { workspaceId } = req.params;
+    const members = await workspacesService.getMembers(+workspaceId);
+    res.status(201).json(members);
+  };
 }

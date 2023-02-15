@@ -1,7 +1,8 @@
 import sequelize from '../database/models';
+import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
-import { IToken, IWorkspace } from '../interfaces';
+import { IAccountWorkspace, IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { WorkspacesValidations } from './validations';
 
@@ -41,5 +42,23 @@ export default class WorkspacesService {
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
+  };
+
+  public getMembers = async (workspaceId: number) => {
+    const accountIds = await accountWorkspacesModel.findAll({ 
+        where: { workspaceId },
+        attributes: ['accountId', 'owner'], 
+      }) as unknown as IAccountWorkspace[];
+
+    const members = await Promise.all(accountIds
+        .map(async ({ accountId, owner }: IAccountWorkspace) => {
+      const account = await accountModel.findByPk(accountId, {
+        attributes: [['id', 'accountId'], 'name', 'lastName', 'image'],
+      });
+
+      const member = { ...account?.dataValues, owner };
+      return member;
+    }));
+    return members;
   };
 }

@@ -17,4 +17,9 @@ workspaceRouter.post(
   new WorkspacesController().create,
 );
 
+workspaceRouter.get(
+  '/members/:workspaceId',
+  new WorkspacesController().getMembers,
+);
+
 export default workspaceRouter;
