@@ -44,6 +44,16 @@ describe('Workspaces service test', function() {
     afterEach(function() {
       sinon.restore();
     });
+    
+    it('when the user is not the first in the mailing list, it should return an error', async function() {
+      sinon.stub(userModel, 'findOne').resolves(undefined);
+      const { name, emails } = wrongOwnerInput;
+      try {
+        await workspacesService.create(name, emails, tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    })
 
     it('when a non-existent email is passed, it should return an error', async function() {
       sinon.stub(userModel, 'findOne').resolves(undefined);
@@ -55,15 +65,6 @@ describe('Workspaces service test', function() {
       }
     })
 
-    it('when the user is not the first in the mailing list, it should return an error', async function() {
-      sinon.stub(userModel, 'findOne').resolves(undefined);
-      const { name, emails } = wrongOwnerInput;
-      try {
-        await workspacesService.create(name, emails, tokenVerifyOutput);
-      } catch (err) {
-        expect((err as Error).message).to.be.equal('Unauthorized');
-      }
-    })
 
     it('successfully create new workspace', async function() {
       sinon.stub(userModel, 'findOne')

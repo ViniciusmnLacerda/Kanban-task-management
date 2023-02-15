@@ -64,6 +64,23 @@ const wrongOwnerInput = {
   emails: ["zita@email.com", "vinicius@email.com", "igor@email.com"]
 }
 
+const invalidInputs = [
+  {
+    emails: ["vinicius@email.com", "zita@email.com", "igor@email.com"],
+  },
+  {
+    name: "New workspace",
+  },
+  {
+    name: "New workspace",
+    emails: [],
+  },
+  {
+    name: "New workspace",
+    emails: [1, 2, true],
+  }
+]
+
 const createOutput = [
   {
     accountId: 1,
@@ -97,5 +114,6 @@ export {
   createOutput,
   usersOutput,
   wrongOwnerInput,
+  invalidInputs,
 }
 

@@ -20,8 +20,8 @@ describe('Register integration tests', function() {
     sinon.restore()
   });
 
-  invalidInputs.forEach(async (input) => {
-    it('with invalid body it should return error', async function() {
+  invalidInputs.forEach(async (input, index) => {
+    it(`${index + 1} - with invalid body it should return error`, async function() {
       const { body, status  } = await chai.request(app).post('/register').send(input);
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({ message: 'Some required fields are missing' });
