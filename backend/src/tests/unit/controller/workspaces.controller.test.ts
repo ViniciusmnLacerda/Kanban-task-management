@@ -29,7 +29,8 @@ describe('Workspaces controller test', function() {
 
     sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as IWorkspace[] | any);
 
-    req.body = tokenVerifyOutput;
+    req.body = { user: { ...tokenVerifyOutput } };
+    
     req.params = { accountId: '1' }
 
     await workspacesController.getAll(req, res);

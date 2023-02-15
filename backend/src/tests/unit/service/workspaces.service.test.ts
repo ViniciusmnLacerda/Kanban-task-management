@@ -12,7 +12,7 @@ const { expect } = chai;
 
 const workspacesService = new WorkspacesService();
 
-describe.only('Workspaces service test', function() {
+describe('Workspaces service test', function() {
   describe('getting the list of workspaces', function() {
     afterEach(function() {
       sinon.restore();

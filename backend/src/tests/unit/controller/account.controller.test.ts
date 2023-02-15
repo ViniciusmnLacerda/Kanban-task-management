@@ -28,7 +28,7 @@ describe('Account controller test', function() {
 
     sinon.stub(accountModel ,'findByPk').resolves(accountOutput as unknown as accountModel);
 
-    req.body = tokenVerifyOutput;
+    req.body = { user: { ...tokenVerifyOutput } };
     req.params = { id: '1' }
 
     await accountController.getAccount(req, res);
