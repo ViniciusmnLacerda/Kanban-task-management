@@ -2,7 +2,7 @@ import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import { IAccountWorkspace, IMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import MembersValidations from './validations/Members.validations';
+import { MembersValidations } from './validations';
 
 export default class MembersService {
   membersValidations: MembersValidations;
@@ -11,33 +11,29 @@ export default class MembersService {
     this.membersValidations = new MembersValidations();
   }
 
-  public getMembers = async (workspaceId: number): Promise<IMember[]> => {
-    const accountIds = await accountWorkspacesModel.findAll({ 
-        where: { workspaceId },
-        attributes: ['accountId', 'admin'], 
-      }) as unknown as IAccountWorkspace[];
-      
-    if (accountIds.length === 0) throw new ErrorClient(404, 'Workspace not found'); 
-    const members = await Promise.all(accountIds
-        .map(async ({ accountId, admin }: IAccountWorkspace) => {
+  public getMembers = async (workspaceId: number, user: IToken): Promise<IMember[]> => {
+    const accountIds = await this.membersValidations.validateGetMembers(workspaceId, user);
+    const membersPromise = accountIds.map(async ({ accountId, admin }: IAccountWorkspace) => {
       const account = await accountModel.findByPk(accountId, {
         attributes: [['id', 'accountId'], 'name', 'lastName', 'image'],
       });
 
       const member = { ...account?.dataValues, admin };
       return member;
-    }));
+    });
+    
+    const members = await Promise.all(membersPromise);
     return members;
   };
 
   public toggleAdmin = async (workspaceId: number, accountId: number, user: IToken) => {
     if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');
-    const members = await this.getMembers(workspaceId);
-    const { admin: role } = await this.membersValidations
+    const members = await this.getMembers(workspaceId, user);
+    const { admin } = await this.membersValidations
       .validateUsers(workspaceId, accountId, user, members);
     
     const result = accountWorkspacesModel
-      .update({ admin: !role }, { where: { workspaceId, accountId } });
+      .update({ admin: !admin }, { where: { workspaceId, accountId } });
     
     return result;
   };
