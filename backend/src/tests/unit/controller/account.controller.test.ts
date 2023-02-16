@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as sinon from 'sinon';
 import { AccountController } from '../../../controllers';
 import accountModel from '../../../database/models/Accounts';
+import { AccountService } from '../../../services';
 import { accountOutput, tokenVerifyOutput } from '../../mocks/account.mock';
 
 // @ts-ignore
@@ -11,7 +12,8 @@ import sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 const { expect } = chai;
-const accountController = new AccountController();
+const accountService = new AccountService()
+const accountController = new AccountController(accountService);
 
 
 describe('Account controller test', function() {

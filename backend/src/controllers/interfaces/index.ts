@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+import IAccountController from './IAccountController';
 import ILoginController from './ILoginController';
 
-export { ILoginController };
+export { ILoginController, IAccountController };

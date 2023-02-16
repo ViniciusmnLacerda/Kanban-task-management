@@ -1,13 +1,15 @@
 import * as express from 'express';
 import { AccountController } from '../controllers';
 import { tokenMiddleare } from '../middlwares';
+import { AccountService } from '../services';
 
 const accountRouter = express.Router();
+const accountService = new AccountService();
 
 accountRouter.get(
   '/:id',
   tokenMiddleare,
-  new AccountController().getAccount,
+  new AccountController(accountService).getAccount,
 );
 
 export default accountRouter;
