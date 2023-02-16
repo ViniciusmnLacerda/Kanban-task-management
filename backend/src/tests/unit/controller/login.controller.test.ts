@@ -6,6 +6,8 @@ import * as sinon from 'sinon';
 import { LoginController } from '../../../controllers';
 import userModel from '../../../database/models/Users';
 import { LoginService } from '../../../services';
+import { UserValidations } from '../../../services/validations';
+import HandleToken from '../../../utils/HandleToken';
 import { loginOutput, token, user, validLoginInput } from '../../mocks/login.mock';
 
 // @ts-ignore
@@ -13,8 +15,10 @@ import sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
-const loginController = new LoginController();
-const loginService = new LoginService();
+const userValidations = new UserValidations();
+const handleToken = new HandleToken();
+const loginService = new LoginService(handleToken, userValidations);
+const loginController = new LoginController(loginService);
 const { expect } = chai;
 
 describe('Login controller tests', function() {
