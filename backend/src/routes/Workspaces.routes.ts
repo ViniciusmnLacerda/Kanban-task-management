@@ -2,9 +2,10 @@ import * as express from 'express';
 import { WorkspacesController } from '../controllers';
 import { tokenMiddleare, workspacesMiddleware } from '../middlwares';
 import { MembersService, WorkspacesService } from '../services';
-import { WorkspacesValidations } from '../services/validations';
+import { MembersValidations, WorkspacesValidations } from '../services/validations';
 
-const memberService = new MembersService();
+const membersValidations = new MembersValidations();
+const memberService = new MembersService(membersValidations);
 const workspacesValidations = new WorkspacesValidations();
 const workspacesService = new WorkspacesService(memberService, workspacesValidations);
 

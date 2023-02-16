@@ -1,8 +1,9 @@
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
 import { IAccountWorkspace, IMember, IToken } from '../../interfaces';
 import { ErrorClient } from '../../utils';
+import { IMembersValidation } from './interfaces';
 
-export default class MembersValidations {
+export default class MembersValidations implements IMembersValidation {
   public validateGetMembers = async (
     workspaceId: number,
     { userId }: IToken,

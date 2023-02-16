@@ -24,6 +24,6 @@ export default class WorkspacesController implements IWorkspacesController {
     const { workspaceId } = req.params;
     const { user } = req.body;
     await this.service.delete(+workspaceId, user);
-    res.sendStatus(204);
+    res.status(204).end();
   };
 }
