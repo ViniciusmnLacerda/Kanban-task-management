@@ -2,9 +2,10 @@ import { compareSync } from 'bcryptjs';
 import userModel from '../../database/models/Users';
 import { IUser } from '../../interfaces';
 import { ErrorClient } from '../../utils';
+import { IUserValidations } from './interfaces';
 
-export default class UserValidation {
-  private findUser = async (email: string): Promise<IUser> => {
+export default class UserValidation implements IUserValidations {
+  public findUser = async (email: string): Promise<IUser> => {
     const user = await userModel.findOne({ where: { email } });
     return user as IUser;
   };
