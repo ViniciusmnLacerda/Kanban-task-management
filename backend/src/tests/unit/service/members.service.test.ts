@@ -2,6 +2,7 @@ import * as chai from 'chai';
 import * as sinon from 'sinon';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import { MembersService } from '../../../services';
+import { tokenVerifyOutput } from '../../mocks/account.mock';
 
 const { expect } = chai;
 
@@ -16,7 +17,7 @@ describe('Members service test', function() {
     it('with invalid id should return error', async function() {
       sinon.stub(accountWorkspacesModel, 'findAll').resolves([]);
       try {
-        await membersService.getMembers(9999)
+        await membersService.getMembers(9999, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Workspace not found');
       }
