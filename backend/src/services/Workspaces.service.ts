@@ -1,8 +1,7 @@
 import sequelize from '../database/models';
-import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
-import { IAccountWorkspace, IToken, IWorkspace } from '../interfaces';
+import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { WorkspacesValidations } from './validations';
 
@@ -13,7 +12,7 @@ export default class WorkspacesService {
     if (user.userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
-      attributes: ['workspaceId', 'owner'],
+      attributes: ['workspaceId'],
       include: [
         {
           model: workspacesModel,
@@ -42,24 +41,5 @@ export default class WorkspacesService {
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
-  };
-
-  public getMembers = async (workspaceId: number) => {
-    const accountIds = await accountWorkspacesModel.findAll({ 
-        where: { workspaceId },
-        attributes: ['accountId', 'admin'], 
-      }) as unknown as IAccountWorkspace[];
-      
-    if (accountIds.length === 0) throw new ErrorClient(404, 'Workspace not found'); 
-    const members = await Promise.all(accountIds
-        .map(async ({ accountId, admin }: IAccountWorkspace) => {
-      const account = await accountModel.findByPk(accountId, {
-        attributes: [['id', 'accountId'], 'name', 'lastName', 'image'],
-      });
-
-      const member = { ...account?.dataValues, admin };
-      return member;
-    }));
-    return members;
   };
 }

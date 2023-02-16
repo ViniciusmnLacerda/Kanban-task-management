@@ -1,8 +1,13 @@
+/* eslint-disable comma-dangle */
 import * as cors from 'cors';
 import * as express from 'express';
 import 'express-async-errors';
 import { errorMiddleware } from './middlwares';
-import { accountRouter, loginRouter, registerRouter, workspaceRouter } from './routes';
+import {
+  accountRouter,
+  loginRouter, membersRouter, registerRouter,
+  workspaceRouter
+} from './routes';
 
 export default class App {
   public app: express.Express;
@@ -18,6 +23,7 @@ export default class App {
     this.app.use('/register', registerRouter);
     this.app.use('/account', accountRouter);
     this.app.use('/workspaces', workspaceRouter);
+    this.app.use('/members', membersRouter);
 
     this.app.use(errorMiddleware);
   }

@@ -17,10 +17,4 @@ workspaceRouter.post(
   new WorkspacesController().create,
 );
 
-workspaceRouter.get(
-  '/members/:workspaceId',
-  tokenMiddleare,
-  new WorkspacesController().getMembers,
-);
-
 export default workspaceRouter;
