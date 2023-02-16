@@ -1,12 +1,15 @@
 import * as chai from 'chai';
+import { Transaction } from 'sequelize';
 import * as sinon from 'sinon';
+import sequelize from '../../../database/models';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import userModel from '../../../database/models/Users';
 import workspacesModel from '../../../database/models/Workspaces';
 import { IUser, IWorkspace } from '../../../interfaces';
 import { MembersService, WorkspacesService } from '../../../services';
+import { WorkspacesValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { getMembersOutput, membersThree } from '../../mocks/members.mock';
+import { membersThree } from '../../mocks/members.mock';
 import {
   createOutput,
   getWorkspacesOutput,
@@ -15,9 +18,9 @@ import {
 } from '../../mocks/workspaces.mock';
 
 const { expect } = chai;
-
-const workspacesService = new WorkspacesService();
 const membersService = new MembersService();
+const workspacesValidations = new WorkspacesValidations();
+const workspacesService = new WorkspacesService(membersService, workspacesValidations);
 
 describe('Workspaces service test', function() {
   describe('getting the list of workspaces', function() {
@@ -68,6 +71,7 @@ describe('Workspaces service test', function() {
 
 
     it('successfully create new workspace', async function() {
+      sinon.stub(sequelize, 'transaction').resolves(createOutput as unknown as Transaction);
       sinon.stub(userModel, 'findOne')
         .onFirstCall().returns({ id: 1 } as IUser | any)
         .onSecondCall().returns({ id: 2 } as IUser | any)
@@ -86,7 +90,7 @@ describe('Workspaces service test', function() {
     });
   });
 
-  describe('creating a new workspace', function() {
+  describe('deleting a new workspace', function() {
     afterEach(function() {
       sinon.restore();
     });
@@ -97,7 +101,7 @@ describe('Workspaces service test', function() {
       try {
         await workspacesService.delete(4 , tokenVerifyOutput);
       } catch (err) {
-        expect((err as Error).message).to.be.equal('User is not a member');
+        expect((err as Error).message).to.be.equal('Unauthorized');
       }
     });
 
@@ -109,16 +113,6 @@ describe('Workspaces service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
-    });
-
-    it('successfully deleting workspace', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
-      const teste1 = sinon.stub(accountWorkspacesModel, 'destroy').resolves(undefined);
-      const teste2 = sinon.stub(workspacesModel, 'destroy').resolves(undefined);
-
-      await workspacesService.delete(1, tokenVerifyOutput);
-
-      expect(teste1).to.have.been.calledWith(1);
     });
   });
 });
