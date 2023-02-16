@@ -6,7 +6,7 @@ import Workspaces from './Workspaces';
 class AccountWorkspaces extends Model {
   declare workspaceId: number;
 
-  declare accountId: string;
+  declare accountId: number;
 
   declare admin: boolean;
 }

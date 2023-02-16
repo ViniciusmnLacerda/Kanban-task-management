@@ -32,9 +32,6 @@ export default class MembersService {
     const { admin } = await this.membersValidations
       .validateUsers(workspaceId, accountId, user, members);
     
-    const result = accountWorkspacesModel
-      .update({ admin: !admin }, { where: { workspaceId, accountId } });
-    
-    return result;
+    await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
   };
 }

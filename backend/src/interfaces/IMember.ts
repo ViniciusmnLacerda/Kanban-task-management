@@ -1,7 +1,7 @@
 export default interface IMember {
-  accountId: boolean;
-  email: string;
+  accountId: number;
   name: string;
   lastName: string;
   admin: boolean;
-};
+  image: string | null;
+}

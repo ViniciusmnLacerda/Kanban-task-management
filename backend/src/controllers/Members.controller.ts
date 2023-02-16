@@ -18,7 +18,7 @@ export default class MembersController {
   public toggleAdmin = async (req: Request, res: Response): Promise<void> => {
     const { user } = req.body;
     const { workspaceId, accountId } = req.params;   
-    const result = await this.membersService.toggleAdmin(+workspaceId, +accountId, user);
-    res.status(204).json(result);
+    await this.membersService.toggleAdmin(+workspaceId, +accountId, user);
+    res.sendStatus(204);
   };
 }
