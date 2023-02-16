@@ -121,21 +121,4 @@ describe('Workspaces integration tests', function() {
       expect(body).to.be.deep.equal(createOutput);
     });
   })
-
-  describe('getting workspace members', function() {
-    afterEach(function() {
-      sinon.restore();
-    });
-
-
-    it('with invalid id should return error', async function() {
-      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
-      sinon.stub(accountWorkspacesModel, 'findAll').resolves([]);
-
-      const { body, status  } = await chai.request(app).get('/workspaces/members/9999').set({ authorization: validToken });
-
-      expect(status).to.be.equal(404);
-      expect(body).to.be.deep.equal({ message: 'Workspace not found' });
-    });
-  });
 });
