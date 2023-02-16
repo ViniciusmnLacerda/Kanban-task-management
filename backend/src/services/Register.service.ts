@@ -6,11 +6,15 @@ import { IAccount, IUserData } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { UserValidations } from './validations';
 
-const userValidations = new UserValidations();
-
 export default class RegisterService {
+  userValidations: UserValidations;
+
+  constructor() {
+    this.userValidations = new UserValidations();
+  }
+
   public register = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
-    await userValidations.validateEmail(email);
+    await this.userValidations.validateEmail(email);
     try {
       const result = await sequelize.transaction(async (t) => {
         const salt = genSaltSync(10);

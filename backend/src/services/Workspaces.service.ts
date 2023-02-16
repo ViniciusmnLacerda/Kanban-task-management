@@ -5,9 +5,13 @@ import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { WorkspacesValidations } from './validations';
 
-const workspacesValidations = new WorkspacesValidations();
-
 export default class WorkspacesService {
+  workspacesValidations: WorkspacesValidations;
+
+  constructor() {
+    this.workspacesValidations = new WorkspacesValidations();
+  }
+
   public getAll = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
     if (user.userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
@@ -25,7 +29,7 @@ export default class WorkspacesService {
   };
 
   public create = async (name: string, emails: string[], user: IToken): Promise<IWorkspace[]> => {
-    const users = await workspacesValidations.validateUsers(emails, user);
+    const users = await this.workspacesValidations.validateUsers(emails, user);
     try {
       const workspace = await sequelize.transaction(async (t) => {
         const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });
