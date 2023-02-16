@@ -4,17 +4,16 @@ import accountModel from '../database/models/Accounts';
 import userModel from '../database/models/Users';
 import { IAccount, IUserData } from '../interfaces';
 import { ErrorClient } from '../utils';
+import { IRegisterService } from './interfaces';
 import { UserValidations } from './validations';
 
-export default class RegisterService {
-  userValidations: UserValidations;
-
-  constructor() {
-    this.userValidations = new UserValidations();
+export default class RegisterService implements IRegisterService {
+  constructor(private readonly validations: UserValidations) {
+    this.validations = validations;
   }
 
   public register = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
-    await this.userValidations.validateEmail(email);
+    await this.validations.validateEmail(email);
     try {
       const result = await sequelize.transaction(async (t) => {
         const salt = genSaltSync(10);
