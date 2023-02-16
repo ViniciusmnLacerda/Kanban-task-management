@@ -3,17 +3,17 @@ import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
+import { IWorkspacesService } from './interfaces';
 import MembersService from './Members.service';
 import { WorkspacesValidations } from './validations';
 
-export default class WorkspacesService {
-  workspacesValidations: WorkspacesValidations;
-
-  membersService: MembersService;
-
-  constructor() {
-    this.workspacesValidations = new WorkspacesValidations();
-    this.membersService = new MembersService();
+export default class WorkspacesService implements IWorkspacesService {
+  constructor(
+    private readonly service: MembersService,
+    private readonly validations: WorkspacesValidations,
+) {
+    this.validations = validations;
+    this.service = service;
   }
 
   public getAll = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
@@ -33,7 +33,7 @@ export default class WorkspacesService {
   };
 
   public create = async (name: string, emails: string[], user: IToken): Promise<IWorkspace[]> => {
-    const users = await this.workspacesValidations.validateUsers(emails, user);
+    const users = await this.validations.validateUsers(emails, user);
     try {
       const workspace = await sequelize.transaction(async (t) => {
         const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });
@@ -52,8 +52,8 @@ export default class WorkspacesService {
   };
 
   public delete = async (workspaceId: number, user: IToken): Promise<void> => {
-    const members = await this.membersService.getMembers(workspaceId, user);
-    this.workspacesValidations.deleteValidations(members, user);
+    const members = await this.service.getMembers(workspaceId, user);
+    this.validations.deleteValidations(members, user);
     try {
       await sequelize.transaction(async (t) => {
         await accountWorkspacesModel.destroy({ where: { workspaceId }, transaction: t });

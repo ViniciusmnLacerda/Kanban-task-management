@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 import IUserValidations from './IUserValidations';
+import IWorkspacesValidations from './IWorkspacesValidations';
 
-export { IUserValidations };
+export { IUserValidations, IWorkspacesValidations };
