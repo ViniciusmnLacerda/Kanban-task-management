@@ -4,8 +4,9 @@ import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import userModel from '../../../database/models/Users';
 import workspacesModel from '../../../database/models/Workspaces';
 import { IUser, IWorkspace } from '../../../interfaces';
-import { WorkspacesService } from '../../../services';
+import { MembersService, WorkspacesService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
+import { getMembersOutput, membersThree } from '../../mocks/members.mock';
 import {
   createOutput,
   getWorkspacesOutput,
@@ -16,6 +17,7 @@ import {
 const { expect } = chai;
 
 const workspacesService = new WorkspacesService();
+const membersService = new MembersService();
 
 describe('Workspaces service test', function() {
   describe('getting the list of workspaces', function() {
@@ -81,6 +83,42 @@ describe('Workspaces service test', function() {
       const result = await workspacesService.create(name, emails, tokenVerifyOutput);
 
       expect(result).to.be.deep.equal(createOutput);
+    });
+  });
+
+  describe('creating a new workspace', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it ('when the user is not a member it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves([]);
+
+      try {
+        await workspacesService.delete(4 , tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('User is not a member');
+      }
+    });
+
+    it ('when the user is not a administrator it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(membersThree);
+
+      try {
+        await workspacesService.delete(3 , tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+
+    it('successfully deleting workspace', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      const teste1 = sinon.stub(accountWorkspacesModel, 'destroy').resolves(undefined);
+      const teste2 = sinon.stub(workspacesModel, 'destroy').resolves(undefined);
+
+      await workspacesService.delete(1, tokenVerifyOutput);
+
+      expect(teste1).to.have.been.calledWith(1);
     });
   });
 });

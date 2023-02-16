@@ -37,6 +37,30 @@ const getMembersOutput: IMember[] = [
   }
 ]
 
+const membersThree: IMember[] = [
+  {
+    accountId: 1,
+    name: "Vinicius",
+    lastName: "Lacerda",
+    image: null,
+    admin: false
+  },
+  {
+    accountId: 3,
+    name: "Marianne",
+    lastName: "Bragança",
+    image: null,
+    admin: false
+  },
+  {
+    accountId: 4,
+    name: "Igor",
+    lastName: "Lacerda",
+    image: null,
+    admin: true
+  }
+]
+
 const member: IMember = {
   accountId: 2,
   name: "Zita",
@@ -45,4 +69,4 @@ const member: IMember = {
   image: null,
 }
 
-export { notMember, getMembersOutput, member };
+export { notMember, getMembersOutput, member, membersThree };
