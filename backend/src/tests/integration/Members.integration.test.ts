@@ -5,6 +5,7 @@ import App from '../../app';
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
 import { IToken } from '../../interfaces';
 import { MembersService } from '../../services';
+import { MembersValidations } from '../../services/validations';
 import { tokenVerifyOutput, validToken } from '../mocks/account.mock';
 import { getMembersOutput } from '../mocks/members.mock';
 
@@ -13,7 +14,8 @@ import chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 
-const membersService = new MembersService();
+const membersValidations = new MembersValidations();
+const membersService = new MembersService(membersValidations);
 
 const { app } = new App();
 const { expect } = chai; 

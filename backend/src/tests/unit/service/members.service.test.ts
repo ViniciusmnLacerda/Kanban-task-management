@@ -3,12 +3,14 @@ import * as sinon from 'sinon';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import { IAccountWorkspace } from '../../../interfaces';
 import { MembersService } from '../../../services';
+import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { getMembersOutput, notMember } from '../../mocks/members.mock';
 
 const { expect } = chai;
 
-const membersService = new MembersService();
+const membersValidations = new MembersValidations()
+const membersService = new MembersService(membersValidations);
 
 describe('Members service test', function() {
   describe('getting workspace members', function() {

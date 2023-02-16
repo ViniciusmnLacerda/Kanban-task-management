@@ -13,9 +13,9 @@ import sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
-const membersService = new MembersService()
-const membersController = new MembersController()
 const membersValidations = new MembersValidations();
+const membersService = new MembersService(membersValidations);
+const membersController = new MembersController(membersService);
 
 const { expect } = chai;
 

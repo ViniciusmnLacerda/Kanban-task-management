@@ -9,7 +9,7 @@ import userModel from '../../../database/models/Users';
 import workspacesModel from '../../../database/models/Workspaces';
 import { IUser, IWorkspace } from '../../../interfaces';
 import { MembersService, WorkspacesService } from '../../../services';
-import { WorkspacesValidations } from '../../../services/validations';
+import { MembersValidations, WorkspacesValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { createOutput, getWorkspacesOutput, validCreateInput } from '../../mocks/workspaces.mock';
 
@@ -20,7 +20,8 @@ chai.use(sinonChai);
 
 const { expect } = chai;
 
-const membersService = new MembersService();
+const membersValidations = new MembersValidations();
+const membersService = new MembersService(membersValidations);
 const workspacesValidations = new WorkspacesValidations();
 const workspacesService = new WorkspacesService(membersService, workspacesValidations);
 const workspacesController = new WorkspacesController(workspacesService);
