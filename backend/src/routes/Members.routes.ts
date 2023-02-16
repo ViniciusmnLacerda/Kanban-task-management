@@ -10,4 +10,10 @@ membersRouter.get(
   new MembersController().getMembers,
 );
 
+membersRouter.patch(
+  '/:workspaceId/:accountId',
+  tokenMiddleare,
+  new MembersController().toggleAdmin,
+);
+
 export default membersRouter;

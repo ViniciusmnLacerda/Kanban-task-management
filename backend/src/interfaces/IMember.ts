@@ -3,4 +3,5 @@ export default interface IMember {
   email: string;
   name: string;
   lastName: string;
-}
+  admin: boolean;
+};

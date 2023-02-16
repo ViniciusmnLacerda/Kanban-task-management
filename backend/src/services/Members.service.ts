@@ -1,10 +1,17 @@
 import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
-import { IAccountWorkspace } from '../interfaces';
+import { IAccountWorkspace, IMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
+import MembersValidations from './validations/Members.validations';
 
 export default class MembersService {
-  public getMembers = async (workspaceId: number) => {
+  membersValidations: MembersValidations;
+
+  constructor() {
+    this.membersValidations = new MembersValidations();
+  }
+
+  public getMembers = async (workspaceId: number): Promise<IMember[]> => {
     const accountIds = await accountWorkspacesModel.findAll({ 
         where: { workspaceId },
         attributes: ['accountId', 'admin'], 
@@ -21,5 +28,17 @@ export default class MembersService {
       return member;
     }));
     return members;
+  };
+
+  public toggleAdmin = async (workspaceId: number, accountId: number, user: IToken) => {
+    if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');
+    const members = await this.getMembers(workspaceId);
+    const { admin: role } = await this.membersValidations
+      .validateUsers(workspaceId, accountId, user, members);
+    
+    const result = accountWorkspacesModel
+      .update({ admin: !role }, { where: { workspaceId, accountId } });
+    
+    return result;
   };
 }
