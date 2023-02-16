@@ -17,4 +17,9 @@ workspaceRouter.post(
   new WorkspacesController().create,
 );
 
+workspaceRouter.delete(
+  '/:workspaceId',
+  tokenMiddleare,
+  new WorkspacesController().delete,
+);
 export default workspaceRouter;

@@ -15,9 +15,16 @@ export default class WorkspacesController {
     res.status(200).json(workspaces);
   };
 
-  public create = async (req: Request, res: Response) => {
+  public create = async (req: Request, res: Response): Promise<void> => {
     const { name, emails, user } = req.body;
     const workspaces = await this.workspacesService.create(name, emails, user);
     res.status(201).json(workspaces);
+  };
+
+  public delete = async (req: Request, res: Response): Promise<void> => {
+    const { workspaceId } = req.params;
+    const { user } = req.body;
+    await this.workspacesService.delete(+workspaceId, user);
+    res.sendStatus(204);
   };
 }

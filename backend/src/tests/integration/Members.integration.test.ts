@@ -18,7 +18,7 @@ const membersService = new MembersService();
 const { app } = new App();
 const { expect } = chai; 
 
-describe.only('Members integration tests', function() {
+describe('Members integration tests', function() {
   describe('getting workspace members', function() {
     afterEach(function() {
       sinon.restore();

@@ -19,6 +19,6 @@ export default class MembersController {
     const { user } = req.body;
     const { workspaceId, accountId } = req.params;   
     await this.membersService.toggleAdmin(+workspaceId, +accountId, user);
-    res.sendStatus(204);
+    res.status(204).end();
   };
 }

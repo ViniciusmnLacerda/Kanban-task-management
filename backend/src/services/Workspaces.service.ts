@@ -3,13 +3,17 @@ import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
+import MembersService from './Members.service';
 import { WorkspacesValidations } from './validations';
 
 export default class WorkspacesService {
   workspacesValidations: WorkspacesValidations;
 
+  membersService: MembersService;
+
   constructor() {
     this.workspacesValidations = new WorkspacesValidations();
+    this.membersService = new MembersService();
   }
 
   public getAll = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
@@ -42,6 +46,19 @@ export default class WorkspacesService {
         return newAccountWorkspaces;
       });
       return workspace as unknown as IWorkspace[];
+    } catch (err) {
+      throw new ErrorClient(500, 'Internal server error');
+    }
+  };
+
+  public delete = async (workspaceId: number, user: IToken): Promise<void> => {
+    const members = await this.membersService.getMembers(workspaceId, user);
+    this.workspacesValidations.deleteValidations(members, user);
+    try {
+      await sequelize.transaction(async (t) => {
+        await accountWorkspacesModel.destroy({ where: { workspaceId }, transaction: t });
+        await workspacesModel.destroy({ where: { id: workspaceId }, transaction: t });
+      });
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }

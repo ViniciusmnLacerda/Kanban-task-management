@@ -1,5 +1,5 @@
 import userModel from '../../database/models/Users';
-import { IToken } from '../../interfaces';
+import { IMember, IToken } from '../../interfaces';
 import { ErrorClient } from '../../utils';
 
 export default class WorkspacesValidations {
@@ -11,5 +11,10 @@ export default class WorkspacesValidations {
       return account;
     }));
     return users;
+  };
+
+  public deleteValidations = (members: IMember[], { userId }:IToken) => {
+    const isMember = members.find(({ accountId }) => accountId === userId);
+    if (!isMember || !isMember.admin) throw new ErrorClient(401, 'Unauthorized');
   };
 }
