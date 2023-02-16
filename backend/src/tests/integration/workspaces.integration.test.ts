@@ -1,7 +1,9 @@
 import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
+import { Transaction } from 'sequelize';
 import * as sinon from 'sinon';
 import App from '../../app';
+import sequelize from '../../database/models';
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
 import userModel from '../../database/models/Users';
 import workspacesModel from '../../database/models/Workspaces';
@@ -104,6 +106,7 @@ describe('Workspaces integration tests', function() {
     });
 
     it('successfully create new workspace', async function() {
+      sinon.stub(sequelize, 'transaction').resolves(createOutput as unknown as Transaction)
       sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
       sinon.stub(userModel, 'findOne')
         .onFirstCall().returns({ id: 1 } as IUser | any)
