@@ -21,9 +21,15 @@ const updateWorkspacesSchema = Joi.object({
   name: Joi.string().min(2).required(),
 });
 
+const membersSchema = Joi.object({
+  email: Joi.string().email().required(),
+  admin: Joi.boolean().required(),
+});
+
 export default { 
   loginSchema,
   registerSchema,
   workspacesSchema,
   updateWorkspacesSchema,
+  membersSchema,
 };

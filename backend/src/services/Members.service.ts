@@ -1,6 +1,6 @@
 import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
-import { IAccountWorkspace, IMember, IToken } from '../interfaces';
+import { IAccountWorkspace, IMember, INewMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { IMembersService } from './interfaces';
 import { MembersValidations } from './validations';
@@ -31,5 +31,15 @@ export default class MembersService implements IMembersService {
     const { admin } = await this.validations.validateUsers(workspaceId, accountId, user, members);
     
     await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
+  };
+
+  public insert = async (
+    workspaceId: number,
+    { email, admin }: INewMember,
+    user: IToken,
+    ): Promise<void> => {
+    const members = await this.getMembers(workspaceId, user);
+    const accountId = await this.validations.updateValidations(email, members, user);
+    await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
 }

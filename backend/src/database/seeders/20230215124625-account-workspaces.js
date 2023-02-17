@@ -20,11 +20,6 @@ module.exports = {
         admin: false,
       },
       {
-        workspace_id: 1,
-        account_id: 4,
-        admin: false,
-      },
-      {
         workspace_id: 2,
         account_id: 1,
         admin: false,

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { MembersController } from '../controllers';
-import { tokenMiddleare } from '../middlwares';
+import { membersMiddleware, tokenMiddleare } from '../middlwares';
 import { MembersService } from '../services';
 import { MembersValidations } from '../services/validations';
 
@@ -19,6 +19,13 @@ membersRouter.patch(
   '/:workspaceId/:accountId',
   tokenMiddleare,
   new MembersController(membersService).toggleAdmin,
+);
+
+membersRouter.put(
+  '/:workspaceId',
+  tokenMiddleare,
+  membersMiddleware,
+  new MembersController(membersService).insert,
 );
 
 export default membersRouter;

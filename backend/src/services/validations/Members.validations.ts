@@ -1,4 +1,5 @@
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
+import usersModel from '../../database/models/Users';
 import { IAccountWorkspace, IMember, IToken } from '../../interfaces';
 import { ErrorClient } from '../../utils';
 import { IMembersValidation } from './interfaces';
@@ -17,7 +18,7 @@ export default class MembersValidations implements IMembersValidation {
   const isMember = accountIds
     .find((account: IAccountWorkspace) => account.accountId === userId);  
   
-  if (!isMember) throw new ErrorClient(401, 'User is not a member'); 
+  if (!isMember) throw new ErrorClient(401, 'Unauthorized'); 
   return accountIds as unknown as IAccountWorkspace[];
   }; 
 
@@ -34,5 +35,19 @@ export default class MembersValidations implements IMembersValidation {
     const isAccountValid = members.find((member) => +member.accountId === accountId);
     if (!isAccountValid) throw new ErrorClient(404, 'User not found');
     return isAccountValid;
+  };
+
+  public updateValidations = async (
+    email: string,
+    members: IMember[],
+    { userId }: IToken,
+    ): Promise<number> => {
+    const doesUserExist = await usersModel.findOne({ where: { email } });
+    if (!doesUserExist) throw new ErrorClient(404, 'User not found');
+    const isMember = members.find((member) => member.accountId === doesUserExist.id);
+    if (isMember) throw new ErrorClient(401, 'The user is already a member');
+    const isAdmin = members.find((member) => member.accountId === userId);
+    if (!isAdmin?.admin) throw new ErrorClient(401, 'Unauthorized');
+    return doesUserExist.id;
   };
 }

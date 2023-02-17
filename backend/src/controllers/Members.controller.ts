@@ -20,4 +20,12 @@ export default class MembersController implements IMembersController {
     await this.service.toggleAdmin(+workspaceId, +accountId, user);
     res.status(204).end();
   };
+
+  public insert = async (req: Request, res: Response): Promise<void> => {
+    const { email, admin, user } = req.body;
+    const newMember = { email, admin };
+    const { workspaceId } = req.params; 
+    await this.service.insert(+workspaceId, newMember, user);
+    res.status(204).end();
+  };
 }
