@@ -12,7 +12,7 @@ export default class RegisterService implements IServiceWriter<IAccount, IUserDa
     this.validations = validations;
   }
 
-  public setter = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
+  public create = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
     await this.validations.validateEmail(email);
     try {
       const result = await sequelize.transaction(async (t) => {
