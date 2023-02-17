@@ -155,6 +155,33 @@ const getMembersDatavalues = [
   },
 ]
 
+const getMembersDatavaluesFour = [
+  {
+    dataValues: {
+      accountId: 2,
+      name: "Zita",
+      lastName: "Lacerda",
+      image: null,
+    }
+  },
+  {
+    dataValues: {
+      accountId: 3,
+      name: "Marianne",
+      lastName: "Bragança",
+      image: null,
+    }
+  },
+  {
+    dataValues: {
+      accountId: 4,
+      name: "Igor",
+      lastName: "Lacerda",
+      image: null,
+    },
+  },
+]
+
 const userModelOutput = {
   id: 4,
   email: "igor@email.com",
@@ -173,6 +200,21 @@ const createOutput = {
   admin: true
 }
 
+const validRemoveInput = {
+  email: 'marianne@email.com'
+}
+
+const invalidRemoveInput = {
+  email: 'igor@email.com'
+}
+const nonexistentRemoveInput = {
+  email: 'igor@email.com'
+}
+
+const himselfRemoveInput = {
+  email: 'vinicius@email.com'
+}
+
 export {
   notMember,
   getMembersOutput,
@@ -189,5 +231,10 @@ export {
   userModelOutput,
   createOutput,
   userHimself,
+  getMembersDatavaluesFour,
+  validRemoveInput,
+  invalidRemoveInput,
+  nonexistentRemoveInput,
+  himselfRemoveInput,
 };
 
