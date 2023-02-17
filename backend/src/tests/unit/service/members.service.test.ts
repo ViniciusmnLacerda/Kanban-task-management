@@ -1,12 +1,23 @@
 import * as chai from 'chai';
+import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
+import accountModel from '../../../database/models/Accounts';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import usersModel from '../../../database/models/Users';
-import { IAccountWorkspace } from '../../../interfaces';
+import { IAccountWorkspace, IToken } from '../../../interfaces';
 import { MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { createOutput, emailInUseOutput, getMembersOutput, invalidNewMemberInput, membersThree, notMember, validNewMemberInput, validNewMemberInputThree } from '../../mocks/members.mock';
+import {
+  createOutput,
+  emailInUseOutput, getMembersDatavalues, getMembersOutput,
+  invalidNewMemberInput,
+  membersThree,
+  notMember,
+  validNewMemberInput,
+  validNewMemberInputThree
+} from '../../mocks/members.mock';
+import { accountWorkspaceOutput } from '../../mocks/workspaces.mock';
 
 const { expect } = chai;
 
@@ -36,6 +47,21 @@ describe('Members service test', function() {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
     });
+
+    it('successfully', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+
+
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutput as IAccountWorkspace | any);
+      sinon.stub(accountModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavalues[0] as unknown as accountModel)
+        .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountModel)
+        .onThirdCall().resolves(getMembersDatavalues[2] as unknown as accountModel);
+
+      const members = await membersService.getMembers(1, tokenVerifyOutput);
+
+      expect(members).to.be.deep.equal(getMembersOutput);
+    });
   })
 
   describe('changing admin permissions', function() {
@@ -59,6 +85,15 @@ describe('Members service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
+    });
+
+    it('successfully', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      const stubUpdate = sinon.stub(accountWorkspacesModel, 'update').resolves([1]);
+
+      await membersService.toggleAdmin(1, 2, tokenVerifyOutput);
+
+      expect(stubUpdate).to.have.been.calledOnceWithExactly({ admin: true }, { where: { workspaceId: 1, accountId: 2 } });
     });
   })
 
