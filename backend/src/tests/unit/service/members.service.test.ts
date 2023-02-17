@@ -1,11 +1,12 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
+import usersModel from '../../../database/models/Users';
 import { IAccountWorkspace } from '../../../interfaces';
 import { MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { getMembersOutput, notMember } from '../../mocks/members.mock';
+import { createOutput, emailInUseOutput, getMembersOutput, invalidNewMemberInput, membersThree, notMember, validNewMemberInput, validNewMemberInputThree } from '../../mocks/members.mock';
 
 const { expect } = chai;
 
@@ -32,7 +33,7 @@ describe('Members service test', function() {
       try {
         await membersService.getMembers(4, tokenVerifyOutput)
       } catch (err) {
-        expect((err as Error).message).to.be.equal('User is not a member');
+        expect((err as Error).message).to.be.equal('Unauthorized');
       }
     });
   })
@@ -58,6 +59,56 @@ describe('Members service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
+    });
+  })
+
+  describe('adding new member', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('adding user that does not exist should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(undefined);
+
+      try {
+        await membersService.insert(1, invalidNewMemberInput, tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('User not found');
+      }
+    });
+
+    it('add user who is member should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
+
+      try {
+        await membersService.insert(1, invalidNewMemberInput, tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('The user is already a member');
+      }
+    });
+
+    it('when the user is not admin it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(membersThree); 
+      sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
+
+      try {
+        await membersService.insert(3, validNewMemberInputThree, tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+
+    it('successfully', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersValidations, 'insertValidations').resolves(4);
+      const createStub = sinon.stub(accountWorkspacesModel, 'create').resolves(createOutput as unknown as accountWorkspacesModel);
+
+      await membersService.insert(1, validNewMemberInput, tokenVerifyOutput);
+
+      expect(createStub).to.have.been.calledOnceWithExactly(createOutput);
+
     });
   })
 })

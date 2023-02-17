@@ -37,7 +37,7 @@ export default class MembersValidations implements IMembersValidation {
     return isAccountValid;
   };
 
-  public updateValidations = async (
+  public insertValidations = async (
     email: string,
     members: IMember[],
     { userId }: IToken,

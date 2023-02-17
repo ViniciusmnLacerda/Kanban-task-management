@@ -150,7 +150,7 @@ describe('Workspaces integration tests', function() {
       sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as IAccountWorkspace | any);
       const { body, status  } = await chai.request(app).patch('/workspaces/4').send({ name: validNameInput }).set({ authorization: validToken });
       expect(status).to.be.equal(401);
-      expect(body).to.be.deep.equal({ message: 'User is not a member' });
+      expect(body).to.be.deep.equal({ message: 'Unauthorized' });
     });
 
     it('when trying to update name of workspaces and non-admin it should return error', async function() {

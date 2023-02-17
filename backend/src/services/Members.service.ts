@@ -39,7 +39,7 @@ export default class MembersService implements IMembersService {
     user: IToken,
     ): Promise<void> => {
     const members = await this.getMembers(workspaceId, user);
-    const accountId = await this.validations.updateValidations(email, members, user);
+    const accountId = await this.validations.insertValidations(email, members, user);
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
 }

@@ -6,7 +6,7 @@ import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import { MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { getMembersOutput, member } from '../../mocks/members.mock';
+import { getMembersOutput, member, validNewMemberInput } from '../../mocks/members.mock';
 
 // @ts-ignore
 import sinonChai = require('sinon-chai');
@@ -21,6 +21,30 @@ const { expect } = chai;
 
 
 describe('Members controller tests', function() {
+  describe('getting workspace members', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns(res);
+      
+      req.body = { user: { ...tokenVerifyOutput } };
+      req.params = { workspaceId: '1' };
+
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+
+      await membersController.getMembers(req, res);
+  
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(getMembersOutput);
+    });
+  });
+
   describe('changing admin permissions', function() {
     afterEach(function() {
       sinon.restore();
@@ -44,5 +68,32 @@ describe('Members controller tests', function() {
   
       expect(res.status).to.have.been.calledWith(204);
     });
+  });
+
+  describe('adding new member', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersValidations, 'insertValidations').resolves(4);
+      sinon.stub(accountWorkspacesModel, 'create').resolves(undefined);
+
+
+      req.body = { user: { ...tokenVerifyOutput }, ...validNewMemberInput };
+      req.params = { workspaceId: '1' };
+
+      await membersController.insert(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
+
   });
 });

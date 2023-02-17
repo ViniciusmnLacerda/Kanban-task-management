@@ -11,7 +11,7 @@ export default class MembersController implements IMembersController {
     const { workspaceId } = req.params;
     const { user } = req.body;
     const members = await this.service.getMembers(+workspaceId, user);
-    res.status(201).json(members);
+    res.status(200).json(members);
   };
 
   public toggleAdmin = async (req: Request, res: Response): Promise<void> => {
