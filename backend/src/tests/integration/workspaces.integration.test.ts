@@ -12,8 +12,9 @@ import { IAccountWorkspace, IToken, IUser, IWorkspace } from '../../interfaces';
 import { MembersService } from '../../services';
 import { MembersValidations } from '../../services/validations';
 import { accountsTwo, invalidToken, tokenVerifyOutput, validToken } from '../mocks/account.mock';
+import { getMembersDatavalues } from '../mocks/members.mock';
 import {
-  accountWorkspaceOutputFour, accountWorkspaceOutputTwo, createOutput, getWorkspacesOutput,
+  accountWorkspaceOutput, accountWorkspaceOutputFour, accountWorkspaceOutputTwo, createOutput, getWorkspacesOutput,
   invalidCreateInput,
   invalidInputs,
   invalidNameInput,
@@ -164,6 +165,19 @@ describe('Workspaces integration tests', function() {
       const { body, status  } = await chai.request(app).patch('/workspaces/2').send({ name: validNameInput }).set({ authorization: validToken });
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal({ message: 'Unauthorized' });
+    });
+
+    it('successfully', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutput as IAccountWorkspace | any);
+      sinon.stub(workspacesModel, 'update').resolves([1]);
+      sinon.stub(accountsModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavalues[0] as unknown as accountsModel)
+        .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountsModel)
+        .onThirdCall().resolves(getMembersDatavalues[2] as unknown as accountsModel);
+
+      const { body, status  } = await chai.request(app).patch('/workspaces/1').send({ name: validNameInput }).set({ authorization: validToken });
+      expect(status).to.be.equal(204);
     });
   })
 });
