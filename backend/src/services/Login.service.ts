@@ -1,9 +1,9 @@
 import { ILogin, IUser } from '../interfaces';
 import { HandleToken } from '../utils';
-import { IserviceReader } from './interfaces/IService';
+import { IServiceReader } from './interfaces/IService';
 import { UserValidations } from './validations';
 
-export default class LoginService implements IserviceReader<ILogin, IUser> {
+export default class LoginService implements IServiceReader<ILogin, IUser> {
   constructor(private readonly auth: HandleToken, private readonly validations: UserValidations) {
     this.auth = auth;
     this.validations = validations;
