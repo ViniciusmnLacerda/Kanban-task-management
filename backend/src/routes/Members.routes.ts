@@ -7,10 +7,12 @@ import { MembersValidations } from '../services/validations';
 const membersValidations = new MembersValidations();
 const membersService = new MembersService(membersValidations);
 
+const endpoint = '/:workspaceId';
+
 const membersRouter = express.Router();
 
 membersRouter.get(
-  '/:workspaceId',
+  endpoint,
   tokenMiddleare,
   new MembersController(membersService).getMembers,
 );
@@ -22,10 +24,16 @@ membersRouter.patch(
 );
 
 membersRouter.put(
-  '/:workspaceId',
+  endpoint,
   tokenMiddleare,
   membersMiddleware,
   new MembersController(membersService).insert,
+);
+
+membersRouter.delete(
+  endpoint,
+  tokenMiddleare,
+  new MembersController(membersService).remove,
 );
 
 export default membersRouter;

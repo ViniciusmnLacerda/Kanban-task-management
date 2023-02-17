@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
 import usersModel from '../../database/models/Users';
 import { IAccountWorkspace, IMember, IToken } from '../../interfaces';
@@ -5,6 +6,15 @@ import { ErrorClient } from '../../utils';
 import { IMembersValidation } from './interfaces';
 
 export default class MembersValidations implements IMembersValidation {
+  private USER_NOT_FOUND: string;
+
+  private UNAUTHORIZED: string;
+
+  constructor() {
+    this.USER_NOT_FOUND = 'User not found';
+    this.UNAUTHORIZED = 'Unauthorized';
+  }
+
   public validateGetMembers = async (
     workspaceId: number,
     { userId }: IToken,
@@ -18,7 +28,7 @@ export default class MembersValidations implements IMembersValidation {
   const isMember = accountIds
     .find((account: IAccountWorkspace) => account.accountId === userId);  
   
-  if (!isMember) throw new ErrorClient(401, 'Unauthorized'); 
+  if (!isMember) throw new ErrorClient(401, this.UNAUTHORIZED); 
   return accountIds as unknown as IAccountWorkspace[];
   }; 
 
@@ -29,11 +39,11 @@ export default class MembersValidations implements IMembersValidation {
     members: IMember[],
 ): Promise<IMember> => {
     const isMember = members.find((member) => +member.accountId === user.userId);
-    if (!isMember) throw new ErrorClient(401, 'Unauthorized');
+    if (!isMember) throw new ErrorClient(401, this.UNAUTHORIZED);
     const isAdmin = isMember.admin === true;
-    if (!isAdmin) throw new ErrorClient(401, 'Unauthorized');
+    if (!isAdmin) throw new ErrorClient(401, this.UNAUTHORIZED);
     const isAccountValid = members.find((member) => +member.accountId === accountId);
-    if (!isAccountValid) throw new ErrorClient(404, 'User not found');
+    if (!isAccountValid) throw new ErrorClient(404, this.USER_NOT_FOUND);
     return isAccountValid;
   };
 
@@ -43,11 +53,28 @@ export default class MembersValidations implements IMembersValidation {
     { userId }: IToken,
     ): Promise<number> => {
     const doesUserExist = await usersModel.findOne({ where: { email } });
-    if (!doesUserExist) throw new ErrorClient(404, 'User not found');
+    if (!doesUserExist) throw new ErrorClient(404, this.USER_NOT_FOUND);
     const isMember = members.find((member) => member.accountId === doesUserExist.id);
     if (isMember) throw new ErrorClient(401, 'The user is already a member');
     const isAdmin = members.find((member) => member.accountId === userId);
-    if (!isAdmin?.admin) throw new ErrorClient(401, 'Unauthorized');
+    if (!isAdmin?.admin) throw new ErrorClient(401, this.UNAUTHORIZED);
     return doesUserExist.id;
   };
+
+  public removeValidations = async (
+    workspaceId: number,
+    email: string,
+    { userId }: IToken,
+    members: IMember[],
+    ): Promise<number> => {
+      const userIsMember = members.find(({ accountId }) => accountId === userId); 
+      if (!userIsMember) throw new ErrorClient(401, this.UNAUTHORIZED);
+      const userToRemove = await usersModel.findOne({ where: { email } });
+      if (!userToRemove) throw new ErrorClient(404, 'User not found');
+      const isUserToRemoveMember = members.find(({ accountId }) => accountId === userToRemove?.id);
+      if (!isUserToRemoveMember) throw new ErrorClient(404, 'User is not member');
+      if (isUserToRemoveMember.accountId === userId) return userId;
+      if (!userIsMember.admin) throw new ErrorClient(404, this.UNAUTHORIZED);
+      return userToRemove.id;
+    };
 }

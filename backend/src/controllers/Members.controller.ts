@@ -28,4 +28,11 @@ export default class MembersController implements IMembersController {
     await this.service.insert(+workspaceId, newMember, user);
     res.status(204).end();
   };
+
+  public remove = async (req: Request, res: Response): Promise<void> => {
+    const { email, user } = req.body;
+    const { workspaceId } = req.params; 
+    await this.service.remove(+workspaceId, email, user);
+    res.status(204).end();
+  };
 }

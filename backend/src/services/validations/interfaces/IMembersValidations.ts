@@ -9,4 +9,10 @@ export default interface IMembersValidations {
   ) => Promise<IMember>;
   validateGetMembers: (workspaceId: number, user: IToken) => Promise<IAccountWorkspace[]>; 
   insertValidations: (email: string, members: IMember[], user: IToken) => Promise<number>;
-}
+  removeValidations: (
+    workspaceId: number,
+    email: string,
+    user: IToken,
+    members: IMember[]
+    ) => Promise<number>;
+};

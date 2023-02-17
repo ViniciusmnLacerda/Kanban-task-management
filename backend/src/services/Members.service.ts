@@ -42,4 +42,10 @@ export default class MembersService implements IMembersService {
     const accountId = await this.validations.insertValidations(email, members, user);
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
+
+  public remove = async (workspaceId: number, email: string, user: IToken): Promise<void> => {
+    const members = await this.getMembers(workspaceId, user);
+    const accountId = await this.validations.removeValidations(workspaceId, email, user, members);
+    await accountWorkspacesModel.destroy({ where: { workspaceId, accountId } });
+  };
 }
