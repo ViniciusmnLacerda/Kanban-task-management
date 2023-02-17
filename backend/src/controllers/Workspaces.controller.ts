@@ -26,4 +26,11 @@ export default class WorkspacesController implements IWorkspacesController {
     await this.service.delete(+workspaceId, user);
     res.status(204).end();
   };
+
+  public update = async (req: Request, res: Response): Promise<void> => {
+    const { name, user } = req.body;
+    const { workspaceId } = req.params;   
+    await this.service.update(+workspaceId, name, user);
+    res.status(204).end();
+  };
 }

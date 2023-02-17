@@ -17,4 +17,13 @@ const workspacesSchema = Joi.object({
   emails: Joi.array().min(1).items(Joi.string()).required(),
 });
 
-export default { loginSchema, registerSchema, workspacesSchema };
+const updateWorkspacesSchema = Joi.object({
+  name: Joi.string().min(2).required(),
+});
+
+export default { 
+  loginSchema,
+  registerSchema,
+  workspacesSchema,
+  updateWorkspacesSchema,
+};

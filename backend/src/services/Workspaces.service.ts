@@ -53,7 +53,7 @@ export default class WorkspacesService implements IWorkspacesService {
 
   public delete = async (workspaceId: number, user: IToken): Promise<void> => {
     const members = await this.service.getMembers(workspaceId, user);
-    this.validations.deleteValidations(members, user);
+    this.validations.adminValidations(members, user);
     try {
       await sequelize.transaction(async (t) => {
         await accountWorkspacesModel.destroy({ where: { workspaceId }, transaction: t });
@@ -62,5 +62,11 @@ export default class WorkspacesService implements IWorkspacesService {
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
+  };
+
+  public update = async (workspaceId: number, name: string, user: IToken): Promise<void> => {
+    const members = await this.service.getMembers(workspaceId, user);
+    this.validations.adminValidations(members, user);
+    await workspacesModel.update({ name }, { where: { id: workspaceId } });
   };
 }

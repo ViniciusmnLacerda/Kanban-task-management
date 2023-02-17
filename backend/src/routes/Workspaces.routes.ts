@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { WorkspacesController } from '../controllers';
-import { tokenMiddleare, workspacesMiddleware } from '../middlwares';
+import { tokenMiddleare, updateWorkspacesMiddleware, workspacesMiddleware } from '../middlwares';
 import { MembersService, WorkspacesService } from '../services';
 import { MembersValidations, WorkspacesValidations } from '../services/validations';
 
@@ -29,4 +29,12 @@ workspaceRouter.delete(
   tokenMiddleare,
   new WorkspacesController(workspacesService).delete,
 );
+
+workspaceRouter.patch(
+  '/:workspaceId',
+  tokenMiddleare,
+  updateWorkspacesMiddleware,
+  new WorkspacesController(workspacesService).update,
+);
+
 export default workspaceRouter;

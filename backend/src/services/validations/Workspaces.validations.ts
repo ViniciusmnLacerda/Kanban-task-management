@@ -14,7 +14,7 @@ export default class WorkspacesValidations implements IWorkspacesValidations {
     return users;
   };
 
-  public deleteValidations = (members: IMember[], { userId }:IToken): void => {
+  public adminValidations = (members: IMember[], { userId }:IToken): void => {
     const isMember = members.find(({ accountId }) => accountId === userId);
     if (!isMember || !isMember.admin) throw new ErrorClient(401, 'Unauthorized');
   };
