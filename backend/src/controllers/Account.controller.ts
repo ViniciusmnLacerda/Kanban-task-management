@@ -10,7 +10,7 @@ export default class AccountController implements IAccountController {
   public getAccount = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     const { user } = req.body;
-    const account = await this.service.getAccount(+id, user);
+    const account = await this.service.getter(+id, user);
     res.status(200).json(account);
   };
 }

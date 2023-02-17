@@ -15,7 +15,7 @@ describe('Account service test', function() {
 
   it('when the client requests an account that is not the owner, it should return an error', async function() {
     try {
-      await accountService.getAccount(2, tokenVerifyOutput);
+      await accountService.getter(2, tokenVerifyOutput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('Unauthorized');
     }
@@ -27,7 +27,7 @@ describe('Account service test', function() {
     tokenVerifyOutput.userId = 99999;
 
     try {
-      await accountService.getAccount(99999, tokenVerifyOutput);
+      await accountService.getter(99999, tokenVerifyOutput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('Account not found')
     }
@@ -38,7 +38,7 @@ describe('Account service test', function() {
 
     tokenVerifyOutput.userId = 1;
 
-    const result = await accountService.getAccount(1, tokenVerifyOutput);
+    const result = await accountService.getter(1, tokenVerifyOutput);
     expect(result).to.be.equal(accountOutput);
   });
 });
