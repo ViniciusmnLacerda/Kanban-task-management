@@ -31,7 +31,7 @@ describe('Members service test', function() {
     it('with invalid id should return error', async function() {
       sinon.stub(accountWorkspacesModel, 'findAll').resolves([]);
       try {
-        await membersService.getMembers(9999, tokenVerifyOutput)
+        await membersService.getAll(9999, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Workspace not found');
       }
@@ -40,7 +40,7 @@ describe('Members service test', function() {
     it('when the user requests a list of a workspace that he is not a member of', async function() {
       sinon.stub(accountWorkspacesModel, 'findAll').resolves(notMember as IAccountWorkspace | any);
       try {
-        await membersService.getMembers(4, tokenVerifyOutput)
+        await membersService.getAll(4, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -56,7 +56,7 @@ describe('Members service test', function() {
         .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountModel)
         .onThirdCall().resolves(getMembersDatavalues[2] as unknown as accountModel);
 
-      const members = await membersService.getMembers(1, tokenVerifyOutput);
+      const members = await membersService.getAll(1, tokenVerifyOutput);
 
       expect(members).to.be.deep.equal(getMembersOutput);
     });
@@ -69,27 +69,27 @@ describe('Members service test', function() {
 
     it('when a user tries to change his own permissions it should return error', async function() {
       try {
-        await membersService.toggleAdmin(1, 1, tokenVerifyOutput)
+        await membersService.update(1, 1, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
     });
 
     it('when a user tries to change the permissions of a non-member user', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
 
       try {
-        await membersService.toggleAdmin(1, 9999, tokenVerifyOutput)
+        await membersService.update(1, 9999, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
     });
 
     it('successfully', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
       const stubUpdate = sinon.stub(accountWorkspacesModel, 'update').resolves([1]);
 
-      await membersService.toggleAdmin(1, 2, tokenVerifyOutput);
+      await membersService.update(1, 2, tokenVerifyOutput);
 
       expect(stubUpdate).to.have.been.calledOnceWithExactly({ admin: true }, { where: { workspaceId: 1, accountId: 2 } });
     });
@@ -101,7 +101,7 @@ describe('Members service test', function() {
     });
 
     it('adding user that does not exist should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(undefined);
 
       try {
@@ -112,7 +112,7 @@ describe('Members service test', function() {
     });
 
     it('add user who is member should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
@@ -123,7 +123,7 @@ describe('Members service test', function() {
     });
 
     it('when the user is not admin it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersThree); 
+      sinon.stub(membersService, 'getAll').resolves(membersThree); 
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
@@ -134,7 +134,7 @@ describe('Members service test', function() {
     });
 
     it('successfully', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersFour); 
+      sinon.stub(membersService, 'getAll').resolves(membersFour); 
       sinon.stub(membersValidations, 'insertValidations').resolves(4);
       const createStub = sinon.stub(accountWorkspacesModel, 'create').resolves(createOutput as unknown as accountWorkspacesModel);
 
@@ -151,7 +151,7 @@ describe('Members service test', function() {
     });
 
     it('when the user is not a member it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersFour); 
+      sinon.stub(membersService, 'getAll').resolves(membersFour); 
 
       try {
         await membersService.remove(4, 'marianne@email.com', tokenVerifyOutput);
@@ -161,7 +161,7 @@ describe('Members service test', function() {
     });
 
     it('when the email sent does not exist in the database', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(undefined);
 
       try {
@@ -172,7 +172,7 @@ describe('Members service test', function() {
     });
 
     it('when the user to be removed is not a member', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(userModelOutput as unknown as usersModel);
 
       try {
@@ -183,7 +183,7 @@ describe('Members service test', function() {
     });
 
     it('when the user wants to remove himself', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(userHimself as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 
@@ -195,7 +195,7 @@ describe('Members service test', function() {
 
     it('when the user is not admin it should return error', async function() {
       getMembersOutput[0].admin = false;
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
@@ -207,7 +207,7 @@ describe('Members service test', function() {
 
     it('successfully', async function() {
       getMembersOutput[0].admin = true;
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput); 
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 

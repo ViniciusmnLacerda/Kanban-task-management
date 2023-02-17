@@ -10,7 +10,7 @@ export default class MembersService implements IMembersService {
     this.validations = validations;
   }
 
-  public getMembers = async (workspaceId: number, user: IToken): Promise<IMember[]> => {
+  public getAll = async (workspaceId: number, user: IToken): Promise<IMember[]> => {
     const accountIds = await this.validations.validateGetMembers(workspaceId, user);
     const membersPromise = accountIds.map(async ({ accountId, admin }: IAccountWorkspace) => {
       const account = await accountModel.findByPk(accountId, {
@@ -25,9 +25,9 @@ export default class MembersService implements IMembersService {
     return members;
   };
 
-  public toggleAdmin = async (workspaceId: number, accountId: number, user: IToken) => {
+  public update = async (workspaceId: number, accountId: number, user: IToken) => {
     if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');
-    const members = await this.getMembers(workspaceId, user);
+    const members = await this.getAll(workspaceId, user);
     const { admin } = await this.validations.validateUsers(workspaceId, accountId, user, members);
     
     await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
@@ -38,13 +38,13 @@ export default class MembersService implements IMembersService {
     { email, admin }: INewMember,
     user: IToken,
     ): Promise<void> => {
-    const members = await this.getMembers(workspaceId, user);
+    const members = await this.getAll(workspaceId, user);
     const accountId = await this.validations.insertValidations(email, members, user);
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
 
   public remove = async (workspaceId: number, email: string, user: IToken): Promise<void> => {
-    const members = await this.getMembers(workspaceId, user);
+    const members = await this.getAll(workspaceId, user);
     const accountId = await this.validations.removeValidations(workspaceId, email, user, members);
     await accountWorkspacesModel.destroy({ where: { workspaceId, accountId } });
   };

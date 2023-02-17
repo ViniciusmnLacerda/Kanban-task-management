@@ -36,9 +36,9 @@ describe('Members controller tests', function() {
       req.body = { user: { ...tokenVerifyOutput } };
       req.params = { workspaceId: '1' };
 
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
 
-      await membersController.getMembers(req, res);
+      await membersController.getAll(req, res);
   
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(getMembersOutput);
@@ -60,11 +60,11 @@ describe('Members controller tests', function() {
       req.body = { user: { ...tokenVerifyOutput } };
       req.params = { workspaceId: '1', accountId: '2' };
 
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
       sinon.stub(membersValidations, 'validateUsers').resolves(member);
       sinon.stub(accountWorkspacesModel, 'update').resolves(undefined);
 
-      await membersController.toggleAdmin(req, res);
+      await membersController.update(req, res);
   
       expect(res.status).to.have.been.calledWith(204);
     });
@@ -82,7 +82,7 @@ describe('Members controller tests', function() {
       res.status = sinon.stub().returns(res);
       res.end = sinon.stub().returns(res);
 
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
       sinon.stub(membersValidations, 'insertValidations').resolves(4);
       sinon.stub(accountWorkspacesModel, 'create').resolves(undefined);
 
@@ -108,7 +108,7 @@ describe('Members controller tests', function() {
       res.status = sinon.stub().returns(res);
       res.end = sinon.stub().returns(res);
 
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
       sinon.stub(membersValidations, 'removeValidations').resolves(3);
       sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 

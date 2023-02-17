@@ -14,13 +14,13 @@ const membersRouter = express.Router();
 membersRouter.get(
   endpoint,
   tokenMiddleare,
-  new MembersController(membersService).getMembers,
+  new MembersController(membersService).getAll,
 );
 
 membersRouter.patch(
   '/:workspaceId/:accountId',
   tokenMiddleare,
-  new MembersController(membersService).toggleAdmin,
+  new MembersController(membersService).update,
 );
 
 membersRouter.put(

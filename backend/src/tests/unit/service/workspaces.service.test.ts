@@ -99,7 +99,7 @@ describe('Workspaces service test', function() {
     });
 
     it ('when the user is not a member it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves([]);
+      sinon.stub(membersService, 'getAll').resolves([]);
 
       try {
         await workspacesService.delete(4 , tokenVerifyOutput);
@@ -109,7 +109,7 @@ describe('Workspaces service test', function() {
     });
 
     it ('when the user is not a administrator it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersThree);
+      sinon.stub(membersService, 'getAll').resolves(membersThree);
 
       try {
         await workspacesService.delete(3 , tokenVerifyOutput);
@@ -125,7 +125,7 @@ describe('Workspaces service test', function() {
     });
 
     it('when trying to update the name of non-member workspaces it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersFour);
+      sinon.stub(membersService, 'getAll').resolves(membersFour);
       try {
         await workspacesService.update(4, validNameInput, tokenVerifyOutput)
       } catch (err) {
@@ -134,7 +134,7 @@ describe('Workspaces service test', function() {
     });
 
     it('when trying to update name of workspaces and non-admin it should return error', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(membersThree);
+      sinon.stub(membersService, 'getAll').resolves(membersThree);
 
       try {
         await workspacesService.update(3, validNameInput, tokenVerifyOutput)
@@ -144,7 +144,7 @@ describe('Workspaces service test', function() {
     });
 
     it('successfully', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersService, 'getAll').resolves(getMembersOutput);
       const stubUpdate = sinon.stub(workspacesModel, 'update').resolves([1]);
       await workspacesService.update(1, validNameInput, tokenVerifyOutput);
       

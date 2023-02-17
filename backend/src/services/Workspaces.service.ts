@@ -52,7 +52,7 @@ export default class WorkspacesService implements IWorkspacesService {
   };
 
   public delete = async (workspaceId: number, user: IToken): Promise<void> => {
-    const members = await this.service.getMembers(workspaceId, user);
+    const members = await this.service.getAll(workspaceId, user);
     this.validations.adminValidations(members, user);
     try {
       await sequelize.transaction(async (t) => {
@@ -65,7 +65,7 @@ export default class WorkspacesService implements IWorkspacesService {
   };
 
   public update = async (workspaceId: number, name: string, user: IToken): Promise<void> => {
-    const members = await this.service.getMembers(workspaceId, user);
+    const members = await this.service.getAll(workspaceId, user);
     this.validations.adminValidations(members, user);
     await workspacesModel.update({ name }, { where: { id: workspaceId } });
   };

@@ -96,7 +96,7 @@ describe('Workspaces controller test', function() {
       res.status = sinon.stub().returns(res);
       res.end = sinon.stub().returns(res);
       
-      sinon.stub(membersService, 'getMembers').resolves(membersOutput);
+      sinon.stub(membersService, 'getAll').resolves(membersOutput);
       sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
       sinon.stub(workspacesModel, 'destroy').resolves(1);
       sinon.stub(sequelize, 'transaction').resolves();
@@ -122,7 +122,7 @@ describe('Workspaces controller test', function() {
       res.status = sinon.stub().returns(res);
       res.end = sinon.stub().returns(res);
       
-      sinon.stub(membersService, 'getMembers').resolves(membersOutput);
+      sinon.stub(membersService, 'getAll').resolves(membersOutput);
       sinon.stub(workspacesModel, 'update').resolves([1]);
 
       req.body = { name: validCreateInput, user: { ...tokenVerifyOutput } };
