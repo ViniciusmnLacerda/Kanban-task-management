@@ -1,6 +1,6 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable sonarjs/no-duplicate-string */
 module.exports = {
-  // eslint-disable-next-line max-lines-per-function
   up: async (queryInterface) => {
     await queryInterface.bulkInsert('columns', [
       {
