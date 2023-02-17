@@ -11,8 +11,8 @@ export default interface IMembersValidations {
   insertValidations: (email: string, members: IMember[], user: IToken) => Promise<number>;
   removeValidations: (
     workspaceId: number,
-    email: string,
     user: IToken,
-    members: IMember[]
+    members: IMember[],
+    email?: string,
     ) => Promise<number>;
-};
+}

@@ -63,9 +63,9 @@ export default class MembersValidations implements IMembersValidation {
 
   public removeValidations = async (
     workspaceId: number,
-    email: string,
     { userId }: IToken,
     members: IMember[],
+    email?: string,
     ): Promise<number> => {
       const userIsMember = members.find(({ accountId }) => accountId === userId); 
       if (!userIsMember) throw new ErrorClient(401, this.UNAUTHORIZED);

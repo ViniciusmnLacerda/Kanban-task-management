@@ -2,10 +2,10 @@ import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import { IAccountWorkspace, IMember, INewMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { IMembersService } from './interfaces';
+import { IService } from './interfaces';
 import { MembersValidations } from './validations';
 
-export default class MembersService implements IMembersService {
+export default class MembersService implements IService<IMember[], INewMember, number> {
   constructor(private readonly validations: MembersValidations) {
     this.validations = validations;
   }
@@ -43,9 +43,9 @@ export default class MembersService implements IMembersService {
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
 
-  public remove = async (workspaceId: number, email: string, user: IToken): Promise<void> => {
+  public remove = async (workspaceId: number, user: IToken, email?: string): Promise<void> => {
     const members = await this.getAll(workspaceId, user);
-    const accountId = await this.validations.removeValidations(workspaceId, email, user, members);
+    const accountId = await this.validations.removeValidations(workspaceId, user, members, email);
     await accountWorkspacesModel.destroy({ where: { workspaceId, accountId } });
   };
 }
