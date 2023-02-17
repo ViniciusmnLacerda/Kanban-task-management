@@ -2,7 +2,7 @@ import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import { IAccountWorkspace, IMember, INewMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { IService } from './interfaces';
+import IService from './interfaces/IService';
 import { MembersValidations } from './validations';
 
 export default class MembersService implements IService<IMember[], INewMember, number> {
