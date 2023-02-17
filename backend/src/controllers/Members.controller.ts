@@ -7,10 +7,10 @@ export default class MembersController implements IController {
     this.service = service;
   }
 
-  public getAll = async (req: Request, res: Response): Promise<void> => {
+  public getter = async (req: Request, res: Response): Promise<void> => {
     const { workspaceId } = req.params;
     const { user } = req.body;
-    const members = await this.service.getAll(+workspaceId, user);
+    const members = await this.service.getter(+workspaceId, user);
     res.status(200).json(members);
   };
 

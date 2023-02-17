@@ -7,10 +7,10 @@ export default class WorkspacesController implements IController {
     this.service = service;
   }
 
-  public getAll = async (req: Request, res: Response): Promise<void> => {
+  public getter = async (req: Request, res: Response): Promise<void> => {
     const { accountId } = req.params;
     const { user } = req.body;
-    const workspaces = await this.service.getAll(+accountId, user);
+    const workspaces = await this.service.getter(+accountId, user);
     res.status(200).json(workspaces);
   };
 

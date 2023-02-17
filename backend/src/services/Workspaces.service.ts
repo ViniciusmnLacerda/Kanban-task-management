@@ -16,7 +16,7 @@ export default class WorkspacesService implements IService<IWorkspace[], string[
     this.service = service;
   }
 
-  public getAll = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
+  public getter = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
     if (user.userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
@@ -51,7 +51,7 @@ export default class WorkspacesService implements IService<IWorkspace[], string[
   };
 
   public remove = async (workspaceId: number, user: IToken): Promise<void> => {
-    const members = await this.service.getAll(workspaceId, user);
+    const members = await this.service.getter(workspaceId, user);
     this.validations.adminValidations(members, user);
     try {
       await sequelize.transaction(async (t) => {
@@ -64,7 +64,7 @@ export default class WorkspacesService implements IService<IWorkspace[], string[
   };
 
   public update = async (workspaceId: number, name: string, user: IToken): Promise<void> => {
-    const members = await this.service.getAll(workspaceId, user);
+    const members = await this.service.getter(workspaceId, user);
     this.validations.adminValidations(members, user);
     await workspacesModel.update({ name }, { where: { id: workspaceId } });
   };

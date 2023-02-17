@@ -14,7 +14,7 @@ const workspaceRouter = express.Router();
 workspaceRouter.get(
   '/:accountId',
   tokenMiddleare,
-  new WorkspacesController(workspacesService).getAll,
+  new WorkspacesController(workspacesService).getter,
 );
 
 workspaceRouter.post(

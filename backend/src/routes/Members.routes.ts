@@ -14,7 +14,7 @@ const membersRouter = express.Router();
 membersRouter.get(
   endpoint,
   tokenMiddleare,
-  new MembersController(membersService).getAll,
+  new MembersController(membersService).getter,
 );
 
 membersRouter.patch(
