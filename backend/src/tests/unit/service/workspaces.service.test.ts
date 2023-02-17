@@ -9,7 +9,7 @@ import { IUser, IWorkspace } from '../../../interfaces';
 import { MembersService, WorkspacesService } from '../../../services';
 import { MembersValidations, WorkspacesValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { membersFour, membersThree } from '../../mocks/members.mock';
+import { getMembersOutput, membersFour, membersThree } from '../../mocks/members.mock';
 import {
   createOutput,
   getWorkspacesOutput,
@@ -141,6 +141,14 @@ describe('Workspaces service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
+    });
+
+    it('successfully', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      const stubUpdate = sinon.stub(workspacesModel, 'update').resolves([1]);
+      await workspacesService.update(1, validNameInput, tokenVerifyOutput);
+      
+      expect(stubUpdate).to.have.been.calledOnceWithExactly({ name: validNameInput }, { where: { id: 1 } })
     });
   })
 });
