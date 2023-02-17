@@ -11,10 +11,8 @@ import { tokenVerifyOutput } from '../../mocks/account.mock';
 import {
   createOutput,
   emailInUseOutput, getMembersDatavalues, getMembersOutput,
-  invalidNewMemberInput,
-  membersThree,
-  notMember,
-  validNewMemberInput,
+  invalidNewMemberInput, membersFour, membersThree,
+  notMember, userHimself, userModelOutput, validNewMemberInput,
   validNewMemberInputThree
 } from '../../mocks/members.mock';
 import { accountWorkspaceOutput } from '../../mocks/workspaces.mock';
@@ -136,7 +134,7 @@ describe('Members service test', function() {
     });
 
     it('successfully', async function() {
-      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(membersService, 'getMembers').resolves(membersFour); 
       sinon.stub(membersValidations, 'insertValidations').resolves(4);
       const createStub = sinon.stub(accountWorkspacesModel, 'create').resolves(createOutput as unknown as accountWorkspacesModel);
 
@@ -146,4 +144,76 @@ describe('Members service test', function() {
 
     });
   })
+
+  describe('removing a member', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('when the user is not a member it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(membersFour); 
+
+      try {
+        await membersService.remove(4, 'marianne@email.com', tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+
+    it('when the email sent does not exist in the database', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(undefined);
+
+      try {
+        await membersService.remove(4, 'invalid@email.com', tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('User not found');
+      }
+    });
+
+    it('when the user to be removed is not a member', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(userModelOutput as unknown as usersModel);
+
+      try {
+        await membersService.remove(1, 'igor@email.com', tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('User is not member');
+      }
+    });
+
+    it('when the user wants to remove himself', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(userHimself as unknown as usersModel);
+      const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
+
+      await membersService.remove(1, 'vinicius@email.com', tokenVerifyOutput);
+
+      expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 1 }});
+
+    });
+
+    it('when the user is not admin it should return error', async function() {
+      getMembersOutput[0].admin = false;
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
+
+      try {
+        await membersService.remove(1, 'marianne@email.com', tokenVerifyOutput);
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+
+    it('successfully', async function() {
+      getMembersOutput[0].admin = true;
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput); 
+      sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
+      const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
+
+      await membersService.remove(1, 'marianne@email.com', tokenVerifyOutput);
+
+      expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 2 }});
+    });
+  });
 })

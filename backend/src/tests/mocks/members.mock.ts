@@ -161,6 +161,12 @@ const userModelOutput = {
   password: "$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui"
 }
 
+const userHimself = {
+  id: 1,
+  email: "vinicius@email.com",
+  password: "$2a$10$dun3xUEzvxq.Gz5kJUrw/el7os8EuLVsu/odPALS1y.CNI7HcXAui"
+}
+
 const createOutput = { 
   workspaceId: 1,
   accountId: 4,
@@ -182,5 +188,6 @@ export {
   invalidInputs,
   userModelOutput,
   createOutput,
+  userHimself,
 };
 
