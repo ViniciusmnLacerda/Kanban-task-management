@@ -3,11 +3,11 @@ import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { IWorkspacesService } from './interfaces';
+import { IService } from './interfaces';
 import MembersService from './Members.service';
 import { WorkspacesValidations } from './validations';
 
-export default class WorkspacesService implements IWorkspacesService {
+export default class WorkspacesService implements IService<IWorkspace[], string[], string> {
   constructor(
     private readonly service: MembersService,
     private readonly validations: WorkspacesValidations,
