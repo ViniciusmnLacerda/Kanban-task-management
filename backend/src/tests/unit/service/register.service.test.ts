@@ -25,7 +25,7 @@ describe('Register service tests', function() {
   it('with email in use should return error', async function() {
     sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     try {
-      await registerService.register(emailNotAvailableInput);
+      await registerService.setter(emailNotAvailableInput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('E-mail is already in used');
     }
@@ -37,7 +37,7 @@ describe('Register service tests', function() {
     sinon.stub(userModel, 'create').resolves(firstCreateOutput as userModel);
     sinon.stub(accountModel, 'create').resolves(secondCreateOutput as accountModel);
     
-    const result =  await registerService.register(firstInput);
+    const result =  await registerService.setter(firstInput);
 
     expect(result).to.be.deep.equal(secondCreateOutput);
   });

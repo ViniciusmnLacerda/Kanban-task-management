@@ -4,15 +4,15 @@ import accountModel from '../database/models/Accounts';
 import userModel from '../database/models/Users';
 import { IAccount, IUserData } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { IRegisterService } from './interfaces';
+import { IServiceWriter } from './interfaces/IService';
 import { UserValidations } from './validations';
 
-export default class RegisterService implements IRegisterService {
+export default class RegisterService implements IServiceWriter<IAccount, IUserData> {
   constructor(private readonly validations: UserValidations) {
     this.validations = validations;
   }
 
-  public register = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
+  public setter = async ({ email, password, name, lastName }: IUserData): Promise<IAccount> => {
     await this.validations.validateEmail(email);
     try {
       const result = await sequelize.transaction(async (t) => {

@@ -9,7 +9,7 @@ export default class RegisterController implements IRegisterController {
 
   public register = async (req: Request, res: Response): Promise<void> => {
     const userData = req.body;
-    const newUser = await this.service.register(userData);
+    const newUser = await this.service.setter(userData);
     res.status(201).json(newUser);
   };
 }
