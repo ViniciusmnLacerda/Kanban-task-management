@@ -109,7 +109,6 @@ const accountWorkspaceOutput = [
   { accountId: 1, admin: true },
   { accountId: 2, admin: false },
   { accountId: 3, admin: false },
-  { accountId: 4, admin: false },
 ]
 
 const accounts = [
@@ -170,6 +169,21 @@ const membersOutput = [
   }
 ]
 
+const accountWorkspaceOutputFour = [
+  { accountId: 2, admin: true },
+  { accountId: 3, admin: false },
+  { accountId: 4, admin: false },
+]
+
+const accountWorkspaceOutputTwo = [
+  { accountId: 1, admin: false },
+  { accountId: 3, admin: true },
+  { accountId: 4, admin: false },
+]
+
+const validNameInput = 'New name';
+const invalidNameInput = 123456;
+
 export {
   workspaceOutput,
   accountWorkspacesOutput,
@@ -183,5 +197,9 @@ export {
   accountWorkspaceOutput,
   accounts,
   membersOutput,
+  validNameInput,
+  invalidNameInput,
+  accountWorkspaceOutputFour,
+  accountWorkspaceOutputTwo,
 }
 

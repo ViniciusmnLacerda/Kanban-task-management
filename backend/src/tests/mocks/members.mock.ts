@@ -61,6 +61,31 @@ const membersThree: IMember[] = [
   }
 ]
 
+const membersFour: IMember[] = [
+  {
+    accountId: 2,
+    name: "Zita",
+    lastName: "Lacerda",
+    image: null,
+    admin: true
+  },
+  {
+    accountId: 3,
+    name: "Marianne",
+    lastName: "Bragança",
+    image: null,
+    admin: false
+  },
+  {
+    accountId: 4,
+    name: "Igor",
+    lastName: "Lacerda",
+    image: null,
+    admin: true
+  }
+]
+
+
 const member: IMember = {
   accountId: 2,
   name: "Zita",
@@ -69,4 +94,11 @@ const member: IMember = {
   image: null,
 }
 
-export { notMember, getMembersOutput, member, membersThree };
+export {
+  notMember,
+  getMembersOutput,
+  member,
+  membersThree,
+  membersFour,
+};
+

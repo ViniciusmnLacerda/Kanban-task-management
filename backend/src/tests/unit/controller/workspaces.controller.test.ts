@@ -11,7 +11,7 @@ import { IUser, IWorkspace } from '../../../interfaces';
 import { MembersService, WorkspacesService } from '../../../services';
 import { MembersValidations, WorkspacesValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { createOutput, getWorkspacesOutput, validCreateInput } from '../../mocks/workspaces.mock';
+import { createOutput, getWorkspacesOutput, membersOutput, validCreateInput } from '../../mocks/workspaces.mock';
 
 // @ts-ignore
 import sinonChai = require('sinon-chai');
@@ -83,4 +83,54 @@ describe('Workspaces controller test', function() {
       expect(res.json).to.have.been.calledWith(createOutput);
     });
   });
+
+  describe('Deleting workspace', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+      
+      sinon.stub(membersService, 'getMembers').resolves(membersOutput);
+      sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
+      sinon.stub(workspacesModel, 'destroy').resolves(1);
+      sinon.stub(sequelize, 'transaction').resolves();
+
+      req.body = { user: { ...tokenVerifyOutput } };
+      req.params = { workspaceId: '1' };
+      
+      await workspacesController.delete(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  })
+
+  describe('Updating workspace name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+      
+      sinon.stub(membersService, 'getMembers').resolves(membersOutput);
+      sinon.stub(workspacesModel, 'update').resolves([1]);
+
+      req.body = { name: validCreateInput, user: { ...tokenVerifyOutput } };
+      req.params = { workspaceId: '1' };
+      
+      await workspacesController.update(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  })
 });

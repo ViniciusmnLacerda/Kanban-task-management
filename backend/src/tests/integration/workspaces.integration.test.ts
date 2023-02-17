@@ -4,16 +4,21 @@ import { Transaction } from 'sequelize';
 import * as sinon from 'sinon';
 import App from '../../app';
 import sequelize from '../../database/models';
+import accountsModel from '../../database/models/Accounts';
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
 import userModel from '../../database/models/Users';
 import workspacesModel from '../../database/models/Workspaces';
-import { IToken, IUser, IWorkspace } from '../../interfaces';
-import { invalidToken, tokenVerifyOutput, validToken } from '../mocks/account.mock';
+import { IAccountWorkspace, IToken, IUser, IWorkspace } from '../../interfaces';
+import { MembersService } from '../../services';
+import { MembersValidations } from '../../services/validations';
+import { accountsTwo, invalidToken, tokenVerifyOutput, validToken } from '../mocks/account.mock';
 import {
-  createOutput, getWorkspacesOutput,
+  accountWorkspaceOutputFour, accountWorkspaceOutputTwo, createOutput, getWorkspacesOutput,
   invalidCreateInput,
   invalidInputs,
+  invalidNameInput,
   validCreateInput,
+  validNameInput,
   wrongOwnerInput
 } from '../mocks/workspaces.mock';
 
@@ -21,6 +26,9 @@ import {
 import chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
+
+const membersValidations = new MembersValidations();
+const memberService = new MembersService(membersValidations);
 
 const { app } = new App();
 const { expect } = chai; 
@@ -122,6 +130,40 @@ describe('Workspaces integration tests', function() {
       
       expect(status).to.be.equal(201);
       expect(body).to.be.deep.equal(createOutput);
+    });
+  })
+
+  describe('Updating workspace name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it(' with invalid body it should return error', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      const { body, status  } = await chai.request(app).patch('/workspaces/1').send({ name: invalidNameInput}).set({ authorization: validToken });
+      expect(status).to.be.equal(400);
+      expect(body).to.be.deep.equal({ message: 'Some required fields are missing' });
+    });
+
+    it('when trying to update the name of non-member workspaces it should return error', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as IAccountWorkspace | any);
+      const { body, status  } = await chai.request(app).patch('/workspaces/4').send({ name: validNameInput }).set({ authorization: validToken });
+      expect(status).to.be.equal(401);
+      expect(body).to.be.deep.equal({ message: 'User is not a member' });
+    });
+
+    it('when trying to update name of workspaces and non-admin it should return error', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputTwo as IAccountWorkspace | any);
+      sinon.stub(accountsModel, 'findByPk')
+        .onFirstCall().resolves(accountsTwo[0] as unknown as accountsModel)
+        .onSecondCall().resolves(accountsTwo[1] as unknown as accountsModel)
+        .onThirdCall().resolves(accountsTwo[2] as unknown as accountsModel);
+
+      const { body, status  } = await chai.request(app).patch('/workspaces/2').send({ name: validNameInput }).set({ authorization: validToken });
+      expect(status).to.be.equal(401);
+      expect(body).to.be.deep.equal({ message: 'Unauthorized' });
     });
   })
 });

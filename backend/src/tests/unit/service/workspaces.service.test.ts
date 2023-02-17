@@ -9,11 +9,12 @@ import { IUser, IWorkspace } from '../../../interfaces';
 import { MembersService, WorkspacesService } from '../../../services';
 import { MembersValidations, WorkspacesValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { membersThree } from '../../mocks/members.mock';
+import { membersFour, membersThree } from '../../mocks/members.mock';
 import {
   createOutput,
   getWorkspacesOutput,
   invalidCreateInput, validCreateInput,
+  validNameInput,
   wrongOwnerInput
 } from '../../mocks/workspaces.mock';
 
@@ -117,4 +118,29 @@ describe('Workspaces service test', function() {
       }
     });
   });
+
+  describe('Updating workspace name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('when trying to update the name of non-member workspaces it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(membersFour);
+      try {
+        await workspacesService.update(4, validNameInput, tokenVerifyOutput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+
+    it('when trying to update name of workspaces and non-admin it should return error', async function() {
+      sinon.stub(membersService, 'getMembers').resolves(membersThree);
+
+      try {
+        await workspacesService.update(3, validNameInput, tokenVerifyOutput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+  })
 });
