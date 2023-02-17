@@ -33,7 +33,7 @@ describe('Account controller test', function() {
     req.body = { user: { ...tokenVerifyOutput } };
     req.params = { id: '1' }
 
-    await accountController.getAccount(req, res);
+    await accountController.getter(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(accountOutput);

@@ -39,7 +39,7 @@ describe('Register controller tests', function() {
 
     req.body = firstInput;
 
-    await registerController.register(req, res);
+    await registerController.create(req, res);
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(secondCreateOutput);
