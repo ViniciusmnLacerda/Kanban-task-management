@@ -27,7 +27,7 @@ workspaceRouter.post(
 workspaceRouter.delete(
   '/:workspaceId',
   tokenMiddleare,
-  new WorkspacesController(workspacesService).delete,
+  new WorkspacesController(workspacesService).remove,
 );
 
 workspaceRouter.patch(

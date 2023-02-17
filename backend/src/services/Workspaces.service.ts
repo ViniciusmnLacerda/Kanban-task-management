@@ -32,10 +32,10 @@ export default class WorkspacesService implements IWorkspacesService {
     return workspaces as unknown as IWorkspace[];
   };
 
-  public create = async (name: string, emails: string[], user: IToken): Promise<IWorkspace[]> => {
+  public create = async (name: string, emails: string[], user: IToken): Promise<void> => {
     const users = await this.validations.validateUsers(emails, user);
     try {
-      const workspace = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });
         const newAccountWorkspaces = await Promise.all(users
           .map(async ({ id: accountId }, index) => {
@@ -45,13 +45,12 @@ export default class WorkspacesService implements IWorkspacesService {
         }));
         return newAccountWorkspaces;
       });
-      return workspace as unknown as IWorkspace[];
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
   };
 
-  public delete = async (workspaceId: number, user: IToken): Promise<void> => {
+  public remove = async (workspaceId: number, user: IToken): Promise<void> => {
     const members = await this.service.getAll(workspaceId, user);
     this.validations.adminValidations(members, user);
     try {

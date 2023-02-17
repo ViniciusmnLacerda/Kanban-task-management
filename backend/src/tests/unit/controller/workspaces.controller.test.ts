@@ -62,7 +62,7 @@ describe('Workspaces controller test', function() {
       const res = {} as Response;
   
       res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
       
       sinon.stub(sequelize, 'transaction').resolves(createOutput as unknown as Transaction);
       sinon.stub(userModel, 'findOne')
@@ -80,7 +80,6 @@ describe('Workspaces controller test', function() {
       await workspacesController.create(req, res);
   
       expect(res.status).to.have.been.calledWith(201);
-      expect(res.json).to.have.been.calledWith(createOutput);
     });
   });
 
@@ -104,7 +103,7 @@ describe('Workspaces controller test', function() {
       req.body = { user: { ...tokenVerifyOutput } };
       req.params = { workspaceId: '1' };
       
-      await workspacesController.delete(req, res);
+      await workspacesController.remove(req, res);
   
       expect(res.status).to.have.been.calledWith(204);
     });

@@ -87,9 +87,7 @@ describe('Workspaces service test', function() {
 
       const { name, emails } = validCreateInput;
 
-      const result = await workspacesService.create(name, emails, tokenVerifyOutput);
-
-      expect(result).to.be.deep.equal(createOutput);
+      await workspacesService.create(name, emails, tokenVerifyOutput);
     });
   });
 
@@ -102,7 +100,7 @@ describe('Workspaces service test', function() {
       sinon.stub(membersService, 'getAll').resolves([]);
 
       try {
-        await workspacesService.delete(4 , tokenVerifyOutput);
+        await workspacesService.remove(4 , tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -112,7 +110,7 @@ describe('Workspaces service test', function() {
       sinon.stub(membersService, 'getAll').resolves(membersThree);
 
       try {
-        await workspacesService.delete(3 , tokenVerifyOutput);
+        await workspacesService.remove(3 , tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
