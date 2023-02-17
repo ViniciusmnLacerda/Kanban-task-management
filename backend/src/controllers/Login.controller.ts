@@ -7,9 +7,9 @@ export default class LoginController implements ILoginController {
     this.service = service;
   }
 
-  public login = async (req: Request, res: Response): Promise<void> => {
+  public getter = async (req: Request, res: Response): Promise<void> => {
     const credentials = req.body;
-    const token = await this.service.login(credentials);
+    const token = await this.service.getter(credentials);
     res.status(200).json(token);
   };
 }

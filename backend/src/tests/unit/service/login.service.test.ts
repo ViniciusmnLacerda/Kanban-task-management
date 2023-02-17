@@ -27,7 +27,7 @@ describe('Login service tests', function() {
     sinon.stub(userModel, 'findOne').resolves(undefined);
 
     try {
-      await loginService.login(invalidEmailInput);
+      await loginService.getter(invalidEmailInput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('Incorrect email or password')
     }
@@ -37,7 +37,7 @@ describe('Login service tests', function() {
     sinon.stub(userModel, 'findOne').resolves(user as unknown as userModel);
     sinon.stub(bcrypt, 'compareSync').resolves(false);
     try {
-      await loginService.login(invalidPassowrdlInput);
+      await loginService.getter(invalidPassowrdlInput);
     } catch (err) {
       expect((err as Error).message).to.be.equal('Incorrect email or password')
     }
@@ -48,7 +48,7 @@ describe('Login service tests', function() {
     sinon.stub(bcrypt, 'compareSync').resolves(true);
     sinon.stub(jwt, 'sign').returns(token as any);
 
-    const result = await loginService.login(validLoginInput);
+    const result = await loginService.getter(validLoginInput);
     expect(result).to.be.deep.equal(loginOutput);
   });
 });

@@ -14,7 +14,7 @@ const loginRouter = express.Router();
 loginRouter.post(
   '/',
   loginMiddleware,
-  new LoginController(loginService).login,
+  new LoginController(loginService).getter,
 );
 
 export default loginRouter;

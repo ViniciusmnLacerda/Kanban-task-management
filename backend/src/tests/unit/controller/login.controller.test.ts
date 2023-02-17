@@ -39,7 +39,7 @@ describe('Login controller tests', function() {
 
     req.body = validLoginInput;
 
-    await loginController.login(req, res);
+    await loginController.getter(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(loginOutput);
