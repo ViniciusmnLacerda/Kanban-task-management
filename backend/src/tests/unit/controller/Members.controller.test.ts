@@ -94,6 +94,31 @@ describe('Members controller tests', function() {
   
       expect(res.status).to.have.been.calledWith(204);
     });
+  });
 
+  describe('removing a member', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+
+      sinon.stub(membersService, 'getMembers').resolves(getMembersOutput);
+      sinon.stub(membersValidations, 'removeValidations').resolves(3);
+      sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
+
+
+      req.body = { user: { ...tokenVerifyOutput }, email: 'marianne@email.com' };
+      req.params = { workspaceId: '1' };
+
+      await membersController.remove(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
   });
 });
