@@ -154,7 +154,7 @@ describe('Members service test', function() {
       sinon.stub(membersService, 'getAll').resolves(membersFour); 
 
       try {
-        await membersService.remove(4, 'marianne@email.com', tokenVerifyOutput);
+        await membersService.remove(4, tokenVerifyOutput, 'marianne@email.com');
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -165,7 +165,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(undefined);
 
       try {
-        await membersService.remove(4, 'invalid@email.com', tokenVerifyOutput);
+        await membersService.remove(4, tokenVerifyOutput, 'invalid@email.com');
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
@@ -176,7 +176,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(userModelOutput as unknown as usersModel);
 
       try {
-        await membersService.remove(1, 'igor@email.com', tokenVerifyOutput);
+        await membersService.remove(1, tokenVerifyOutput, 'igor@email.com');
       } catch (err) {
         expect((err as Error).message).to.be.equal('User is not member');
       }
@@ -187,7 +187,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(userHimself as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 
-      await membersService.remove(1, 'vinicius@email.com', tokenVerifyOutput);
+      await membersService.remove(1, tokenVerifyOutput, 'vinicius@email.com');
 
       expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 1 }});
 
@@ -199,7 +199,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
-        await membersService.remove(1, 'marianne@email.com', tokenVerifyOutput);
+        await membersService.remove(1, tokenVerifyOutput, 'marianne@email.com');
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -211,7 +211,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 
-      await membersService.remove(1, 'marianne@email.com', tokenVerifyOutput);
+      await membersService.remove(1, tokenVerifyOutput, 'marianne@email.com');
 
       expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 2 }});
     });
