@@ -105,7 +105,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(undefined);
 
       try {
-        await membersService.insert(1, invalidNewMemberInput, tokenVerifyOutput);
+        await membersService.create(1, invalidNewMemberInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
@@ -116,7 +116,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
-        await membersService.insert(1, invalidNewMemberInput, tokenVerifyOutput);
+        await membersService.create(1, invalidNewMemberInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('The user is already a member');
       }
@@ -127,7 +127,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
-        await membersService.insert(3, validNewMemberInputThree, tokenVerifyOutput);
+        await membersService.create(3, validNewMemberInputThree, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -138,7 +138,7 @@ describe('Members service test', function() {
       sinon.stub(membersValidations, 'insertValidations').resolves(4);
       const createStub = sinon.stub(accountWorkspacesModel, 'create').resolves(createOutput as unknown as accountWorkspacesModel);
 
-      await membersService.insert(1, validNewMemberInput, tokenVerifyOutput);
+      await membersService.create(1, validNewMemberInput, tokenVerifyOutput);
 
       expect(createStub).to.have.been.calledOnceWithExactly(createOutput);
 

@@ -27,7 +27,7 @@ membersRouter.put(
   endpoint,
   tokenMiddleare,
   membersMiddleware,
-  new MembersController(membersService).insert,
+  new MembersController(membersService).create,
 );
 
 membersRouter.delete(

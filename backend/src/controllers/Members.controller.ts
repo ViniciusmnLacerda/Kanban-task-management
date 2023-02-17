@@ -21,11 +21,11 @@ export default class MembersController implements IMembersController {
     res.status(204).end();
   };
 
-  public insert = async (req: Request, res: Response): Promise<void> => {
+  public create = async (req: Request, res: Response): Promise<void> => {
     const { email, admin, user } = req.body;
     const newMember = { email, admin };
     const { workspaceId } = req.params; 
-    await this.service.insert(+workspaceId, newMember, user);
+    await this.service.create(+workspaceId, newMember, user);
     res.status(204).end();
   };
 

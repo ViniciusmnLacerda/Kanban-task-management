@@ -33,7 +33,7 @@ export default class MembersService implements IMembersService {
     await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
   };
 
-  public insert = async (
+  public create = async (
     workspaceId: number,
     { email, admin }: INewMember,
     user: IToken,

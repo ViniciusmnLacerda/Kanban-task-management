@@ -90,7 +90,7 @@ describe('Members controller tests', function() {
       req.body = { user: { ...tokenVerifyOutput }, ...validNewMemberInput };
       req.params = { workspaceId: '1' };
 
-      await membersController.insert(req, res);
+      await membersController.create(req, res);
   
       expect(res.status).to.have.been.calledWith(204);
     });
