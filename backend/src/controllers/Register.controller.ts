@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { RegisterService } from '../services';
-import { IRegisterController } from './interfaces';
+import { IControllerWriter } from './interfaces/IController';
 
-export default class RegisterController implements IRegisterController {
+export default class RegisterController implements IControllerWriter {
   constructor(private readonly service: RegisterService) {
     this.service = service;
   }
 
-  public register = async (req: Request, res: Response): Promise<void> => {
+  public create = async (req: Request, res: Response): Promise<void> => {
     const userData = req.body;
     const newUser = await this.service.setter(userData);
     res.status(201).json(newUser);

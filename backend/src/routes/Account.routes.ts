@@ -9,7 +9,7 @@ const accountService = new AccountService();
 accountRouter.get(
   '/:id',
   tokenMiddleare,
-  new AccountController(accountService).getAccount,
+  new AccountController(accountService).getter,
 );
 
 export default accountRouter;

@@ -12,7 +12,7 @@ const registerRouter = express.Router();
 registerRouter.post(
   '/',
   registerMiddleware,
-  new RegisterController(registerService).register,
+  new RegisterController(registerService).create,
 );
 
 export default registerRouter;

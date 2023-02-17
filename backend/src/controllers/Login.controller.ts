@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { LoginService } from '../services';
-import { ILoginController } from './interfaces';
+import { IControllerReader } from './interfaces/IController';
 
-export default class LoginController implements ILoginController {
+export default class LoginController implements IControllerReader {
   constructor(private readonly service: LoginService) {
     this.service = service;
   }
