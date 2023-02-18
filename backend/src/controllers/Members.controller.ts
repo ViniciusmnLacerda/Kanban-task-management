@@ -17,7 +17,7 @@ export default class MembersController implements IController {
   public update = async (req: Request, res: Response): Promise<void> => {
     const { user } = req.body;
     const { workspaceId, accountId } = req.params;   
-    await this.service.update(+workspaceId, +accountId, user);
+    await this.service.update({ id: +workspaceId, accountId: +accountId }, user);
     res.status(204).end();
   };
 
@@ -32,7 +32,7 @@ export default class MembersController implements IController {
   public remove = async (req: Request, res: Response): Promise<void> => {
     const { email, user } = req.body;
     const { workspaceId } = req.params; 
-    await this.service.remove(+workspaceId, user, email);
+    await this.service.remove({ id: +workspaceId, email }, user);
     res.status(204).end();
   };
 }

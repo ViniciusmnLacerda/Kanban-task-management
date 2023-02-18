@@ -2,10 +2,11 @@ import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import { IAccountWorkspace, IMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewMember, IService } from './interfaces';
+import { INewMember, IRemove, IService } from './interfaces';
+import IUpdate from './interfaces/IUpdate';
 import { MembersValidations } from './validations';
 
-export default class MembersService implements IService<IMember[], INewMember, number, INewMember> {
+export default class MembersService implements IService<IMember[], INewMember> {
   constructor(private readonly validations: MembersValidations) {
     this.validations = validations;
   }
@@ -25,14 +26,6 @@ export default class MembersService implements IService<IMember[], INewMember, n
     return members;
   };
 
-  public update = async (workspaceId: number, accountId: number, user: IToken) => {
-    if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');
-    const members = await this.getter(workspaceId, user);
-    const { admin } = await this.validations.validateUsers(workspaceId, accountId, user, members);
-    
-    await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
-  };
-
   public create = async ({ 
     workspaceId, email, admin,
   }: INewMember, user: IToken): Promise<void> => {
@@ -40,10 +33,21 @@ export default class MembersService implements IService<IMember[], INewMember, n
     const accountId = await this.validations.insertValidations(email, members, user);
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
-
-  public remove = async (workspaceId: number, user: IToken, email?: string): Promise<void> => {
+  
+  public remove = async ({ id: workspaceId, email }: IRemove, user: IToken): Promise<void> => {
     const members = await this.getter(workspaceId, user);
     const accountId = await this.validations.removeValidations(workspaceId, user, members, email);
     await accountWorkspacesModel.destroy({ where: { workspaceId, accountId } });
+  };
+
+  public update = async (
+    { id: workspaceId, accountId }: Omit<IUpdate, 'title' | 'content'>,
+    user: IToken,
+): Promise<void> => {
+    if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');
+    const members = await this.getter(workspaceId, user);
+    const { admin } = await this.validations.validateUsers(workspaceId, accountId, user, members);
+    
+    await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
   };
 }

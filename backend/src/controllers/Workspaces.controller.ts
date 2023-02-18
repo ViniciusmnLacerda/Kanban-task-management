@@ -23,14 +23,14 @@ export default class WorkspacesController implements IController {
   public remove = async (req: Request, res: Response): Promise<void> => {
     const { workspaceId } = req.params;
     const { user } = req.body;
-    await this.service.remove(+workspaceId, user);
+    await this.service.remove({ id: +workspaceId }, user);
     res.status(204).end();
   };
 
   public update = async (req: Request, res: Response): Promise<void> => {
-    const { name, user } = req.body;
+    const { title, user } = req.body;
     const { workspaceId } = req.params;   
-    await this.service.update(+workspaceId, name, user);
+    await this.service.update({ id: +workspaceId, title }, user);
     res.status(204).end();
   };
 }

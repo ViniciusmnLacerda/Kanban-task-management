@@ -96,7 +96,7 @@ describe('Workspaces service test', function() {
       sinon.stub(membersService, 'getter').resolves([]);
 
       try {
-        await workspacesService.remove(4 , tokenVerifyOutput);
+        await workspacesService.remove({ id: 4 }, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -106,7 +106,7 @@ describe('Workspaces service test', function() {
       sinon.stub(membersService, 'getter').resolves(membersThree);
 
       try {
-        await workspacesService.remove(3 , tokenVerifyOutput);
+        await workspacesService.remove({ id: 3} , tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }

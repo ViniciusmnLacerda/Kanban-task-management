@@ -3,13 +3,13 @@ import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewWorkspace } from './interfaces';
+import { INewWorkspace, IRemove } from './interfaces';
 import IService from './interfaces/IService';
+import IUpdate from './interfaces/IUpdate';
 import MembersService from './Members.service';
 import { WorkspacesValidations } from './validations';
 
-export default class WorkspacesService implements 
-  IService<IWorkspace[], string[], string, INewWorkspace> {
+export default class WorkspacesService implements IService<IWorkspace[], INewWorkspace> {
   constructor(
     private readonly service: MembersService,
     private readonly validations: WorkspacesValidations,
@@ -52,7 +52,10 @@ export default class WorkspacesService implements
     }
   };
 
-  public remove = async (workspaceId: number, user: IToken): Promise<void> => {
+  public remove = async (
+    { id: workspaceId }: Omit<IRemove, 'email'>, 
+    user: IToken,
+): Promise<void> => {
     const members = await this.service.getter(workspaceId, user);
     this.validations.adminValidations(members, user);
     try {
@@ -65,9 +68,12 @@ export default class WorkspacesService implements
     }
   };
 
-  public update = async (workspaceId: number, name: string, user: IToken): Promise<void> => {
-    const members = await this.service.getter(workspaceId, user);
+  public update = async (
+    { id, title }: Omit<IUpdate, 'content' | 'accountId'>,
+    user: IToken,
+): Promise<void> => {
+    const members = await this.service.getter(id, user);
     this.validations.adminValidations(members, user);
-    await workspacesModel.update({ name }, { where: { id: workspaceId } });
+    await workspacesModel.update({ title }, { where: { id } });
   };
 }

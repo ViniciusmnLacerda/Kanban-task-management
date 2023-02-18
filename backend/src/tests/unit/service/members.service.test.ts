@@ -12,8 +12,9 @@ import {
   createOutput,
   emailInUseOutput, getMembersDatavalues, getMembersOutput,
   invalidNewMemberInput, membersFour, membersThree,
-  notMember, userHimself, userModelOutput, validNewMemberInput,
-  validNewMemberInputThree
+  notMember, removeErrorMemberInput, removeHimselfInput, removeNonExistEmailInput, removeNotMemberInput, userHimself, userModelOutput, validNewMemberInput,
+  validNewMemberInputThree,
+  validRemoveMemberInput
 } from '../../mocks/members.mock';
 import { accountWorkspaceOutput } from '../../mocks/workspaces.mock';
 
@@ -154,7 +155,7 @@ describe('Members service test', function() {
       sinon.stub(membersService, 'getter').resolves(membersFour); 
 
       try {
-        await membersService.remove(4, tokenVerifyOutput, 'marianne@email.com');
+        await membersService.remove(removeNotMemberInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -165,7 +166,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(undefined);
 
       try {
-        await membersService.remove(4, tokenVerifyOutput, 'invalid@email.com');
+        await membersService.remove(removeNonExistEmailInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
@@ -176,7 +177,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(userModelOutput as unknown as usersModel);
 
       try {
-        await membersService.remove(1, tokenVerifyOutput, 'igor@email.com');
+        await membersService.remove(removeErrorMemberInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('User is not member');
       }
@@ -187,7 +188,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(userHimself as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 
-      await membersService.remove(1, tokenVerifyOutput, 'vinicius@email.com');
+      await membersService.remove(removeHimselfInput, tokenVerifyOutput);
 
       expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 1 }});
 
@@ -199,7 +200,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
 
       try {
-        await membersService.remove(1, tokenVerifyOutput, 'marianne@email.com');
+        await membersService.remove(validRemoveMemberInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -211,7 +212,7 @@ describe('Members service test', function() {
       sinon.stub(usersModel, 'findOne').resolves(emailInUseOutput as unknown as usersModel);
       const stubDestroy = sinon.stub(accountWorkspacesModel, 'destroy').resolves(1);
 
-      await membersService.remove(1, tokenVerifyOutput, 'marianne@email.com');
+      await membersService.remove(validRemoveMemberInput, tokenVerifyOutput);
 
       expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { workspaceId: 1, accountId: 2 }});
     });

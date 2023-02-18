@@ -219,6 +219,31 @@ const himselfRemoveInput = {
   email: 'vinicius@email.com'
 }
 
+const removeNotMemberInput = {
+  email: "marianne@email.com",
+  id: 4
+}
+
+const removeNonExistEmailInput = { 
+  email: "invalid@email.com",
+  id: 4
+}
+
+const removeErrorMemberInput = { 
+  email: "igor@email.com",
+  id: 1
+}
+
+const removeHimselfInput = {
+  email: "vinicius@email.com",
+  id: 1
+}
+
+const validRemoveMemberInput = {
+  email: "marianne@email.com",
+  id: 1
+}
+
 export {
   notMember,
   getMembersOutput,
@@ -240,5 +265,10 @@ export {
   invalidRemoveInput,
   nonexistentRemoveInput,
   himselfRemoveInput,
+  removeNotMemberInput,
+  removeNonExistEmailInput,
+  removeErrorMemberInput,
+  removeHimselfInput,
+  validRemoveMemberInput,
 };
 
