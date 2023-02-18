@@ -8,7 +8,15 @@ export default class ColumnController {
 
   public getter = async (req: Request, res: Response): Promise<void> => {
     const { workspaceId } = req.params;
-    const columns = await this.service.getter(+workspaceId);
+    const { user } = req.body;
+    const columns = await this.service.getter(+workspaceId, user);
     res.status(200).json(columns);
+  };
+
+  public create = async (req: Request, res: Response): Promise<void> => {
+    const { workspaceId } = req.params;
+    const { user, title } = req.body;
+    await this.service.create({ workspaceId: +workspaceId, title }, user);
+    res.status(204).end();
   };
 }

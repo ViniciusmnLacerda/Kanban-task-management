@@ -1,4 +1,7 @@
 export default interface IColumn {
-  columnId: number;
-  title: string;
-};
+  workspaceId: number;
+  column: {
+    columnId: number;
+    title: string;
+  }
+}

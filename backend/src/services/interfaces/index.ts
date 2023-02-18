@@ -1,3 +1,4 @@
+import INewColumn from './INewColumn';
 import INewMember from './INewMember';
 import INewWorkspace from './INewWorkspace';
 import IRemove from './IRemove';
@@ -8,4 +9,5 @@ export {
   IService,
   INewWorkspace,
   IRemove,
+  INewColumn,
 };

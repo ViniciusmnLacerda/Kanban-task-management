@@ -1,11 +1,13 @@
 import * as express from 'express';
 import { ColumnController } from '../controllers';
 import { tokenMiddleare } from '../middlwares';
-import { ColumnService } from '../services';
-import { ColumnValidations } from '../services/validations';
+import { ColumnService, MembersService } from '../services';
+import { ColumnValidations, MembersValidations } from '../services/validations';
 
+const membersValidations = new MembersValidations();
+const membersService = new MembersService(membersValidations);
 const columnValidations = new ColumnValidations();
-const columnService = new ColumnService(columnValidations);
+const columnService = new ColumnService(membersService, columnValidations);
 
 const columnRouter = express.Router();
 
