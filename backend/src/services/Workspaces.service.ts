@@ -34,11 +34,11 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
     return workspaces as unknown as IWorkspace[];
   };
 
-  public create = async ({ name, emails }: INewWorkspace, user: IToken): Promise<void> => {
+  public create = async ({ title, emails }: INewWorkspace, user: IToken): Promise<void> => {
     const users = await this.validations.validateUsers(emails, user);
     try {
       await sequelize.transaction(async (t) => {
-        const { id: workspaceId } = await workspacesModel.create({ name }, { transaction: t });
+        const { id: workspaceId } = await workspacesModel.create({ title }, { transaction: t });
         const newAccountWorkspaces = await Promise.all(users
           .map(async ({ id: accountId }, index) => {
           const accountWorkspaces = await accountWorkspacesModel

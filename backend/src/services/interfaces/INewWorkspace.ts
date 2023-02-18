@@ -1,4 +1,4 @@
 export default interface INewWorkspace {
-  name: string;
+  title: string;
   emails: string[];
-}
+};

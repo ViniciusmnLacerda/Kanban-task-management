@@ -96,7 +96,7 @@ describe('Workspaces integration tests', function() {
 
     it('when the user is not the first in the mailing list, it should return an error', async function() {
       sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
-      const { body, status  } = await chai.request(app).post('/workspaces').send(wrongOwnerInput).set({ authorization: validToken });
+      const { body, status } = await chai.request(app).post('/workspaces').send(wrongOwnerInput).set({ authorization: validToken });
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal({ message: 'Unauthorized' });
     })
@@ -139,7 +139,7 @@ describe('Workspaces integration tests', function() {
 
     it(' with invalid body it should return error', async function() {
       sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
-      const { body, status  } = await chai.request(app).patch('/workspaces/1').send({ name: invalidNameInput}).set({ authorization: validToken });
+      const { body, status } = await chai.request(app).patch('/workspaces/1').send({ name: invalidNameInput}).set({ authorization: validToken });
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({ message: 'Some required fields are missing' });
     });
