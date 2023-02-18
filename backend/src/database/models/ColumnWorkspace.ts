@@ -28,9 +28,9 @@ ColumnWorkspaces.init({
   tableName: 'column_workspaces',
 });
 
-ColumnWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspaceId', as: 'workspace' });
-Workspaces.hasMany(ColumnWorkspaces, { foreignKey: 'workspaceId', as: 'workspace' });
-ColumnWorkspaces.belongsTo(Columns, { foreignKey: 'columnId', as: 'column' });
-Columns.hasMany(ColumnWorkspaces, { foreignKey: 'columnId', as: 'column' });
+ColumnWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspaceId' });
+Workspaces.hasMany(ColumnWorkspaces, { foreignKey: 'workspaceId' });
+ColumnWorkspaces.belongsTo(Columns, { foreignKey: 'columnId' });
+Columns.hasMany(ColumnWorkspaces, { foreignKey: 'columnId' });
 
 export default ColumnWorkspaces;

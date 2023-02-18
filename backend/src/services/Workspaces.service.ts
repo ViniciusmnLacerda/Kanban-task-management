@@ -18,8 +18,8 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
     this.service = service;
   }
 
-  public getter = async (accountId: number, user: IToken): Promise<IWorkspace[]> => {
-    if (user.userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
+  public getter = async (accountId: number, { userId }: IToken): Promise<IWorkspace[]> => {
+    if (userId !== accountId) throw new ErrorClient(401, 'Unauthorized');
     const workspaces = await accountWorkspacesModel.findAll({
       where: { accountId },
       attributes: ['workspaceId'],
@@ -27,7 +27,7 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
         {
           model: workspacesModel,
           as: 'workspace',
-          attributes: ['name', 'createdAt', 'lastUpdate'],
+          attributes: ['title', 'createdAt', 'lastUpdate'],
         },
       ],
     });
