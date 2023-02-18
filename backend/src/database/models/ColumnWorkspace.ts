@@ -28,8 +28,8 @@ ColumnWorkspaces.init({
   tableName: 'column_workspaces',
 });
 
-ColumnWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspaceId' });
-Workspaces.hasMany(ColumnWorkspaces, { foreignKey: 'workspaceId' });
+ColumnWorkspaces.belongsTo(Workspaces, { foreignKey: 'workspaceId', as: 'columns' });
+Workspaces.hasMany(ColumnWorkspaces, { foreignKey: 'workspaceId', as: 'columns' });
 ColumnWorkspaces.belongsTo(Columns, { foreignKey: 'columnId' });
 Columns.hasMany(ColumnWorkspaces, { foreignKey: 'columnId' });
 
