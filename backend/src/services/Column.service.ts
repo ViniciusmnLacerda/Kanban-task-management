@@ -17,8 +17,7 @@ export default class ColumnService {
   }
 
   public getter = async (workspaceId: number, user: IToken): Promise<IColumn[]> => {
-    const members = await this.service.getter(workspaceId, user);
-    this.validations.validateMember(members, user);
+    await this.service.getter(workspaceId, user);
     const columns = await columnWorkspacesModel.findAll({
       where: { workspaceId },
       attributes: ['workspaceId'],

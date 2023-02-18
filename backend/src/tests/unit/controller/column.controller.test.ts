@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 import * as sinon from 'sinon';
 import { ColumnController } from '../../../controllers';
 import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
-import { ColumnService } from '../../../services';
-import { ColumnValidations } from '../../../services/validations';
+import { ColumnService, MembersService } from '../../../services';
+import { ColumnValidations, MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { columnsOutput } from '../../mocks/column.mock';
 
@@ -13,8 +13,10 @@ import sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
+const membersValidations = new MembersValidations();
+const memberService = new MembersService(membersValidations);
 const columnValidations = new ColumnValidations();
-const columnService = new ColumnService(columnValidations)
+const columnService = new ColumnService(memberService,columnValidations)
 const columnController = new ColumnController(columnService);
 
 const { expect } = chai;
