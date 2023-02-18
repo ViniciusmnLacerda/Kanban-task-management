@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { ColumnController } from '../controllers';
-import { tokenMiddleare } from '../middlwares';
+import { columnMiddleware, tokenMiddleare } from '../middlwares';
 import { ColumnService, MembersService } from '../services';
 import { ColumnValidations, MembersValidations } from '../services/validations';
 
@@ -15,6 +15,13 @@ columnRouter.get(
   '/:workspaceId',
   tokenMiddleare,
   new ColumnController(columnService).getter,
+);
+
+columnRouter.post(
+  '/:workspaceId',
+  tokenMiddleare,
+  columnMiddleware,
+  new ColumnController(columnService).create,
 );
 
 export default columnRouter;

@@ -33,8 +33,7 @@ export default class ColumnService {
   };
 
   public create = async ({ workspaceId, title }: INewColumn, user: IToken) => {
-    const members = await this.service.getter(workspaceId, user);
-    this.validations.validateMember(members, user);
+    await this.service.getter(workspaceId, user);
     try {
       await sequelize.transaction(async (t) => {
         const { id: columnId } = await columnModel.create({ title }, { transaction: t });

@@ -1,3 +1,4 @@
+import columnMiddleware from './Column.middleware';
 import errorMiddleware from './error.middleware';
 import loginMiddleware from './login.middleware';
 import membersMiddleware from './members.middleware';
@@ -14,4 +15,5 @@ export {
   workspacesMiddleware,
   updateWorkspacesMiddleware,
   membersMiddleware,
+  columnMiddleware,
 };

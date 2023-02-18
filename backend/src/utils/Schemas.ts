@@ -26,10 +26,15 @@ const membersSchema = Joi.object({
   admin: Joi.boolean().required(),
 });
 
+const columnSchema = Joi.object({
+  title: Joi.string().min(1).required(),
+});
+
 export default { 
   loginSchema,
   registerSchema,
   workspacesSchema,
   updateWorkspacesSchema,
   membersSchema,
+  columnSchema,
 };

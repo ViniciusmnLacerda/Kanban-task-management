@@ -18,7 +18,7 @@ const columnService = new ColumnService(memberService,columnValidations);
 const { expect } = chai;
 
 
-describe.only('Column service test', function() {
+describe('Column service test', function() {
   describe('getting columns from workspace', async function() {
     afterEach(function() {
       sinon.restore();
@@ -58,5 +58,18 @@ describe.only('Column service test', function() {
       sinon.restore();
     });
     
+    it('when the user is not a member, it should return an error', async function() {
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as unknown as accountWorkspacesModel[]);
+      sinon.stub(accountModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavaluesFour[0] as unknown as accountModel)
+        .onSecondCall().resolves(getMembersDatavaluesFour[1] as unknown as accountModel)
+        .onThirdCall().resolves(getMembersDatavaluesFour[2] as unknown as accountModel);
+
+      try {
+        await columnService.create({ workspaceId: 4, title: 'New column'}, tokenVerifyOutput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
   });
 });
