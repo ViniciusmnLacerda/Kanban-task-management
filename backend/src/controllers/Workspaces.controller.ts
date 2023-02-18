@@ -16,7 +16,7 @@ export default class WorkspacesController implements IController {
 
   public create = async (req: Request, res: Response): Promise<void> => {
     const { name, emails, user } = req.body;
-    await this.service.create(name, emails, user);
+    await this.service.create({ name, emails }, user);
     res.status(201).end();
   };
 

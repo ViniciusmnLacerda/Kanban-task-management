@@ -2,7 +2,6 @@ import IAccount from './IAccount';
 import IAccountWorkspace from './IAccountWorkspace';
 import ILogin from './ILogin';
 import IMember from './IMember';
-import INewMember from './INewMember';
 import IToken from './IToken';
 import IUser from './IUser';
 import IUserData from './IUserData';
@@ -17,5 +16,4 @@ export {
   IMember,
   IAccountWorkspace,
   ILogin,
-  INewMember,
 };

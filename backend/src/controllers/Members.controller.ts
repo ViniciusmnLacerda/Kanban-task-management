@@ -23,9 +23,9 @@ export default class MembersController implements IController {
 
   public create = async (req: Request, res: Response): Promise<void> => {
     const { email, admin, user } = req.body;
-    const newMember = { email, admin };
     const { workspaceId } = req.params; 
-    await this.service.create(+workspaceId, newMember, user);
+    const newMember = { workspaceId: +workspaceId, email, admin };
+    await this.service.create(newMember, user);
     res.status(204).end();
   };
 

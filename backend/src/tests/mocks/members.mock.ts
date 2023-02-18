@@ -89,11 +89,13 @@ const member: IMember = {
 
 
 const invalidNewMemberInput = {
+  workspaceId: 1,
   email: "invalid@email.com",
   admin: true,
 }
 
 const emailInUseNewMemberInput = {
+  workspaceId: 1,
   email: "marianne@email.com",
   admin: true,
 }
@@ -106,11 +108,13 @@ const emailInUseOutput = {
 
 
 const validNewMemberInputThree = {
+  workspaceId: 3,
   email: "zita@email.com",
   admin: true,
 }
 
 const validNewMemberInput = {
+  workspaceId: 1,
   email: "igor@email.com",
   admin: true,
 }

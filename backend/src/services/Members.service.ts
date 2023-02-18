@@ -1,11 +1,11 @@
 import accountModel from '../database/models/Accounts';
 import accountWorkspacesModel from '../database/models/AccountWorkspaces';
-import { IAccountWorkspace, IMember, INewMember, IToken } from '../interfaces';
+import { IAccountWorkspace, IMember, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import IService from './interfaces/IService';
+import { INewMember, IService } from './interfaces';
 import { MembersValidations } from './validations';
 
-export default class MembersService implements IService<IMember[], INewMember, number> {
+export default class MembersService implements IService<IMember[], INewMember, number, INewMember> {
   constructor(private readonly validations: MembersValidations) {
     this.validations = validations;
   }
@@ -33,11 +33,9 @@ export default class MembersService implements IService<IMember[], INewMember, n
     await accountWorkspacesModel.update({ admin: !admin }, { where: { workspaceId, accountId } });
   };
 
-  public create = async (
-    workspaceId: number,
-    { email, admin }: INewMember,
-    user: IToken,
-    ): Promise<void> => {
+  public create = async ({ 
+    workspaceId, email, admin,
+  }: INewMember, user: IToken): Promise<void> => {
     const members = await this.getter(workspaceId, user);
     const accountId = await this.validations.insertValidations(email, members, user);
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });

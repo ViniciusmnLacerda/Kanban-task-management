@@ -54,9 +54,8 @@ describe('Workspaces service test', function() {
     
     it('when the user is not the first in the mailing list, it should return an error', async function() {
       sinon.stub(userModel, 'findOne').resolves(undefined);
-      const { name, emails } = wrongOwnerInput;
       try {
-        await workspacesService.create(name, emails, tokenVerifyOutput);
+        await workspacesService.create(wrongOwnerInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -64,9 +63,8 @@ describe('Workspaces service test', function() {
 
     it('when a non-existent email is passed, it should return an error', async function() {
       sinon.stub(userModel, 'findOne').resolves(undefined);
-      const { name, emails } = invalidCreateInput;
       try {
-        await workspacesService.create(name, emails, tokenVerifyOutput);
+        await workspacesService.create(invalidCreateInput, tokenVerifyOutput);
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
@@ -85,9 +83,7 @@ describe('Workspaces service test', function() {
         .onSecondCall().returns({ accountId: 2, workspaceId: 5, admin: false } as IWorkspace | any)
         .onThirdCall().returns({ accountId: 4, workspaceId: 5, admin: false } as IWorkspace | any);
 
-      const { name, emails } = validCreateInput;
-
-      await workspacesService.create(name, emails, tokenVerifyOutput);
+      await workspacesService.create(validCreateInput, tokenVerifyOutput);
     });
   });
 

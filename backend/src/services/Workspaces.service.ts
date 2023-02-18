@@ -3,11 +3,13 @@ import accountWorkspacesModel from '../database/models/AccountWorkspaces';
 import workspacesModel from '../database/models/Workspaces';
 import { IToken, IWorkspace } from '../interfaces';
 import { ErrorClient } from '../utils';
+import { INewWorkspace } from './interfaces';
 import IService from './interfaces/IService';
 import MembersService from './Members.service';
 import { WorkspacesValidations } from './validations';
 
-export default class WorkspacesService implements IService<IWorkspace[], string[], string> {
+export default class WorkspacesService implements 
+  IService<IWorkspace[], string[], string, INewWorkspace> {
   constructor(
     private readonly service: MembersService,
     private readonly validations: WorkspacesValidations,
@@ -32,7 +34,7 @@ export default class WorkspacesService implements IService<IWorkspace[], string[
     return workspaces as unknown as IWorkspace[];
   };
 
-  public create = async (name: string, emails: string[], user: IToken): Promise<void> => {
+  public create = async ({ name, emails }: INewWorkspace, user: IToken): Promise<void> => {
     const users = await this.validations.validateUsers(emails, user);
     try {
       await sequelize.transaction(async (t) => {
