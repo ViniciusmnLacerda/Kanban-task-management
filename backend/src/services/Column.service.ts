@@ -9,20 +9,17 @@ export default class ColumnService {
   }
 
   public getter = async (workspaceId: number, user: IToken) => {
-    const columnIds = await columnWorkspacesModel.findAll({ 
-      where: { workspaceId }, 
-      attributes: ['columnId'], 
+    const columns = await columnWorkspacesModel.findAll({
+      where: { workspaceId },
+      attributes: ['workspaceId'],
+      include: [
+        {
+          model: columnModel,
+          as: 'column',
+          attributes: [['id', 'columnId'], 'title'],
+        },
+      ],
     });
-
-    const columnsPromise = columnIds.map(async ({ columnId }) => {
-      const column = await columnModel.findByPk(columnId, { 
-        attributes: [['id', 'columnId'], 'title'],
-      });
-
-      return column;
-    });
-    
-    const columns = await Promise.all(columnsPromise);
 
     return columns;
   };
