@@ -24,4 +24,10 @@ columnRouter.post(
   new ColumnController(columnService).create,
 );
 
+columnRouter.delete(
+  '/:columnId/:workspaceId',
+  tokenMiddleare,
+  new ColumnController(columnService).remove,
+);
+
 export default columnRouter;

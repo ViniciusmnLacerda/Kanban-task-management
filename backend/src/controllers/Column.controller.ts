@@ -19,4 +19,11 @@ export default class ColumnController {
     await this.service.create({ workspaceId: +workspaceId, title }, user);
     res.status(204).end();
   };
+
+  public remove = async (req: Request, res: Response): Promise<void> => {
+    const { columnId, workspaceId } = req.params;
+    const { user } = req.body;
+    await this.service.remove({ id: +columnId, key: +workspaceId }, user);
+    res.status(204).end();
+  };
 }
