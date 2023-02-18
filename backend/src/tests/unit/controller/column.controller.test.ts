@@ -20,13 +20,13 @@ const columnController = new ColumnController(columnService);
 const { expect } = chai;
 
 describe('Column controller tests', function() {
-  describe('', function () {
+  describe('getting columns from workspace', function () {
     afterEach(function() {
       sinon.restore();
     });
   })
 
-  it('getting columns from workspace', async function() {
+  it('successfully', async function() {
     const req = {} as Request;
     const res = {} as Response;
 
