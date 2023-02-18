@@ -13,11 +13,11 @@ const { expect } = chai;
 
 
 describe('Column service test', function() {
-  afterEach(function() {
-    sinon.restore();
-  });
-
   describe('getting columns from workspace', async function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
     it('successfully', async function() {
       sinon.stub(columnWorkspacesModel, 'findAll').resolves(columnsOutput as unknown as columnWorkspacesModel[]);
   
