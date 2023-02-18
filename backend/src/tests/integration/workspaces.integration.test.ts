@@ -19,7 +19,6 @@ import {
   invalidInputs,
   invalidNameInput,
   validCreateInput,
-  validNameInput,
   wrongOwnerInput
 } from '../mocks/workspaces.mock';
 
@@ -148,7 +147,7 @@ describe('Workspaces integration tests', function() {
     it('when trying to update the name of non-member workspaces it should return error', async function() {
       sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
       sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as IAccountWorkspace | any);
-      const { body, status } = await chai.request(app).patch('/workspaces/4').send({ name: validNameInput }).set({ authorization: validToken });
+      const { body, status } = await chai.request(app).patch('/workspaces/4').send({ title: 'New title' }).set({ authorization: validToken });
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal({ message: 'Unauthorized' });
     });
@@ -161,7 +160,7 @@ describe('Workspaces integration tests', function() {
         .onSecondCall().resolves(accountsTwo[1] as unknown as accountsModel)
         .onThirdCall().resolves(accountsTwo[2] as unknown as accountsModel);
 
-      const { body, status } = await chai.request(app).patch('/workspaces/2').send({ name: validNameInput }).set({ authorization: validToken });
+      const { body, status } = await chai.request(app).patch('/workspaces/2').send({ title: 'New title' }).set({ authorization: validToken });
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal({ message: 'Unauthorized' });
     });
@@ -175,7 +174,7 @@ describe('Workspaces integration tests', function() {
         .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountsModel)
         .onThirdCall().resolves(getMembersDatavalues[2] as unknown as accountsModel);
 
-      const { body, status } = await chai.request(app).patch('/workspaces/1').send({ name: validNameInput }).set({ authorization: validToken });
+      const { body, status } = await chai.request(app).patch('/workspaces/1').send({ title: 'New title' }).set({ authorization: validToken });
       expect(status).to.be.equal(204);
     });
   })

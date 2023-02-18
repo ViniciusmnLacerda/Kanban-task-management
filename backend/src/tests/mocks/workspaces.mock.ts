@@ -181,7 +181,7 @@ const accountWorkspaceOutputTwo = [
   { accountId: 4, admin: false },
 ]
 
-const validNameInput = 'New name';
+
 const invalidNameInput = 123456;
 
 export {
@@ -197,7 +197,6 @@ export {
   accountWorkspaceOutput,
   accounts,
   membersOutput,
-  validNameInput,
   invalidNameInput,
   accountWorkspaceOutputFour,
   accountWorkspaceOutputTwo,

@@ -4,7 +4,7 @@ import db from '.';
 class Workspaces extends Model {
   declare id: number;
 
-  declare name: string;
+  declare title: string;
 
   declare createdAt: string;
 }
@@ -15,7 +15,7 @@ Workspaces.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
+  title: {
     type: STRING,
     allowNull: false,
   },

@@ -14,7 +14,6 @@ import {
   createOutput,
   getWorkspacesOutput,
   invalidCreateInput, validCreateInput,
-  validNameInput,
   wrongOwnerInput
 } from '../../mocks/workspaces.mock';
 
@@ -121,7 +120,7 @@ describe('Workspaces service test', function() {
     it('when trying to update the name of non-member workspaces it should return error', async function() {
       sinon.stub(membersService, 'getter').resolves(membersFour);
       try {
-        await workspacesService.update(4, validNameInput, tokenVerifyOutput)
+        await workspacesService.update({ id: 4, title: 'New title' }, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -131,7 +130,7 @@ describe('Workspaces service test', function() {
       sinon.stub(membersService, 'getter').resolves(membersThree);
 
       try {
-        await workspacesService.update(3, validNameInput, tokenVerifyOutput)
+        await workspacesService.update({ id: 3, title: 'New title' }, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -140,9 +139,9 @@ describe('Workspaces service test', function() {
     it('successfully', async function() {
       sinon.stub(membersService, 'getter').resolves(getMembersOutput);
       const stubUpdate = sinon.stub(workspacesModel, 'update').resolves([1]);
-      await workspacesService.update(1, validNameInput, tokenVerifyOutput);
+      await workspacesService.update({ id: 1, title: 'New title' }, tokenVerifyOutput);
       
-      expect(stubUpdate).to.have.been.calledOnceWithExactly({ name: validNameInput }, { where: { id: 1 } })
+      expect(stubUpdate).to.have.been.calledOnceWithExactly({ title: 'New title' }, { where: { id: 1 } })
     });
   })
 });

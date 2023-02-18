@@ -18,7 +18,7 @@ const workspacesSchema = Joi.object({
 });
 
 const updateWorkspacesSchema = Joi.object({
-  name: Joi.string().min(2).required(),
+  title: Joi.string().min(2).required(),
 });
 
 const membersSchema = Joi.object({
