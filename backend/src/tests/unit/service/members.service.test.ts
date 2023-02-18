@@ -70,7 +70,7 @@ describe('Members service test', function() {
 
     it('when a user tries to change his own permissions it should return error', async function() {
       try {
-        await membersService.update({ id: 1, accountId: 1 }, tokenVerifyOutput)
+        await membersService.update({ id: 1, key: 1 }, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
@@ -80,7 +80,7 @@ describe('Members service test', function() {
       sinon.stub(membersService, 'getter').resolves(getMembersOutput);
 
       try {
-        await membersService.update({ id: 1, accountId: 9999 }, tokenVerifyOutput)
+        await membersService.update({ id: 1, key: 9999 }, tokenVerifyOutput)
       } catch (err) {
         expect((err as Error).message).to.be.equal('User not found');
       }
@@ -90,7 +90,7 @@ describe('Members service test', function() {
       sinon.stub(membersService, 'getter').resolves(getMembersOutput);
       const stubUpdate = sinon.stub(accountWorkspacesModel, 'update').resolves([1]);
 
-      await membersService.update({ id: 1, accountId: 2 }, tokenVerifyOutput);
+      await membersService.update({ id: 1, key: 2 }, tokenVerifyOutput);
 
       expect(stubUpdate).to.have.been.calledOnceWithExactly({ admin: true }, { where: { workspaceId: 1, accountId: 2 } });
     });
