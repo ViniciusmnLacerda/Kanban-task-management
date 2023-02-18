@@ -34,14 +34,17 @@ export default class MembersService implements IService<IMember[], INewMember> {
     await accountWorkspacesModel.create({ workspaceId, accountId, admin });
   };
   
-  public remove = async ({ id: workspaceId, email }: IRemove, user: IToken): Promise<void> => {
+  public remove = async (
+    { id: workspaceId, email }: Omit<IRemove, 'key'>,
+    user: IToken,
+  ): Promise<void> => {
     const members = await this.getter(workspaceId, user);
     const accountId = await this.validations.removeValidations(workspaceId, user, members, email);
     await accountWorkspacesModel.destroy({ where: { workspaceId, accountId } });
   };
 
   public update = async (
-    { id: workspaceId, accountId }: Omit<IUpdate, 'title' | 'content'>,
+    { id: workspaceId, key: accountId }: Omit<IUpdate, 'title' | 'content'>,
     user: IToken,
 ): Promise<void> => {
     if (user.userId === accountId) throw new ErrorClient(401, 'Unauthorized');

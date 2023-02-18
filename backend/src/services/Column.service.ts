@@ -32,7 +32,7 @@ export default class ColumnService {
     return columns as unknown as IColumn[];
   };
 
-  public create = async ({ workspaceId, title }: INewColumn, user: IToken) => {
+  public create = async ({ workspaceId, title }: INewColumn, user: IToken): Promise<void> => {
     await this.service.getter(workspaceId, user);
     try {
       await sequelize.transaction(async (t) => {

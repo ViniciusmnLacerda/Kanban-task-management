@@ -1,6 +1,6 @@
 export default interface IUpdate {
   id: number;
-  accountId: number;
+  key: number;
   title: string;
   content: string;
-}
+};

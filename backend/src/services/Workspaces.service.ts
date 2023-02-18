@@ -53,7 +53,7 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
   };
 
   public remove = async (
-    { id: workspaceId }: Omit<IRemove, 'email'>, 
+    { id: workspaceId }: Omit<IRemove, 'email'| 'key'>, 
     user: IToken,
 ): Promise<void> => {
     const members = await this.service.getter(workspaceId, user);
@@ -69,7 +69,7 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
   };
 
   public update = async (
-    { id, title }: Omit<IUpdate, 'content' | 'accountId'>,
+    { id, title }: Omit<IUpdate, 'content' | 'key'>,
     user: IToken,
 ): Promise<void> => {
     const members = await this.service.getter(id, user);
