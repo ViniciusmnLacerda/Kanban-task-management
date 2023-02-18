@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import accountModel from '../../../database/models/Accounts';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import usersModel from '../../../database/models/Users';
-import { IAccountWorkspace, IToken } from '../../../interfaces';
+import { IToken } from '../../../interfaces';
 import { MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
@@ -39,7 +39,7 @@ describe('Members service test', function() {
     });
 
     it('when the user requests a list of a workspace that he is not a member of', async function() {
-      sinon.stub(accountWorkspacesModel, 'findAll').resolves(notMember as IAccountWorkspace | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(notMember as unknown as accountWorkspacesModel[]);
       try {
         await membersService.getter(4, tokenVerifyOutput)
       } catch (err) {
@@ -51,7 +51,7 @@ describe('Members service test', function() {
       sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
 
 
-      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutput as IAccountWorkspace | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutput as unknown as accountWorkspacesModel[]);
       sinon.stub(accountModel, 'findByPk')
         .onFirstCall().resolves(getMembersDatavalues[0] as unknown as accountModel)
         .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountModel)

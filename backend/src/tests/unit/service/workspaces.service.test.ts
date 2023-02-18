@@ -39,7 +39,7 @@ describe('Workspaces service test', function() {
     });
   
     it('successfully', async function() {
-      sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as IWorkspace[] | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as unknown as accountWorkspacesModel[]);
   
       const result = await workspacesService.getter(1, tokenVerifyOutput);
       expect(result).to.be.deep.equal(getWorkspacesOutput);

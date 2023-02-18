@@ -39,7 +39,7 @@ describe('Workspaces controller test', function() {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns(res);
   
-      sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as IWorkspace[] | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(getWorkspacesOutput as unknown as accountWorkspacesModel[]);
   
       req.body = { user: { ...tokenVerifyOutput } };
       
