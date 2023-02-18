@@ -1,4 +1,5 @@
 import AccountController from './Account.controller';
+import ColumnController from './Column.controller';
 import LoginController from './Login.controller';
 import MembersController from './Members.controller';
 import RegisterController from './Register.controller';
@@ -10,4 +11,5 @@ export {
   AccountController,
   WorkspacesController,
   MembersController,
+  ColumnController,
 };

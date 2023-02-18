@@ -1,4 +1,5 @@
 import accountRouter from './Account.routes';
+import columnRouter from './Column.routes';
 import loginRouter from './Login.routes';
 import membersRouter from './Members.routes';
 import registerRouter from './Register.routes';
@@ -10,4 +11,5 @@ export {
   accountRouter,
   workspaceRouter,
   membersRouter,
+  columnRouter,
 };
