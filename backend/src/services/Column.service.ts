@@ -1,6 +1,5 @@
 import columnModel from '../database/models/Column';
 import columnWorkspacesModel from '../database/models/ColumnWorkspace';
-import { IToken } from '../interfaces';
 import { ColumnValidations } from './validations';
 
 export default class ColumnService {
@@ -8,7 +7,7 @@ export default class ColumnService {
     this.validations = validations;
   }
 
-  public getter = async (workspaceId: number, user: IToken) => {
+  public getter = async (workspaceId: number) => {
     const columns = await columnWorkspacesModel.findAll({
       where: { workspaceId },
       attributes: ['workspaceId'],
