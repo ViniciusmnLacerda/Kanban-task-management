@@ -4,7 +4,7 @@ import accountModel from '../../../database/models/Accounts';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
 import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
 import { ColumnService, MembersService } from '../../../services';
-import { ColumnValidations, MembersValidations } from '../../../services/validations';
+import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { columnsOutput } from '../../mocks/column.mock';
 import { getMembersDatavalues, getMembersDatavaluesFour } from '../../mocks/members.mock';
@@ -12,8 +12,7 @@ import { accountWorkspaceOutput, accountWorkspaceOutputFour } from '../../mocks/
 
 const membersValidations = new MembersValidations();
 const memberService = new MembersService(membersValidations);
-const columnValidations = new ColumnValidations()
-const columnService = new ColumnService(memberService,columnValidations);
+const columnService = new ColumnService(memberService);
 
 const { expect } = chai;
 

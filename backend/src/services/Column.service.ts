@@ -5,14 +5,11 @@ import { IColumn, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
 import { INewColumn, IRemove, IService, IUpdate } from './interfaces';
 import MembersService from './Members.service';
-import { ColumnValidations } from './validations';
 
 export default class ColumnService implements IService<IColumn[], INewColumn> {
   constructor(
     private readonly service: MembersService,
-    private readonly validations: ColumnValidations,
 ) {
-    this.validations = validations;
     this.service = service;
   }
 

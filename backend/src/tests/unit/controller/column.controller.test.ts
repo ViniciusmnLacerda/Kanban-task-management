@@ -5,7 +5,7 @@ import { ColumnController } from '../../../controllers';
 import sequelize from '../../../database/models';
 import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
 import { ColumnService, MembersService } from '../../../services';
-import { ColumnValidations, MembersValidations } from '../../../services/validations';
+import { MembersValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { columnsOutput } from '../../mocks/column.mock';
 import { getMembersOutput } from '../../mocks/members.mock';
@@ -17,8 +17,7 @@ chai.use(sinonChai);
 
 const membersValidations = new MembersValidations();
 const memberService = new MembersService(membersValidations);
-const columnValidations = new ColumnValidations();
-const columnService = new ColumnService(memberService,columnValidations)
+const columnService = new ColumnService(memberService);
 const columnController = new ColumnController(columnService);
 
 const { expect } = chai;
