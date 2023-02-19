@@ -102,4 +102,41 @@ describe('Column integration tests', function() {
       expect(status).to.be.equal(204);
     });
   });
+
+  describe.only('deleting columns', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('when the user is not a member, it should return an error', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as unknown as accountWorkspacesModel[]);
+      sinon.stub(accountModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavaluesFour[0] as unknown as accountModel)
+        .onSecondCall().resolves(getMembersDatavaluesFour[1] as unknown as accountModel)
+        .onThirdCall().resolves(getMembersDatavaluesFour[2] as unknown as accountModel);
+
+      const { status, body } = await chai.request(app)
+        .delete('/columns/1/4').set({ authorization: validToken });
+
+      expect(status).to.be.equal(401);
+      expect(body).to.be.deep.equal({ message: 'Unauthorized' });
+    });
+
+    it('successfully', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutput as unknown as accountWorkspacesModel[]);
+      sinon.stub(accountModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavalues[0] as unknown as accountModel)
+        .onSecondCall().resolves(getMembersDatavalues[1] as unknown as accountModel)
+        .onThirdCall().resolves(getMembersDatavalues[2] as unknown as accountModel);
+      sinon.stub(columnWorkspacesModel, 'findAll').resolves(columnsOutput as unknown as columnWorkspacesModel[])
+
+      const { status } = await chai.request(app)
+        .delete('/columns/1/1').set({ authorization: validToken });
+
+      expect(status).to.be.equal(204);
+    });
+  });
 });

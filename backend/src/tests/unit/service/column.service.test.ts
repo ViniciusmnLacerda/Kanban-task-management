@@ -72,4 +72,24 @@ describe('Column service test', function() {
       }
     });
   });
+
+  describe('deleting columns', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('when the user is not a member, it should return an error', async function() {
+      sinon.stub(accountWorkspacesModel, 'findAll').resolves(accountWorkspaceOutputFour as unknown as accountWorkspacesModel[]);
+      sinon.stub(accountModel, 'findByPk')
+        .onFirstCall().resolves(getMembersDatavaluesFour[0] as unknown as accountModel)
+        .onSecondCall().resolves(getMembersDatavaluesFour[1] as unknown as accountModel)
+        .onThirdCall().resolves(getMembersDatavaluesFour[2] as unknown as accountModel);
+
+      try {
+        await columnService.remove({ id: 1, key: 4 }, tokenVerifyOutput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Unauthorized');
+      }
+    });
+  });
 });

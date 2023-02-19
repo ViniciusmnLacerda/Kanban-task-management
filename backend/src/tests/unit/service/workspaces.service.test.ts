@@ -86,7 +86,7 @@ describe('Workspaces service test', function() {
     });
   });
 
-  describe('deleting a new workspace', function() {
+  describe('deleting a workspace', function() {
     afterEach(function() {
       sinon.restore();
     });

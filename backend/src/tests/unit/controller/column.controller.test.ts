@@ -71,4 +71,28 @@ describe('Column controller tests', function() {
       expect(res.status).to.have.been.calledWith(204);
     });
   });
+
+  describe('deleting columns', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+
+      sinon.stub(memberService, 'getter').resolves(getMembersOutput);
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+  
+      req.params = { columnId: '1' , workspaceId: '1' };
+      req.body = { user: { ...tokenVerifyOutput } };
+      
+      await columnController.remove(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
 });
