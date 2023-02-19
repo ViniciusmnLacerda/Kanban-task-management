@@ -17,7 +17,7 @@ export default class ColumnService implements IService<IColumn[], INewColumn> {
     await this.service.getter(workspaceId, user);
     const columns = await columnWorkspacesModel.findAll({
       where: { workspaceId },
-      attributes: ['position'],
+      attributes: ['position', 'workspaceId'],
       include: [
         {
           model: columnModel,
@@ -32,8 +32,6 @@ export default class ColumnService implements IService<IColumn[], INewColumn> {
   public create = async ({ workspaceId, title }: INewColumn, user: IToken): Promise<void> => {
     await this.service.getter(workspaceId, user);
     const columns = await this.getter(workspaceId, user);
-    console.log('columns: ', columns);
-    
     try {
       await sequelize.transaction(async (t) => {
         const { id: columnId } = await columnModel.create({ title }, { transaction: t });
