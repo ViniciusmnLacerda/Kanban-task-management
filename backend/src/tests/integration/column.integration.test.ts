@@ -103,7 +103,7 @@ describe('Column integration tests', function() {
     });
   });
 
-  describe.only('deleting columns', function() {
+  describe('deleting columns', function() {
     afterEach(function() {
       sinon.restore();
     });

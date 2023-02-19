@@ -3,11 +3,11 @@ import columnModel from '../database/models/Column';
 import columnWorkspacesModel from '../database/models/ColumnWorkspace';
 import { IColumn, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewColumn, IRemove, IUpdate } from './interfaces';
+import { INewColumn, IRemove, IService, IUpdate } from './interfaces';
 import MembersService from './Members.service';
 import { ColumnValidations } from './validations';
 
-export default class ColumnService {
+export default class ColumnService implements IService<IColumn[], INewColumn> {
   constructor(
     private readonly service: MembersService,
     private readonly validations: ColumnValidations,
