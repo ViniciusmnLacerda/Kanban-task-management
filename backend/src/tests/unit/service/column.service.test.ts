@@ -2,6 +2,7 @@ import * as chai from 'chai';
 import * as sinon from 'sinon';
 import accountModel from '../../../database/models/Accounts';
 import accountWorkspacesModel from '../../../database/models/AccountWorkspaces';
+import columnModel from '../../../database/models/Column';
 import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
 import { ColumnService, MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
@@ -89,6 +90,20 @@ describe('Column service test', function() {
       } catch (err) {
         expect((err as Error).message).to.be.equal('Unauthorized');
       }
+    });
+  });
+
+  describe('updating column name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const stubUpdate = sinon.stub(columnModel, 'update').resolves([1]);
+
+      await columnService.update({ id: 1, title: 'New title'}, tokenVerifyOutput);
+
+      expect(stubUpdate).to.have.been.calledOnceWithExactly({ title: 'New title' }, { where: { id: 1 } })
     });
   });
 });

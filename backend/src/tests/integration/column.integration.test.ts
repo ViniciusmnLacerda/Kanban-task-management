@@ -5,6 +5,7 @@ import App from '../../app';
 import sequelize from '../../database/models';
 import accountModel from '../../database/models/Accounts';
 import accountWorkspacesModel from '../../database/models/AccountWorkspaces';
+import columnModel from '../../database/models/Column';
 import columnWorkspacesModel from '../../database/models/ColumnWorkspace';
 import { IToken } from '../../interfaces';
 import { tokenVerifyOutput, validToken } from '../mocks/account.mock';
@@ -136,6 +137,31 @@ describe('Column integration tests', function() {
       const { status } = await chai.request(app)
         .delete('/columns/1/1').set({ authorization: validToken });
 
+      expect(status).to.be.equal(204);
+    });
+  });
+
+  describe('updating column name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('with invalid body should return error', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+
+      const { status, body } = await chai.request(app)
+        .patch('/columns/1').send({ title: 123456 }).set({ authorization: validToken });
+
+      expect(status).to.be.equal(400);
+      expect(body).to.be.deep.equal({ message: 'Some required fields are missing' });
+    });
+
+    it('successfully', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(columnModel, 'update').resolves([1])
+      
+      const { status } = await chai.request(app).patch('/columns/1').send({ title: 'New title'}).set({ authorization: validToken});
+      
       expect(status).to.be.equal(204);
     });
   });

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as sinon from 'sinon';
 import { ColumnController } from '../../../controllers';
 import sequelize from '../../../database/models';
+import columnModel from '../../../database/models/Column';
 import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
 import { ColumnService, MembersService } from '../../../services';
 import { MembersValidations } from '../../../services/validations';
@@ -90,6 +91,29 @@ describe('Column controller tests', function() {
       req.body = { user: { ...tokenVerifyOutput } };
       
       await columnController.remove(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
+  describe('updating column name', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+
+      sinon.stub(columnModel, 'update').resolves([1]);
+  
+      req.params = { columnId: '1' };
+      req.body = { user: { ...tokenVerifyOutput }, title: 'New title' };
+      
+      await columnController.update(req, res);
   
       expect(res.status).to.have.been.calledWith(204);
     });
