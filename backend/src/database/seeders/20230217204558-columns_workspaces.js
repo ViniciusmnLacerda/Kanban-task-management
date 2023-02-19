@@ -7,50 +7,62 @@ module.exports = {
       {
         column_id: 1,
         workspace_id: 1,
+        position: 0,
       },
       {
         column_id: 2,
         workspace_id: 1,
+        position: 1,
       },
       {
         column_id: 3,
         workspace_id: 1,
+        position: 2,
       },
       {
         column_id: 4,
         workspace_id: 2,
+        position: 0,
       },
       {
         column_id: 5,
         workspace_id: 2,
+        position: 1,
       },
       {
         column_id: 6,
         workspace_id: 2,
+        position: 2,
       },
       {
         column_id: 7,
         workspace_id: 3,
+        position: 0,
       },
       {
         column_id: 8,
         workspace_id: 3,
+        position: 1,
       },
       {
         column_id: 9,
         workspace_id: 3,
+        position: 2,
       },
       {
         column_id: 10,
         workspace_id: 4,
+        position: 0,
       },
       {
         column_id: 11,
         workspace_id: 4,
+        position: 1,
       },
       {
         column_id: 12,
         workspace_id: 4,
+        position: 2,
       },
     ], {});
   },

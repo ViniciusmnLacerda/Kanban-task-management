@@ -1,4 +1,4 @@
-import { INTEGER, Model, STRING } from 'sequelize';
+import { INTEGER, Model, NUMBER, STRING } from 'sequelize';
 import db from '.';
 import Cards from './Cards';
 import Column from './Column';
@@ -18,6 +18,10 @@ CardsColumn.init({
   columnId: {
     type: STRING,
     primaryKey: true,
+    allowNull: false,
+  },
+  position: {
+    type: NUMBER,
     allowNull: false,
   },
 }, {

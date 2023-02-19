@@ -1,4 +1,4 @@
-import { INTEGER, Model, STRING } from 'sequelize';
+import { INTEGER, Model, NUMBER, STRING } from 'sequelize';
 import db from '.';
 import Columns from './Column';
 import Workspaces from './Workspaces';
@@ -18,6 +18,10 @@ ColumnWorkspaces.init({
   workspaceId: {
     type: STRING,
     primaryKey: true,
+    allowNull: false,
+  },
+  position: {
+    type: NUMBER,
     allowNull: false,
   },
 }, {
