@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { ColumnService } from '../services';
+import IController from './interfaces/IController';
 
-export default class ColumnController {
+export default class ColumnController implements IController {
   constructor(private readonly service: ColumnService) {
     this.service = service;
   }
