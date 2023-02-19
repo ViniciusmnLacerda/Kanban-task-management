@@ -3,7 +3,7 @@ import columnModel from '../database/models/Column';
 import columnWorkspacesModel from '../database/models/ColumnWorkspace';
 import { IColumn, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewColumn, IRemove } from './interfaces';
+import { INewColumn, IRemove, IUpdate } from './interfaces';
 import MembersService from './Members.service';
 import { ColumnValidations } from './validations';
 
@@ -58,4 +58,11 @@ export default class ColumnService {
       throw new ErrorClient(500, 'Internal server error');
     }
   };
+  
+  public update = async (
+    { id, title }: Omit<IUpdate, 'content' | 'key'>, 
+    _user: IToken,
+): Promise<void> => {
+  await columnModel.update({ title }, { where: { id } });
+};
 }

@@ -3,6 +3,7 @@ import INewMember from './INewMember';
 import INewWorkspace from './INewWorkspace';
 import IRemove from './IRemove';
 import IService from './IService';
+import IUpdate from './IUpdate';
 
 export {
   INewMember,
@@ -10,4 +11,5 @@ export {
   INewWorkspace,
   IRemove,
   INewColumn,
+  IUpdate,
 };

@@ -30,4 +30,11 @@ columnRouter.delete(
   new ColumnController(columnService).remove,
 );
 
+columnRouter.patch(
+  '/:columnId',
+  tokenMiddleare,
+  columnMiddleware,
+  new ColumnController(columnService).update,
+);
+
 export default columnRouter;
