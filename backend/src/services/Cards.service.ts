@@ -3,7 +3,7 @@ import cardsModel from '../database/models/Cards';
 import cardsColumnModel from '../database/models/CardsColumn';
 import { ICard, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewCard, IRemove } from './interfaces';
+import { INewCard, IRemove, IUpdate } from './interfaces';
 
 export default class CardsService {
   public getter = async (columnId: number, _user: IToken): Promise<ICard[]> => {
@@ -46,5 +46,12 @@ export default class CardsService {
   } catch (err) {
     throw new ErrorClient(500, 'Internal server error');
   }
+  };
+
+  public update = async (
+    { id, title, content }: Omit<IUpdate, 'key'>,
+    _user: IToken,
+  ): Promise<void> => {
+    await cardsModel.update({ title, content }, { where: { id } });
   };
 }

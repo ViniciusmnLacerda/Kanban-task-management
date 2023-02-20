@@ -26,4 +26,11 @@ cardsRouter.delete(
   new CardsController(cardsService).remove,
 );
 
+cardsRouter.patch(
+  '/:cardId',
+  tokenMiddleare,
+  cardsMiddleware,
+  new CardsController(cardsService).update,
+);
+
 export default cardsRouter;
