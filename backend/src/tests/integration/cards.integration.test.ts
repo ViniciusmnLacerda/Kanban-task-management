@@ -56,4 +56,18 @@ describe('Column integration tests', function() {
       expect(status).to.be.equal(204);
     });
   });
+
+  describe('deleting cards', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      sinon.stub(jwt, 'verify').returns(tokenVerifyOutput as IToken | any);
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+      const { status } = await chai.request(app).delete('/cards/1/1').set({ authorization: validToken });
+
+      expect(status).to.be.equal(204);
+    });
+  });
 });

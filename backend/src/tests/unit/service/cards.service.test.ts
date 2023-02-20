@@ -39,4 +39,20 @@ describe('Cards service test', function() {
       
     });
   })
+
+  describe('deleting cards', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+
+      await cardsService.remove({ id: 1, key: 1}, tokenVerifyOutput);
+
+      console.log('ALERT: how to dub sequelize transaction?');
+      
+    });
+  })
+
 });

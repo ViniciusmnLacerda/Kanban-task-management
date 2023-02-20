@@ -64,4 +64,26 @@ describe('Cards controller tests', function() {
       expect(res.status).to.have.been.calledWith(204);
     });
   });
+
+  describe('deleting cards', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+
+      req.params = { cardId: '1', columnId: '1' };
+      req.body = { user: { ...tokenVerifyOutput } };
+
+      await cardsController.remove(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
 });
