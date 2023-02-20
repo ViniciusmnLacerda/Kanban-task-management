@@ -2,10 +2,11 @@ import * as chai from 'chai';
 import { Request, Response } from 'express';
 import * as sinon from 'sinon';
 import { CardsController } from '../../../controllers';
+import sequelize from '../../../database/models';
 import cardsColumnModel from '../../../database/models/CardsColumn';
 import { CardsService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { cardsOutput } from '../../mocks/cards.mock';
+import { cardsOutput, validCreateInput } from '../../mocks/cards.mock';
 
 // @ts-ignore
 import sinonChai = require('sinon-chai');
@@ -40,4 +41,27 @@ describe('Cards controller tests', function() {
       expect(res.json).to.have.been.calledWith(cardsOutput);
     });
   })
+
+  describe('creating cards', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+      sinon.stub(cardsColumnModel, 'findAll').resolves(cardsOutput as unknown as cardsColumnModel[]);
+      sinon.stub(sequelize, 'transaction').resolves(undefined);
+
+      req.params = { columndId: '1' };
+      req.body = { user: { ...tokenVerifyOutput }, ...validCreateInput };
+
+      await cardsController.create(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
 });

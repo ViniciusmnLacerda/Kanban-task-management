@@ -19,6 +19,24 @@ const cardsOutput = [
   }
 ]
 
+
+const validCreateInput = {
+  columnId: 1,
+  title: 'New card title',
+  content: 'New card content',
+}
+
+const invalidInputs = [
+  {
+    content: 'New card content',
+  },
+  {
+    title: 'New card title',
+  }
+]
+
 export {
   cardsOutput,
+  validCreateInput,
+  invalidInputs,
 }
