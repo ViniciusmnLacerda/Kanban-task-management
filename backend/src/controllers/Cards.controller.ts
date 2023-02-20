@@ -7,9 +7,16 @@ export default class CardsController {
   }
 
   public getter = async (req: Request, res: Response): Promise<void> => {
-    const { workspaceId } = req.params;
+    const { columnId } = req.params;
     const { user } = req.body;
-    const cards = await this.service.getter(+workspaceId, user);
+    const cards = await this.service.getter(+columnId, user);
     res.status(200).json(cards);
+  };
+
+  public create = async (req: Request, res: Response): Promise<void> => {
+    const { columnId } = req.params;
+    const { user, title, content } = req.body;
+    await this.service.create({ columnId: +columnId, title, content }, user);
+    res.status(204).end();
   };
 }

@@ -30,6 +30,11 @@ const columnSchema = Joi.object({
   title: Joi.string().min(1).required(),
 });
 
+const cardsSchema = Joi.object({
+  title: Joi.string().min(2).required(),
+  content: Joi.string().min(2).required(),
+});
+
 export default { 
   loginSchema,
   registerSchema,
@@ -37,4 +42,5 @@ export default {
   updateWorkspacesSchema,
   membersSchema,
   columnSchema,
+  cardsSchema,
 };

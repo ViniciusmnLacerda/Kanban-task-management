@@ -1,5 +1,6 @@
 const cardsOutput = [
   {
+    columnId: 1,
     position: 0,
     card: {
       cardId: 1,
@@ -8,6 +9,7 @@ const cardsOutput = [
     }
   },
   {
+    columnId: 1,
     position: 1,
     card: {
       cardId: 2,

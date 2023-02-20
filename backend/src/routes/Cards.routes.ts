@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { CardsController } from '../controllers';
-import { tokenMiddleare } from '../middlwares';
+import { cardsMiddleware, tokenMiddleare } from '../middlwares';
 import { CardsService } from '../services';
 
 const cardsService = new CardsService();
@@ -8,9 +8,15 @@ const cardsService = new CardsService();
 const cardsRouter = express.Router();
 
 cardsRouter.get(
-  '/:workspaceId',
+  '/:columnId',
   tokenMiddleare,
   new CardsController(cardsService).getter,
 );
 
+cardsRouter.post(
+  '/:columnId',
+  tokenMiddleare,
+  cardsMiddleware,
+  new CardsController(cardsService).create,
+);
 export default cardsRouter;

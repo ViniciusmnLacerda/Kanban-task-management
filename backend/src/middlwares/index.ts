@@ -1,4 +1,5 @@
-import columnMiddleware from './Column.middleware';
+import cardsMiddleware from './cards.middleware';
+import columnMiddleware from './column.middleware';
 import errorMiddleware from './error.middleware';
 import loginMiddleware from './login.middleware';
 import membersMiddleware from './members.middleware';
@@ -16,4 +17,5 @@ export {
   updateWorkspacesMiddleware,
   membersMiddleware,
   columnMiddleware,
+  cardsMiddleware,
 };
