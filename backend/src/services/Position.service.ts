@@ -4,11 +4,17 @@ import { ICard, IColumn, IToken } from '../interfaces';
 import CardsService from './Cards.service';
 import ColumnService from './Column.service';
 import { INewPosition } from './interfaces';
+import { PositionValidations } from './validations';
 
 export default class PositionService {
-  constructor(private readonly columns: ColumnService, private readonly cards: CardsService) {
+  constructor(
+    private readonly columns: ColumnService,
+    private readonly cards: CardsService,
+    private readonly validations: PositionValidations,
+    ) {
     this.columns = columns;
     this.cards = cards;
+    this.validations = validations;
   }
 
   private setConditional = (
@@ -74,12 +80,17 @@ export default class PositionService {
   public update = async (
     { id, direction, oldPosition, newPosition, database }: INewPosition,
     user: IToken,
-  ) => {
+  ): Promise<void> => {
+    this.validations.validateDatabase(database);
+
     const array = database === 'columns' 
     ? await this.columns.getter(id, user)
     : await this.cards.getter(id, user);
-
+    
+    this.validations.validatePositions(array, oldPosition, newPosition);
+    
     const newArray = this.shiftPosition(array, direction, oldPosition, newPosition);
+    
     if (database === 'columns') {
       await this.updateColumns(newArray as unknown as columnWorkspacesModel[], id);
     } else await this.updateCards(newArray as unknown as cardsColumnModel[], id);

@@ -9,17 +9,15 @@ export default class PositionController {
   public update = async (req: Request, res: Response): Promise<void> => {
     const { id, database } = req.params;
     const { newPosition, oldPosition, user } = req.body;
-    await this.service.update(
-{ 
+    const params = {
       id: +id,
       direction: newPosition > oldPosition,
       oldPosition,
       newPosition,
       database,
-    },
-    user,
-);
+    };
 
+    await this.service.update(params, user);
     res.status(201).end();
   };
 }
