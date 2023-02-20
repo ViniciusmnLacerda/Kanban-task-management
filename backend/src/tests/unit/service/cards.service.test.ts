@@ -1,6 +1,7 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import sequelize from '../../../database/models';
+import cardsModel from '../../../database/models/Cards';
 import cardsColumnModel from '../../../database/models/CardsColumn';
 import { CardsService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
@@ -55,4 +56,17 @@ describe('Cards service test', function() {
     });
   })
 
+  describe('updating card', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const stubUpdate = sinon.stub(cardsModel, 'update').resolves([1]);
+
+      await cardsService.update({ id: 1, title: 'New title', content: 'New content'}, tokenVerifyOutput);
+
+      expect(stubUpdate).to.have.been.calledOnceWithExactly({ title: 'New title', content: 'New content' }, { where: { id: 1 } })
+    });
+  });
 });

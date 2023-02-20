@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as sinon from 'sinon';
 import { CardsController } from '../../../controllers';
 import sequelize from '../../../database/models';
+import cardsModel from '../../../database/models/Cards';
 import cardsColumnModel from '../../../database/models/CardsColumn';
 import { CardsService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
@@ -83,6 +84,29 @@ describe('Cards controller tests', function() {
 
       await cardsController.remove(req, res);
 
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
+  describe('updating card', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+
+      sinon.stub(cardsModel, 'update').resolves([1]);
+  
+      req.params = { cardId: '1' };
+      req.body = { user: { ...tokenVerifyOutput }, title: 'New title', content: 'New content' };
+      
+      await cardsController.update(req, res);
+  
       expect(res.status).to.have.been.calledWith(204);
     });
   });
