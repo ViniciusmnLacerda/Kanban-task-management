@@ -14,9 +14,9 @@ const positionService = new PositionService(columnService, cardsService, positio
 const positionRouter = express.Router();
 
 positionRouter.patch(
-  '/:database/:id',
+  '/inside/:database/:id',
   tokenMiddleare,
-  new PositionController(positionService).update,
+  new PositionController(positionService).updateInside,
 );
 
 export default positionRouter;

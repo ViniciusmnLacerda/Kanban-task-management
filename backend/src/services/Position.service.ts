@@ -77,7 +77,7 @@ export default class PositionService {
     await Promise.all(updatePromises);
   };
 
-  public update = async (
+  public updateInside = async (
     { id, direction, oldPosition, newPosition, database }: INewPosition,
     user: IToken,
   ): Promise<void> => {
@@ -88,7 +88,6 @@ export default class PositionService {
     : await this.cards.getter(id, user);
     
     this.validations.validatePositions(array, oldPosition, newPosition);
-    
     const newArray = this.shiftPosition(array, direction, oldPosition, newPosition);
     
     if (database === 'columns') {

@@ -6,7 +6,7 @@ export default class PositionController {
     this.service = service;
   }
 
-  public update = async (req: Request, res: Response): Promise<void> => {
+  public updateInside = async (req: Request, res: Response): Promise<void> => {
     const { id, database } = req.params;
     const { newPosition, oldPosition, user } = req.body;
     const params = {
@@ -17,7 +17,7 @@ export default class PositionController {
       database,
     };
 
-    await this.service.update(params, user);
+    await this.service.updateInside(params, user);
     res.status(201).end();
   };
 }
