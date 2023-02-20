@@ -19,4 +19,11 @@ cardsRouter.post(
   cardsMiddleware,
   new CardsController(cardsService).create,
 );
+
+cardsRouter.delete(
+  '/:cardId/:columnId',
+  tokenMiddleare,
+  new CardsController(cardsService).remove,
+);
+
 export default cardsRouter;

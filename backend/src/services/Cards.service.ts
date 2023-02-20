@@ -3,7 +3,7 @@ import cardsModel from '../database/models/Cards';
 import cardsColumnModel from '../database/models/CardsColumn';
 import { ICard, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewCard } from './interfaces';
+import { INewCard, IRemove } from './interfaces';
 
 export default class CardsService {
   public getter = async (columnId: number, _user: IToken): Promise<ICard[]> => {
@@ -32,5 +32,19 @@ export default class CardsService {
     } catch (err) {
       throw new ErrorClient(500, 'Internal server error');
     }
+  };
+
+  public remove = async (
+    { id: cardId, key: columnId }: Omit<IRemove, 'email'>,
+    _user: IToken,
+): Promise<void> => {
+  try {
+    await sequelize.transaction(async (t) => {
+      await cardsColumnModel.destroy({ where: { cardId, columnId }, transaction: t });
+      await cardsModel.destroy({ where: { id: cardId }, transaction: t });
+    });
+  } catch (err) {
+    throw new ErrorClient(500, 'Internal server error');
+  }
   };
 }

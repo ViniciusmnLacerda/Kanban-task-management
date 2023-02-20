@@ -19,4 +19,11 @@ export default class CardsController {
     await this.service.create({ columnId: +columnId, title, content }, user);
     res.status(204).end();
   };
+
+  public remove = async (req: Request, res: Response): Promise<void> => {
+    const { cardId, columnId } = req.params;
+    const { user } = req.body;
+    await this.service.remove({ id: +cardId, key: +columnId }, user);
+    res.status(204).end(); 
+  };
 }
