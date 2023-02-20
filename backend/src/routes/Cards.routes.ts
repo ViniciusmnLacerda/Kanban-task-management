@@ -1,12 +1,9 @@
 import * as express from 'express';
 import { CardsController } from '../controllers';
 import { tokenMiddleare } from '../middlwares';
-import { CardsService, MembersService } from '../services';
-import { MembersValidations } from '../services/validations';
+import { CardsService } from '../services';
 
-const membersValidations = new MembersValidations();
-const membersService = new MembersService(membersValidations);
-const cardsService = new CardsService(membersService);
+const cardsService = new CardsService();
 
 const cardsRouter = express.Router();
 
