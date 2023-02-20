@@ -3,6 +3,7 @@ import CardsController from './Cards.controller';
 import ColumnController from './Column.controller';
 import LoginController from './Login.controller';
 import MembersController from './Members.controller';
+import PositionController from './Position.controller';
 import RegisterController from './Register.controller';
 import WorkspacesController from './Workspaces.controller';
 
@@ -14,4 +15,5 @@ export {
   MembersController,
   ColumnController,
   CardsController,
+  PositionController,
 };

@@ -3,6 +3,7 @@ import cardsRouter from './Cards.routes';
 import columnRouter from './Column.routes';
 import loginRouter from './Login.routes';
 import membersRouter from './Members.routes';
+import positionRouter from './Position.routes';
 import registerRouter from './Register.routes';
 import workspaceRouter from './Workspaces.routes';
 
@@ -14,4 +15,5 @@ export {
   membersRouter,
   columnRouter,
   cardsRouter,
+  positionRouter,
 };
