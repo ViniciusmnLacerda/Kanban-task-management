@@ -3,6 +3,7 @@ import columnMiddleware from './column.middleware';
 import errorMiddleware from './error.middleware';
 import loginMiddleware from './login.middleware';
 import membersMiddleware from './members.middleware';
+import positionMiddleware from './position.middleware';
 import registerMiddleware from './register.middleware';
 import tokenMiddleare from './token.middleware';
 import updateWorkspacesMiddleware from './updateWorkspaces.middleware';
@@ -18,4 +19,5 @@ export {
   membersMiddleware,
   columnMiddleware,
   cardsMiddleware,
+  positionMiddleware,
 };

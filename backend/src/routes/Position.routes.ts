@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { PositionController } from '../controllers';
-import { tokenMiddleare } from '../middlwares';
+import { positionMiddleware, tokenMiddleare } from '../middlwares';
 import { CardsService, ColumnService, MembersService, PositionService } from '../services';
 import { MembersValidations, PositionValidations } from '../services/validations';
 
@@ -16,6 +16,7 @@ const positionRouter = express.Router();
 positionRouter.patch(
   '/inside/:database/:id',
   tokenMiddleare,
+  positionMiddleware,
   new PositionController(positionService).updateInside,
 );
 
