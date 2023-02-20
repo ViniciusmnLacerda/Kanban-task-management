@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import App from '../../app';
-import cardsColumnModel from '../../database/models/CardsCorlumn';
+import cardsColumnModel from '../../database/models/CardsColumn';
 import { IToken } from '../../interfaces';
 import { tokenVerifyOutput, validToken } from '../mocks/account.mock';
 import { cardsOutput } from '../mocks/cards.mock';

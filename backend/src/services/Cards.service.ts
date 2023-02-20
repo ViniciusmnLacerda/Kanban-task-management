@@ -1,5 +1,5 @@
 import cardsModel from '../database/models/Cards';
-import cardsColumnModel from '../database/models/CardsCorlumn';
+import cardsColumnModel from '../database/models/CardsColumn';
 import { ICard, IToken } from '../interfaces';
 
 export default class CardsService {

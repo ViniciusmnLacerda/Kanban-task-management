@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import cardsColumnModel from '../../../database/models/CardsCorlumn';
+import cardsColumnModel from '../../../database/models/CardsColumn';
 import { CardsService } from '../../../services';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import { cardsOutput } from '../../mocks/cards.mock';
