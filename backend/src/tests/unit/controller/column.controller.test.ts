@@ -60,6 +60,7 @@ describe('Column controller tests', function() {
       res.status = sinon.stub().returns(res);
       res.end = sinon.stub().returns(res);
 
+      sinon.stub(columnWorkspacesModel, 'findAll').resolves(columnsOutput as unknown as columnWorkspacesModel[]);
       sinon.stub(memberService, 'getter').resolves(getMembersOutput);
       sinon.stub(sequelize, 'transaction').resolves(undefined);
   
