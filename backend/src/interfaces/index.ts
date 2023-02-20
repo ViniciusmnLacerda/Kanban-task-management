@@ -1,5 +1,6 @@
 import IAccount from './IAccount';
 import IAccountWorkspace from './IAccountWorkspace';
+import ICard from './ICard';
 import IColumn from './IColumn';
 import ILogin from './ILogin';
 import IMember from './IMember';
@@ -18,4 +19,5 @@ export {
   IAccountWorkspace,
   ILogin,
   IColumn,
+  ICard,
 };

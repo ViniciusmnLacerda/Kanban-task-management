@@ -4,8 +4,7 @@ import * as express from 'express';
 import 'express-async-errors';
 import { errorMiddleware } from './middlwares';
 import {
-  accountRouter,
-  columnRouter,
+  accountRouter, cardsRouter, columnRouter,
   loginRouter, membersRouter, registerRouter,
   workspaceRouter
 } from './routes';
@@ -26,6 +25,7 @@ export default class App {
     this.app.use('/workspaces', workspaceRouter);
     this.app.use('/members', membersRouter);
     this.app.use('/columns', columnRouter);
+    this.app.use('/cards', cardsRouter);
 
     this.app.use(errorMiddleware);
   }

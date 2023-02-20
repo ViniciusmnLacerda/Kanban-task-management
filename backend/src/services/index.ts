@@ -1,4 +1,5 @@
 import AccountService from './Account.service';
+import CardsService from './Cards.service';
 import ColumnService from './Column.service';
 import LoginService from './Login.service';
 import MembersService from './Members.service';
@@ -12,4 +13,5 @@ export {
   WorkspacesService,
   MembersService,
   ColumnService,
+  CardsService,
 };

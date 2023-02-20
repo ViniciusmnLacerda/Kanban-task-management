@@ -32,8 +32,8 @@ CardsColumn.init({
   tableName: 'cards_column',
 });
 
-CardsColumn.belongsTo(Cards, { foreignKey: 'cardId', as: 'cards' });
-Cards.hasMany(CardsColumn, { foreignKey: 'cardId', as: 'cards' });
+CardsColumn.belongsTo(Cards, { foreignKey: 'cardId', as: 'card' });
+Cards.hasMany(CardsColumn, { foreignKey: 'cardId', as: 'card' });
 CardsColumn.belongsTo(Column, { foreignKey: 'columnId', as: 'column' });
 Column.hasMany(CardsColumn, { foreignKey: 'columnId', as: 'column' });
 
