@@ -3,9 +3,9 @@ import cardsModel from '../database/models/Cards';
 import cardsColumnModel from '../database/models/CardsColumn';
 import { ICard, IToken } from '../interfaces';
 import { ErrorClient } from '../utils';
-import { INewCard, IRemove, IUpdate } from './interfaces';
+import { INewCard, IRemove, IService, IUpdate } from './interfaces';
 
-export default class CardsService {
+export default class CardsService implements IService<ICard[], INewCard> {
   public getter = async (columnId: number, _user: IToken): Promise<ICard[]> => {
     const cards = await cardsColumnModel.findAll({
       where: { columnId },
