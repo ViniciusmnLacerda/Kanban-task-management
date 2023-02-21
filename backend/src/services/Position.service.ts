@@ -165,18 +165,17 @@ export default class PositionService {
     oldPosition,
     cardId,
   }: INewColumnPosition): Promise<void> => {
-    const newColumnPositions = await cardsColumnModel.findAll({ 
-      where: { columnId: newColumnId },
-      raw: true,
-    }) as unknown as ICardColumn[];
-    const oldColumnPositions = await cardsColumnModel.findAll({ 
-      where: { columnId: oldColumnId },
-      raw: true,
-    }) as unknown as ICardColumn[];
-
+    const newColumnPositions = await cardsColumnModel.findAll({ where: { columnId: newColumnId },
+      raw: true }) as unknown as ICardColumn[];
+    const oldColumnPositions = await cardsColumnModel.findAll({ where: { columnId: oldColumnId },
+      raw: true }) as unknown as ICardColumn[];
+    
     const newCardsPosition = this.setNewCardPositions(newColumnPositions, newPosition); 
     const oldCardsPosition = this.setOldCardPositions(oldColumnPositions, oldPosition);
-    
+
+    this.validations
+      .validateOutside(cardId, oldPosition, newPosition, oldColumnPositions, newCardsPosition);
+
     await this.updateOldColumn(oldCardsPosition, cardId, oldColumnId);  
     await this.updaNewColumn(newCardsPosition, newPosition, cardId, newColumnId);
   };

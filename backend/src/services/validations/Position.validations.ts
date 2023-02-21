@@ -1,4 +1,5 @@
-import { ICard, IColumn } from '../../interfaces';
+/* eslint-disable max-params */
+import { ICard, ICardColumn, IColumn } from '../../interfaces';
 import { ErrorClient } from '../../utils';
 
 export default class PositionValidations {
@@ -15,5 +16,18 @@ export default class PositionValidations {
     if (newPosition === oldPosition) throw new ErrorClient(400, 'Invalid positions');
     const isPositionsValid = newPosition <= array.length && oldPosition <= array.length;
     if (!isPositionsValid) throw new ErrorClient(400, 'Invalid positions');
+  };
+
+  public validateOutside = (
+    cardId: number,
+    oldPosition: number,
+    newPosition: number,
+    oldCardsPositions: ICardColumn[],
+    newCardsPositions: ICardColumn[],
+):void => {
+    const isCardIdValid = oldCardsPositions.find((card) => card.cardId === cardId);
+    if (!isCardIdValid) throw new ErrorClient(400, 'Invalid cardId');
+    if (isCardIdValid.position !== oldPosition) throw new ErrorClient(400, 'Invalid oldPosition');
+    if (newPosition > newCardsPositions.length) throw new ErrorClient(400, 'Invalid newPosition');
   };
 }
