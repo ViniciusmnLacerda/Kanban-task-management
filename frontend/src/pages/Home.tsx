@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import { setUser } from '../redux/sliceUser';
 import HandleAPI from '../service/HandleAPI';
+import '../styles/Home.css';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -33,6 +35,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div>{isLoggedIn ? 'logou' : 'não logou'}</div>
+    <>
+      <Navbar />
+      <div className="home">
+        {isLoggedIn ? 'logou' : 'não logou'}
+      </div>
+    </>
   );
 }

@@ -1,0 +1,41 @@
+.navbar {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: white;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-logo h1 {
+  font-weight: 100;
+  height: 100%;
+  font-size: 22px;
+}
+
+.nav-user {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.nav-user p {
+  font-size: 16px;
+}
+
+.nav-user button {
+  border: unset;
+  background-color: unset;
+}
+
+.nav-user button:hover {
+  cursor: pointer;
+}
