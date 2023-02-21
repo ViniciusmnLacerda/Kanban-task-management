@@ -77,7 +77,10 @@ export default class PositionService {
     await Promise.all(updatePromises);
   };
 
-  private setOldPositions = (cardsPosition: ICardColumn[], oldPosition: number): ICardColumn[] => {
+  private setOldCardPositions = (
+    cardsPosition: ICardColumn[],
+    oldPosition: number,
+): ICardColumn[] => {
     const newCardsPosition = cardsPosition.map((card) => {
       if (card.position > oldPosition) {
         const newCard = {
@@ -92,17 +95,12 @@ export default class PositionService {
   };
 
   private updateOldColumn = async (
+    oldCardsPosition: ICardColumn[],
     cardId: number,
-    columnId: number,
-    oldPosition: number,
+    oldColumnId: number,
 ): Promise<void> => {
-    await cardsColumnModel.destroy({ where: { cardId, columnId } });
-    const oldCardsColumn = await cardsColumnModel.findAll({ 
-      where: { columnId },
-      raw: true,
-    }) as unknown as ICardColumn[];
-    const newCardsPosition = this.setOldPositions(oldCardsColumn, oldPosition);
-    const updatePromises = newCardsPosition.map(async (card) => {
+    await cardsColumnModel.destroy({ where: { cardId, columnId: oldColumnId } });
+    const updatePromises = oldCardsPosition.map(async (card) => {
       await cardsColumnModel.update(
         { position: card.position },
         { where: { cardId: card.cardId, columnId: card.columnId } },
@@ -167,12 +165,19 @@ export default class PositionService {
     oldPosition,
     cardId,
   }: INewColumnPosition) => {
-    const cardsPosition = await cardsColumnModel.findAll({ 
+    const newColumnPositions = await cardsColumnModel.findAll({ 
       where: { columnId: newColumnId },
       raw: true,
     }) as unknown as ICardColumn[];
-    const newCardsPosition = this.setNewCardPositions(cardsPosition, newPosition); 
-    await this.updateOldColumn(cardId, oldColumnId, oldPosition);  
+    const oldColumnPositions = await cardsColumnModel.findAll({ 
+      where: { columnId: oldColumnId },
+      raw: true,
+    }) as unknown as ICardColumn[];
+
+    const newCardsPosition = this.setNewCardPositions(newColumnPositions, newPosition); 
+    const oldCardsPosition = this.setOldCardPositions(oldColumnPositions, oldPosition);
+    
+    await this.updateOldColumn(oldCardsPosition, cardId, oldColumnId);  
     await this.updaNewColumn(newCardsPosition, newPosition, cardId, newColumnId);
   };
 }
