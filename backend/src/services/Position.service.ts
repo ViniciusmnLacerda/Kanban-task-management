@@ -94,6 +94,23 @@ export default class PositionService {
     return newCardsPosition.sort((a, b) => a.position - b.position);
   };
 
+  private setNewCardPositions = (
+    cardsPosition: ICardColumn[],
+    newPosition: number,
+): ICardColumn[] => {
+    const newCardsPosition = cardsPosition.map((card) => {
+      if (card.position >= newPosition) {
+        const newCard = {
+          cardId: card.cardId,
+          columnId: card.columnId,
+          position: card.position + 1,
+        };
+        return newCard;
+      } return card;
+    });
+    return newCardsPosition.sort((a, b) => a.position - b.position);
+  };
+
   private updateOldColumn = async (
     oldCardsPosition: ICardColumn[],
     cardId: number,
@@ -123,23 +140,6 @@ export default class PositionService {
     await cardsColumnModel.create({ cardId: id, position: newPosition, columnId: newColumnId });
   }; 
 
-  private setNewCardPositions = (
-    cardsPosition: ICardColumn[],
-    newPosition: number,
-): ICardColumn[] => {
-    const newCardsPosition = cardsPosition.map((card) => {
-      if (card.position >= newPosition) {
-        const newCard = {
-          cardId: card.cardId,
-          columnId: card.columnId,
-          position: card.position + 1,
-        };
-        return newCard;
-      } return card;
-    });
-    return newCardsPosition.sort((a, b) => a.position - b.position);
-  };
-
   public updateInside = async (
     { id, direction, oldPosition, newPosition, database }: Omit<INewPosition, 'cardId'>,
     user: IToken,
@@ -164,7 +164,7 @@ export default class PositionService {
     newPosition,
     oldPosition,
     cardId,
-  }: INewColumnPosition) => {
+  }: INewColumnPosition): Promise<void> => {
     const newColumnPositions = await cardsColumnModel.findAll({ 
       where: { columnId: newColumnId },
       raw: true,
