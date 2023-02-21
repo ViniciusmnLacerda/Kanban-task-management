@@ -15,8 +15,8 @@ export default class CardsService implements IService<ICard[], INewCard> {
         as: 'card',
         attributes: [['id', 'cardId'], 'title', 'content'],
       },
-    });
-    return cards as unknown as ICard[];
+    }) as unknown as ICard[];
+    return cards.sort((a, b) => a.position - b.position);
   };
 
   public create = async ({ columnId, title, content }: INewCard, user: IToken): Promise<void> => {

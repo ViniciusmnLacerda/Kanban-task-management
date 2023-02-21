@@ -25,8 +25,8 @@ export default class ColumnService implements IService<IColumn[], INewColumn> {
           attributes: [['id', 'columnId'], 'title'],
         },
       ],
-    });
-    return columns as unknown as IColumn[];
+    }) as unknown as IColumn[];
+    return columns.sort((a, b) => a.position - b.position);
   };
 
   public create = async ({ workspaceId, title }: INewColumn, user: IToken): Promise<void> => {
