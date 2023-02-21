@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { PositionController } from '../controllers';
-import { positionMiddleware, tokenMiddleare } from '../middlwares';
+import { insideMiddleware, outsideMiddleware, tokenMiddleare } from '../middlwares';
 import { CardsService, ColumnService, MembersService, PositionService } from '../services';
 import { MembersValidations, PositionValidations } from '../services/validations';
 
@@ -16,13 +16,14 @@ const positionRouter = express.Router();
 positionRouter.patch(
   '/inside/:database/:id',
   tokenMiddleare,
-  positionMiddleware,
+  insideMiddleware,
   new PositionController(positionService).updateInside,
 );
 
 positionRouter.patch(
   '/outside/:cardId',
   tokenMiddleare,
+  outsideMiddleware,
   new PositionController(positionService).updateOutside,
 );
 

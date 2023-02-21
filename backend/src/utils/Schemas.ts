@@ -35,9 +35,16 @@ const cardsSchema = Joi.object({
   content: Joi.string().min(2).required(),
 });
 
-const positionSchema = Joi.object({
+const insideSchema = Joi.object({
   oldPosition: Joi.number().integer().min(0).required(),
   newPosition: Joi.number().integer().min(0).required(),
+});
+
+const outsideSchema = Joi.object({
+  oldColumnId: Joi.number().integer().min(0).required(),
+  newColumnId: Joi.number().integer().min(0).required(),
+  newPostion: Joi.number().integer().min(0).required(),
+  oldPosition: Joi.number().integer().min(0).required(),
 });
 
 export default { 
@@ -48,5 +55,6 @@ export default {
   membersSchema,
   columnSchema,
   cardsSchema,
-  positionSchema,
+  insideSchema,
+  outsideSchema,
 };
