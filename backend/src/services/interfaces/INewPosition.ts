@@ -4,4 +4,5 @@ export default interface INewPosition {
   oldPosition: number;
   newPosition: number;
   database: string;
-}
+  cardId: number;
+};

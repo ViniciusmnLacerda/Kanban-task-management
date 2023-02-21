@@ -18,6 +18,21 @@ export default class PositionController {
     };
 
     await this.service.updateInside(params, user);
-    res.status(201).end();
+    res.status(204).end();
+  };
+
+  public updateOutside = async (req: Request, res: Response): Promise<void> => {
+    const { cardId } = req.params;
+    const { oldColumnId, newColumnId, newPosition, oldPosition } = req.body;
+    const params = { 
+      cardId: +cardId,
+      oldColumnId,
+      newColumnId,
+      newPosition,
+      oldPosition,
+    };
+
+    await this.service.updateOutside(params);
+    res.status(204).end();
   };
 }

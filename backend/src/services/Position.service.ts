@@ -1,9 +1,9 @@
 import cardsColumnModel from '../database/models/CardsColumn';
 import columnWorkspacesModel from '../database/models/ColumnWorkspace';
-import { ICard, IColumn, IToken } from '../interfaces';
+import { ICard, ICardColumn, IColumn, IToken } from '../interfaces';
 import CardsService from './Cards.service';
 import ColumnService from './Column.service';
-import { INewPosition } from './interfaces';
+import { INewColumnPosition, INewPosition } from './interfaces';
 import { PositionValidations } from './validations';
 
 export default class PositionService {
@@ -77,8 +77,73 @@ export default class PositionService {
     await Promise.all(updatePromises);
   };
 
+  private setOldPositions = (cardsPosition: ICardColumn[], oldPosition: number): ICardColumn[] => {
+    const newCardsPosition = cardsPosition.map((card) => {
+      if (card.position > oldPosition) {
+        const newCard = {
+          cardId: card.cardId,
+          columnId: card.columnId,
+          position: card.position - 1,
+        };
+        return newCard;
+      } return card;
+    });    
+    return newCardsPosition.sort((a, b) => a.position - b.position);
+  };
+
+  private updateOldColumn = async (
+    cardId: number,
+    columnId: number,
+    oldPosition: number,
+): Promise<void> => {
+    await cardsColumnModel.destroy({ where: { cardId, columnId } });
+    const oldCardsColumn = await cardsColumnModel.findAll({ 
+      where: { columnId },
+      raw: true,
+    }) as unknown as ICardColumn[];
+    const newCardsPosition = this.setOldPositions(oldCardsColumn, oldPosition);
+    const updatePromises = newCardsPosition.map(async (card) => {
+      await cardsColumnModel.update(
+        { position: card.position },
+        { where: { cardId: card.cardId, columnId: card.columnId } },
+);
+    });
+    await Promise.all(updatePromises);
+  };
+
+  private updaNewColumn = async (
+    newCards: ICardColumn[],
+    newPosition: number,
+    id: number,
+    newColumnId: number,
+): Promise<void> => {
+    const cardsTobeUpdated = newCards.filter(({ position }) => position >= newPosition);
+    const updatePromises = cardsTobeUpdated.map(async ({ cardId, columnId, position }) => {
+      await cardsColumnModel.update({ position }, { where: { cardId, columnId } });
+    });
+    await Promise.all(updatePromises);
+    await cardsColumnModel.create({ cardId: id, position: newPosition, columnId: newColumnId });
+  }; 
+
+  private setNewCardPositions = (
+    cardsPosition: ICardColumn[],
+    newPosition: number,
+): ICardColumn[] => {
+    const newCardsPosition = cardsPosition.map((card) => {
+      if (card.position >= newPosition) {
+        const newCard = {
+          cardId: card.cardId,
+          columnId: card.columnId,
+          position: card.position + 1,
+        };
+        return newCard;
+      } return card;
+    });
+    return newCardsPosition.sort((a, b) => a.position - b.position);
+  };
+
   public updateInside = async (
-    { id, direction, oldPosition, newPosition, database }: INewPosition,
+    { id, direction, oldPosition, newPosition, database }: Omit<INewPosition, 'cardId'>,
     user: IToken,
   ): Promise<void> => {
     this.validations.validateDatabase(database);
@@ -93,5 +158,21 @@ export default class PositionService {
     if (database === 'columns') {
       await this.updateColumns(newArray as unknown as columnWorkspacesModel[], id);
     } else await this.updateCards(newArray as unknown as cardsColumnModel[], id);
+  };
+
+  public updateOutside = async ({ 
+    oldColumnId,
+    newColumnId, 
+    newPosition,
+    oldPosition,
+    cardId,
+  }: INewColumnPosition) => {
+    const cardsPosition = await cardsColumnModel.findAll({ 
+      where: { columnId: newColumnId },
+      raw: true,
+    }) as unknown as ICardColumn[];
+    const newCardsPosition = this.setNewCardPositions(cardsPosition, newPosition); 
+    await this.updateOldColumn(cardId, oldColumnId, oldPosition);  
+    await this.updaNewColumn(newCardsPosition, newPosition, cardId, newColumnId);
   };
 }

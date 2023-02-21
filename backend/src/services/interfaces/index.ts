@@ -1,5 +1,6 @@
 import INewCard from './INewCard';
 import INewColumn from './INewColumn';
+import INewColumnPosition from './INewColumnPosition';
 import INewMember from './INewMember';
 import INewPosition from './INewPosition';
 import INewWorkspace from './INewWorkspace';
@@ -16,4 +17,5 @@ export {
   IUpdate,
   INewCard,
   INewPosition,
+  INewColumnPosition,
 };

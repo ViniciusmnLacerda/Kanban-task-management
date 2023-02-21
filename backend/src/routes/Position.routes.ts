@@ -20,4 +20,10 @@ positionRouter.patch(
   new PositionController(positionService).updateInside,
 );
 
+positionRouter.patch(
+  '/outside/:cardId',
+  tokenMiddleare,
+  new PositionController(positionService).updateOutside,
+);
+
 export default positionRouter;
