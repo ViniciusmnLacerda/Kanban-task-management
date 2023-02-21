@@ -3,17 +3,17 @@ import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import { setUser } from '../redux/sliceUser';
-import HandleAPI from '../service/HandleAPI';
+import HandleAccount from '../service/HandleAccount';
 import '../styles/Home.css';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const handleAPI = new HandleAPI();
+  const handleAccount = new HandleAccount();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getAccount = async (id: number, token: string) => {
-      const result = await handleAPI.getAccount(id, token);
+      const result = await handleAccount.getAccount(id, token);
       if (result?.status === StatusCode.OK) {
         dispatch(setUser({
           id: result.data.id,

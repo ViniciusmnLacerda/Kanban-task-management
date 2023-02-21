@@ -4,7 +4,7 @@ import { IoPersonOutline } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import StatusCode from '../enums/StatusCode';
-import HandleAPI from '../service/HandleAPI';
+import HandleAccount from '../service/HandleAccount';
 import '../styles/Login.css';
 
 export default function Login() {
@@ -13,7 +13,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [badRequest, setBadRequest] = useState(false);
   const navigate = useNavigate();
-  const handleAPI = new HandleAPI();
+  const handleAccount = new HandleAccount();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
@@ -32,7 +32,7 @@ export default function Login() {
     e.preventDefault();
     setBadRequest(false);
     setLoading(true);
-    const result = await handleAPI.postLogin(creadentials);
+    const result = await handleAccount.postLogin(creadentials);
     if (result?.status === StatusCode.OK) {
       localStorage.setItem('userData', JSON.stringify(result.data));
       setLoading(false);

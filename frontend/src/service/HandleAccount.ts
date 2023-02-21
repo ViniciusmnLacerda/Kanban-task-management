@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ICredentials, IUserData } from '../interfaces';
 
-export default class HandleAPI {
+export default class HandleAccount {
   private urlBase: string;
 
   private account: string;

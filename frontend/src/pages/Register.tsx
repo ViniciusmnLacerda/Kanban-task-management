@@ -5,7 +5,7 @@ import { IoPersonOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router';
 import Loading from '../components/Loading';
 import StatusCode from '../enums/StatusCode';
-import HandleAPI from '../service/HandleAPI';
+import HandleAccount from '../service/HandleAccount';
 import '../styles/Register.css';
 
 export default function Register() {
@@ -33,7 +33,7 @@ export default function Register() {
     name: false,
     lastName: false,
   });
-  const handleAPI = new HandleAPI();
+  const handleAccount = new HandleAccount();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
@@ -84,7 +84,7 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
 
-    const result = await handleAPI.postRegister({
+    const result = await handleAccount.postRegister({
       name: userData.name,
       lastName: userData.lastName,
       email: userData.email,
