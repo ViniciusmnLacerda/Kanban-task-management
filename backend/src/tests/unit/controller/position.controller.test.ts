@@ -9,7 +9,14 @@ import columnWorkspacesModel from '../../../database/models/ColumnWorkspace';
 import { CardsService, ColumnService, MembersService, PositionService } from '../../../services';
 import { MembersValidations, PositionValidations } from '../../../services/validations';
 import { tokenVerifyOutput } from '../../mocks/account.mock';
-import { cardsOutput, columnsOutput } from '../../mocks/position.mocks';
+import {
+  cardsOutput,
+  columnsOutput,
+  createOutput,
+  newCardsPosition,
+  oldCardsPosition,
+  validInputOutisde
+} from '../../mocks/position.mocks';
 
 const { expect } = chai;
 
@@ -26,45 +33,73 @@ describe('Position controller tests', function() {
     afterEach(function() {
       sinon.restore();
     });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+  
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+  
+      req.body = { user: { ...tokenVerifyOutput }, oldPosition: 0,  newPosition: 1 };
+      req.params = { id: '1', database: 'columns' };
+  
+      sinon.stub(columnService, 'getter').resolves(columnsOutput as columnModel[] | any);
+      sinon.stub(columnWorkspacesModel, 'update').resolves([1]);
+  
+      await positionController.updateInside(req, res);
+      expect(res.status).to.have.been.calledWith(204);
+    });
   });
 
-  it('successfully', async function() {
-    const req = {} as Request;
-    const res = {} as Response;
-
-    res.status = sinon.stub().returns(res);
-    res.end = sinon.stub().returns(res);
-
-    req.body = { user: { ...tokenVerifyOutput }, oldPosition: 0,  newPosition: 1 };
-    req.params = { id: '1', database: 'columns' };
-
-    sinon.stub(columnService, 'getter').resolves(columnsOutput as columnModel[] | any);
-    sinon.stub(columnWorkspacesModel, 'update').resolves([1]);
-
-    await positionController.updateInside(req, res);
-    expect(res.status).to.have.been.calledWith(201);
-  });
 
   describe('changing card position - inside', function() {
     afterEach(function() {
       sinon.restore();
     });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+    
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+    
+      req.body = { user: { ...tokenVerifyOutput }, oldPosition: 0,  newPosition: 1 };
+      req.params = { id: '1', database: 'cards' };
+    
+      sinon.stub(cardsService, 'getter').resolves(cardsOutput as cardsModel[] | any);
+      sinon.stub(cardsColumnModel, 'update').resolves([1]);
+    
+      await positionController.updateInside(req, res);
+      expect(res.status).to.have.been.calledWith(204);
+    });
   });
 
-  it('successfully', async function() {
-    const req = {} as Request;
-    const res = {} as Response;
-
-    res.status = sinon.stub().returns(res);
-    res.end = sinon.stub().returns(res);
-
-    req.body = { user: { ...tokenVerifyOutput }, oldPosition: 0,  newPosition: 1 };
-    req.params = { id: '1', database: 'cards' };
-
-    sinon.stub(cardsService, 'getter').resolves(cardsOutput as cardsModel[] | any);
-    sinon.stub(cardsColumnModel, 'update').resolves([1]);
-
-    await positionController.updateInside(req, res);
-    expect(res.status).to.have.been.calledWith(201);
+  describe('changing card position - outside', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('successfully', async function() {
+      const req = {} as Request;
+      const res = {} as Response;
+    
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns(res);
+    
+      req.body = { user: { ...tokenVerifyOutput }, ...validInputOutisde };
+      req.params = { cardId: '1' };
+    
+      sinon.stub(cardsColumnModel, 'destroy').resolves(1);
+      sinon.stub(cardsColumnModel, 'update').resolves([1]);
+      sinon.stub(cardsColumnModel, 'create').resolves(createOutput as unknown as cardsColumnModel);
+      sinon.stub(cardsColumnModel, 'findAll')
+        .onFirstCall().resolves(newCardsPosition as unknown as cardsColumnModel[])
+        .onSecondCall().resolves(oldCardsPosition as unknown as cardsColumnModel[]);
+    
+      await positionController.updateOutside(req, res);
+      expect(res.status).to.have.been.calledWith(204);
+    });
   });
 });

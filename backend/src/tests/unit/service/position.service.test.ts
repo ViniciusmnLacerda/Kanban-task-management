@@ -9,12 +9,17 @@ import { MembersValidations, PositionValidations } from '../../../services/valid
 import { tokenVerifyOutput } from '../../mocks/account.mock';
 import {
   cardsOutput,
-  columnsOutput, invalidCardsPosition,
+  columnsOutput, createOutput, invalidCardIdInput, invalidCardsPosition,
   invalidCardsPositionEqual, invalidDatabaseInput,
   invalidEqualPositionInput,
   invalidNewPositionInput,
+  invalidNewPositionInputOutside,
+  invalidOldPositionInput,
+  newCardsPosition,
+  oldCardsPosition,
   validInput,
-  validInputCard
+  validInputCard,
+  validInputOutisde
 } from '../../mocks/position.mocks';
 
 const { expect } = chai;
@@ -101,5 +106,65 @@ describe('Position service test', function() {
       await positionService.updateInside(validInputCard, tokenVerifyOutput);
       expect(stubeCreate).to.have.been.calledWith({ position: 1 }, { where: { columnId: 1, cardId: 1 } });
     });
+  });
+
+  describe('changing cards position - outside', function() {
+    afterEach(function() {
+      sinon.restore();
+    });
+    
+    it('with invalid cardId should return error', async function() {
+      sinon.stub(cardsColumnModel, 'findAll')
+      .onFirstCall().resolves(newCardsPosition as unknown as cardsColumnModel[])
+      .onSecondCall().resolves(oldCardsPosition as unknown as cardsColumnModel[]);
+
+      try {
+        await positionService.updateOutside(invalidCardIdInput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Invalid cardId');
+      }
+    });
+
+    it('with invalid oldPosition should return error', async function() {
+      sinon.stub(cardsColumnModel, 'findAll')
+      .onFirstCall().resolves(newCardsPosition as unknown as cardsColumnModel[])
+      .onSecondCall().resolves(oldCardsPosition as unknown as cardsColumnModel[]);
+
+      try {
+        await positionService.updateOutside(invalidOldPositionInput)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Invalid oldPosition');
+      }
+    });
+
+    it('with invalid newPosition should return error', async function() {
+      sinon.stub(cardsColumnModel, 'findAll')
+      .onFirstCall().resolves(newCardsPosition as unknown as cardsColumnModel[])
+      .onSecondCall().resolves(oldCardsPosition as unknown as cardsColumnModel[]);
+
+      try {
+        await positionService.updateOutside(invalidNewPositionInputOutside)
+      } catch (err) {
+        expect((err as Error).message).to.be.equal('Invalid newPosition');
+      }
+    });
+
+    it('successfully', async function() {
+      const stubDestroy = sinon.stub(cardsColumnModel, 'destroy').resolves(1);
+      const stubUpdate = sinon.stub(cardsColumnModel, 'update').resolves([1]);
+      const stubCreate = sinon.stub(cardsColumnModel, 'create').resolves(createOutput as unknown as cardsColumnModel);
+      sinon.stub(cardsColumnModel, 'findAll')
+      .onFirstCall().resolves(newCardsPosition as unknown as cardsColumnModel[])
+      .onSecondCall().resolves(oldCardsPosition as unknown as cardsColumnModel[]);
+
+      await positionService.updateOutside(validInputOutisde);
+
+      expect(stubDestroy).to.have.been.calledOnceWithExactly({ where: { cardId: 1, columnId: 1 } })
+      expect(stubCreate).to.have.been.calledOnceWithExactly({ cardId: 1, position: 2, columnId: 2 })
+      expect(stubUpdate).to.have.been.calledWith(
+        { position: 0 },
+        { where: { cardId: 2, columnId: 1 } },
+      )
+    })
   });
 })

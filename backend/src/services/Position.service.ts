@@ -172,7 +172,7 @@ export default class PositionService {
     
     const newCardsPosition = this.setNewCardPositions(newColumnPositions, newPosition); 
     const oldCardsPosition = this.setOldCardPositions(oldColumnPositions, oldPosition);
-
+      
     this.validations
       .validateOutside(cardId, oldPosition, newPosition, oldColumnPositions, newCardsPosition);
 

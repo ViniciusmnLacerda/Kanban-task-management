@@ -43,7 +43,7 @@ const insideSchema = Joi.object({
 const outsideSchema = Joi.object({
   oldColumnId: Joi.number().integer().min(0).required(),
   newColumnId: Joi.number().integer().min(0).required(),
-  newPostion: Joi.number().integer().min(0).required(),
+  newPosition: Joi.number().integer().min(0).required(),
   oldPosition: Joi.number().integer().min(0).required(),
 });
 
