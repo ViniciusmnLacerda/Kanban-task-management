@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-max-depth */
 import { useEffect, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BsPencil } from 'react-icons/bs';
@@ -10,9 +9,11 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import IWorkspace from '../interfaces/IWorkspaces';
+import { setPeople } from '../redux/slicePeople';
 import { getUser, setUser } from '../redux/sliceUser';
 import { getWorkspaces, setWorkspaces } from '../redux/sliceWorkspaces';
 import HandleAccount from '../service/HandleAccount';
+import HandlePeople from '../service/HandlePeople';
 import HandleWorkspaces from '../service/HandleWorkspaces';
 import '../styles/Home.css';
 
@@ -23,10 +24,11 @@ export default function Home() {
   const [toEdit, setToEdit] = useState('');
   const handleAccount = new HandleAccount();
   const handleWorkspaces = new HandleWorkspaces();
+  const handlePeople = new HandlePeople();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getAccountAndWorkspaces = async (id: number, token: string) => {
+    const initialFetch = async (id: number, token: string) => {
       const account = await handleAccount.getAccount(id, token);
       if (account?.status === StatusCode.OK) {
         dispatch(setUser({
@@ -43,11 +45,15 @@ export default function Home() {
       if (dataWorkspaces?.status === StatusCode.OK) {
         dispatch(setWorkspaces(dataWorkspaces.data));
       }
+      const dataPeople = await handlePeople.getter(id, token);
+      if (dataPeople?.status === StatusCode.OK) {
+        dispatch(setPeople(dataPeople.data));
+      }
     };
 
     try {
       const { id, token } = JSON.parse(localStorage.getItem('userData') || '');
-      getAccountAndWorkspaces(id, token);
+      initialFetch(id, token);
     } catch (err) {
       console.log(err);
     }
