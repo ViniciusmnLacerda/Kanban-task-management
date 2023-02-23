@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Navbar from '../components/Navbar';
 import NewWorkspace from '../components/NewWorkspace';
 import Workspaces from '../components/Workspaces';
 import StatusCode from '../enums/StatusCode';
@@ -53,13 +52,10 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      {isCreatingWorkspace ? (
-        <NewWorkspace />
-      ) : (
-        <Workspaces />
-      )}
-    </>
+    isCreatingWorkspace ? (
+      <NewWorkspace />
+    ) : (
+      <Workspaces />
+    )
   );
 }

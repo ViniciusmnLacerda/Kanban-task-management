@@ -1,8 +1,9 @@
 .home {
   width: 100%;
-  height: calc(100% - 65px);
+  height: calc(100% - 25px);
   background-color: rgb(247, 247, 247);
-  padding-top: 40px;
+  position: relative;
+  top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +64,7 @@ li {
 
 .li-btn:hover {
   cursor: pointer;
-  background-color: rgb(247, 247, 247);;
+  background-color: rgb(247, 247, 247);
 }
 
 .wk-btns {

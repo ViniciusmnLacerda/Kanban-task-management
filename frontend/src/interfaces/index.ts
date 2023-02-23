@@ -3,6 +3,7 @@ import ICredentials from './ICredentials';
 import IPeople from './IPeople';
 import IToken from './IToken';
 import IUser from './IUser';
+import IUserAdmin from './IUserAdmin';
 import IUserData from './IUserData';
 
 export type {
@@ -12,4 +13,5 @@ export type {
   IUserData,
   IPeople,
   IControls,
+  IUserAdmin,
 };

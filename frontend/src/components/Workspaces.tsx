@@ -6,6 +6,7 @@ import { MdDone } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import IWorkspace from '../interfaces/IWorkspaces';
 import { setCreatingWorkspace } from '../redux/sliceControls';
@@ -40,71 +41,74 @@ export default function Workspaces() {
   };
 
   return (
-    <main className="home">
-      <ul className="workspaces">
-        {workspaces.map((workspace: IWorkspace) => (
-          <li
-            className="wk-li"
-            key={ workspace.workspaceId }
-          >
-            <div className="wk-title">
-              <FcTodoList fontSize={ 22 } />
-              { +toEdit === workspace.workspaceId ? (
-                <form>
-                  <input
-                    placeholder="New title"
-                    type="text"
-                    value={ title }
-                    name="title"
-                    onChange={ (e) => handleChange(e) }
-                  />
-                </form>
-              ) : (
-                <Link
-                  to={ `/workspace/${workspace.workspaceId}` }
-                >
-                  {workspace.workspace.title}
-                </Link>
-              )}
-            </div>
-            {+toEdit === workspace.workspaceId ? (
-              <div className="wk-btns">
-                <button
-                  className="li-btn"
-                  onClick={ () => setToEdit('') }
-                >
-                  <RxCross1 color="red" />
-                </button>
-                <button
-                  className="li-btn"
-                  onClick={ () => changeTitle(workspace.workspaceId) }
-                >
-                  <MdDone color="green" />
-                </button>
+    <>
+      <Navbar />
+      <main className="home">
+        <ul className="workspaces">
+          {workspaces.map((workspace: IWorkspace) => (
+            <li
+              className="wk-li"
+              key={ workspace.workspaceId }
+            >
+              <div className="wk-title">
+                <FcTodoList fontSize={ 22 } />
+                { +toEdit === workspace.workspaceId ? (
+                  <form>
+                    <input
+                      placeholder="New title"
+                      type="text"
+                      value={ title }
+                      name="title"
+                      onChange={ (e) => handleChange(e) }
+                    />
+                  </form>
+                ) : (
+                  <Link
+                    to={ `/workspace/${workspace.workspaceId}` }
+                  >
+                    {workspace.workspace.title}
+                  </Link>
+                )}
               </div>
-            ) : (
-              <button
-                className="li-btn"
-                onClick={ () => {
-                  setToEdit(`${workspace.workspaceId}`);
-                  setTitle(workspace.workspace.title);
-                } }
-              >
-                <BsPencil fontSize={ 15 } />
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={ () => dispatch(setCreatingWorkspace(true)) }
-        className="new-wk-btn"
-      >
-        <span>
-          <AiOutlinePlus />
-          New Workspace
-        </span>
-      </button>
-    </main>
+              {+toEdit === workspace.workspaceId ? (
+                <div className="wk-btns">
+                  <button
+                    className="li-btn"
+                    onClick={ () => setToEdit('') }
+                  >
+                    <RxCross1 color="red" />
+                  </button>
+                  <button
+                    className="li-btn"
+                    onClick={ () => changeTitle(workspace.workspaceId) }
+                  >
+                    <MdDone color="green" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className="li-btn"
+                  onClick={ () => {
+                    setToEdit(`${workspace.workspaceId}`);
+                    setTitle(workspace.workspace.title);
+                  } }
+                >
+                  <BsPencil fontSize={ 15 } />
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+        <button
+          onClick={ () => dispatch(setCreatingWorkspace(true)) }
+          className="new-wk-btn"
+        >
+          <span>
+            <AiOutlinePlus />
+            New Workspace
+          </span>
+        </button>
+      </main>
+    </>
   );
 }

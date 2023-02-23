@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { INewWorkspace } from './interfaces';
 
 export default class HandleWorkspaces {
   private urlBase: string;
@@ -34,6 +35,26 @@ export default class HandleWorkspaces {
       const { status } = await axios.patch(
         `${this.urlBase}/${this.workspaces}/${workspaceId}`,
         { title },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public create = async (body: INewWorkspace, token: string) => {
+    try {
+      const { status } = await axios.post(
+        `${this.urlBase}/${this.workspaces}`,
+        body,
         {
           headers: {
             authorization: token,
