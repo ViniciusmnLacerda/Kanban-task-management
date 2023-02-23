@@ -38,7 +38,7 @@
 
 .nwk-form {
   position: absolute;
-  left: 180px;
+  left: 10%;
   top: 30%;
   display: flex;
   flex-direction: column;
