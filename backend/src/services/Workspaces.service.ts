@@ -42,7 +42,7 @@ export default class WorkspacesService implements IService<IWorkspace[], INewWor
         const newAccountWorkspaces = await Promise.all(users
           .map(async ({ id: accountId }, index) => {
           const accountWorkspaces = await accountWorkspacesModel
-            .create({ accountId, workspaceId, owner: index === 0 }, { transaction: t });
+            .create({ accountId, workspaceId, admin: index === 0 }, { transaction: t });
           return accountWorkspaces;
         }));
         return newAccountWorkspaces;
