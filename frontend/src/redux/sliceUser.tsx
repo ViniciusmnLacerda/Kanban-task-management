@@ -3,6 +3,7 @@ import { IUser } from '../interfaces';
 
 const INITIAL_STATE: IUser = {
   id: 0,
+  email: '',
   accountId: 0,
   name: '',
   lastName: '',

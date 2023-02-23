@@ -15,6 +15,7 @@ export default function Navbar() {
     dispatch(setUser({
       id: 0,
       accountId: 0,
+      email: '',
       name: '',
       lastName: '',
       image: '',

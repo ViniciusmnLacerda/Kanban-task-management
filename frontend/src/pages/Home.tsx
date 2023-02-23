@@ -20,10 +20,11 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const initialFetch = async (id: number, token: string) => {
+    const initialFetch = async (id: number, token: string, email: string) => {
       const account = await handleAccount.getAccount(id, token);
       if (account?.status === StatusCode.OK) {
         dispatch(setUser({
+          email,
           id: account.data.id,
           accountId: account.data.userId,
           name: account.data.name,
@@ -44,8 +45,8 @@ export default function Home() {
     };
 
     try {
-      const { id, token } = JSON.parse(localStorage.getItem('userData') || '');
-      initialFetch(id, token);
+      const { id, token, email } = JSON.parse(localStorage.getItem('userData') || '');
+      initialFetch(id, token, email);
     } catch (err) {
       console.log(err);
     }

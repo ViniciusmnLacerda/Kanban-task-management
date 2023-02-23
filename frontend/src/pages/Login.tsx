@@ -34,7 +34,11 @@ export default function Login() {
     setLoading(true);
     const result = await handleAccount.postLogin(creadentials);
     if (result?.status === StatusCode.OK) {
-      localStorage.setItem('userData', JSON.stringify(result.data));
+      const data = {
+        email: creadentials.email,
+        token: result?.data.token,
+        id: result?.data.id };
+      localStorage.setItem('userData', JSON.stringify(data));
       setLoading(false);
       navigate('/home');
     } else {

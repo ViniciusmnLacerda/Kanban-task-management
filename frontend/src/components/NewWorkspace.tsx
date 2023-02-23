@@ -18,7 +18,7 @@ export default function NewWorkspace() {
   const [title, setTitle] = useState('');
   const people = useSelector(getPeople);
   const workspaces = useSelector(getWorkspaces);
-  const { token, accountId } = useSelector(getUser);
+  const user = useSelector(getUser);
   const [userAdmin, setUserAdmin] = useState([] as IUserAdmin[]);
   const [loading, setLoading] = useState(false);
   const [emails, setEmails] = useState([] as string[]);
@@ -33,11 +33,11 @@ export default function NewWorkspace() {
   const finish = async () => {
     setLoading(true);
     const emailsList = [...emails];
-    emailsList.unshift('vinicius@email.com');
+    emailsList.unshift(user.email);
     const body = { title, emails: emailsList };
-    const response = await handleWorkspaces.create(body, token);
+    const response = await handleWorkspaces.create(body, user.token);
     if (response?.status === StatusCode.CREATED) {
-      const result = await handleWorkspaces.getter(accountId, token);
+      const result = await handleWorkspaces.getter(user.accountId, user.token);
       dispatch(setWorkspaces(result?.data));
     }
   };
@@ -98,13 +98,12 @@ export default function NewWorkspace() {
   useEffect(() => {
     const insertMembers = async () => {
       const id = workspaces[workspaces.length - 1].workspaceId;
-      const insertPromise = userAdmin.map(async (user, index) => {
-        if (user.admin) {
-          await handleMembers.update(user.accountId, id, token);
+      const insertPromise = userAdmin.map(async (e, index) => {
+        if (e.admin) {
+          const result = await handleMembers.update(e.accountId, id, user.token);
+          console.log('data: ', result?.data);
         }
         if (index === userAdmin.length - 1) {
-          console.log('aqui ');
-
           dispatch(setCreatingWorkspace(false));
         }
       });
@@ -178,13 +177,13 @@ export default function NewWorkspace() {
             <h1>{`Workspace ${title}`}</h1>
             <p>Select workspace admins</p>
             {emails.map((email, index) => {
-              const user = people.find((person) => person.email === email);
+              const account = people.find((person) => person.email === email);
               return (
                 <label
                   className="lbl-checkbox"
                   key={ email }
                 >
-                  <span>{`${user?.name} ${user?.lastName}`}</span>
+                  <span>{`${account?.name} ${account?.lastName}`}</span>
                   <input
                     type="checkbox"
                     value="admin"
