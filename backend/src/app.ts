@@ -8,10 +8,8 @@ import {
   cardsRouter,
   columnRouter,
   loginRouter,
-  membersRouter,
-  positionRouter,
-  registerRouter,
-  workspaceRouter
+  membersRouter, peopleRouter, positionRouter,
+  registerRouter, workspaceRouter
 } from './routes';
 
 export default class App {
@@ -32,6 +30,7 @@ export default class App {
     this.app.use('/columns', columnRouter);
     this.app.use('/cards', cardsRouter);
     this.app.use('/position', positionRouter);
+    this.app.use('/people', peopleRouter);
 
     this.app.use(errorMiddleware);
   }

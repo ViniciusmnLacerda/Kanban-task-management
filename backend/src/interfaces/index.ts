@@ -5,6 +5,7 @@ import ICardColumn from './ICardColumn';
 import IColumn from './IColumn';
 import ILogin from './ILogin';
 import IMember from './IMember';
+import IPeople from './IPeople';
 import IToken from './IToken';
 import IUser from './IUser';
 import IUserData from './IUserData';
@@ -22,4 +23,5 @@ export {
   IColumn,
   ICard,
   ICardColumn,
+  IPeople,
 };
