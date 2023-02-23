@@ -1,3 +1,4 @@
+import IControls from './IControls';
 import ICredentials from './ICredentials';
 import IPeople from './IPeople';
 import IToken from './IToken';
@@ -10,4 +11,5 @@ export type {
   IToken,
   IUserData,
   IPeople,
+  IControls,
 };
