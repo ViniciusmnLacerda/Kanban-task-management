@@ -100,8 +100,7 @@ export default function NewWorkspace() {
       const id = workspaces[workspaces.length - 1].workspaceId;
       const insertPromise = userAdmin.map(async (e, index) => {
         if (e.admin) {
-          const result = await handleMembers.update(e.accountId, id, user.token);
-          console.log('data: ', result?.data);
+          await handleMembers.update(e.accountId, id, user.token);
         }
         if (index === userAdmin.length - 1) {
           dispatch(setCreatingWorkspace(false));
