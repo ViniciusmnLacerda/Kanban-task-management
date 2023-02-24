@@ -1,3 +1,4 @@
+import ICard from './Icard';
 import IColumn from './IColumns';
 import IControls from './IControls';
 import ICredentials from './ICredentials';
@@ -16,4 +17,5 @@ export type {
   IControls,
   IUserAdmin,
   IColumn,
+  ICard,
 };
