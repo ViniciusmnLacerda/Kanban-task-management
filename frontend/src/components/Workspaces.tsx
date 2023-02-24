@@ -5,7 +5,7 @@ import { FcTodoList } from 'react-icons/fc';
 import { MdDone } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import IWorkspace from '../interfaces/IWorkspaces';
@@ -21,17 +21,12 @@ export default function Workspaces() {
   const [title, setTitle] = useState('');
   const [toEdit, setToEdit] = useState('');
   const handleWorkspaces = new HandleWorkspaces();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
     setTitle(value);
-  };
-
-  const handleClick = (workspaceId: number) => {
-    dispatch(setWorkspaceId(`${workspaceId}`));
-    navigate(`/workspace/${workspaceId}`);
   };
 
   const changeTitle = async (workspaceId: number) => {
@@ -44,6 +39,11 @@ export default function Workspaces() {
       }
     }
     setToEdit('');
+  };
+
+  const handleClick = async (workspaceId: number) => {
+    dispatch(setWorkspaceId(`${workspaceId}`));
+    navigate(`/workspace/${workspaceId}`);
   };
 
   return (

@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import sliceCards from './sliceCards';
 import sliceColumns from './sliceColumns';
 import sliceControls from './sliceControls';
 import slicePeople from './slicePeople';
@@ -12,6 +13,7 @@ const store = configureStore({
     people: slicePeople,
     controls: sliceControls,
     columns: sliceColumns,
+    cards: sliceCards,
   },
 });
 

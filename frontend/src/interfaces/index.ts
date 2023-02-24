@@ -3,6 +3,7 @@ import IColumn from './IColumns';
 import IControls from './IControls';
 import ICredentials from './ICredentials';
 import IPeople from './IPeople';
+import IProps from './IProps';
 import IToken from './IToken';
 import IUser from './IUser';
 import IUserAdmin from './IUserAdmin';
@@ -18,4 +19,5 @@ export type {
   IUserAdmin,
   IColumn,
   ICard,
+  IProps,
 };

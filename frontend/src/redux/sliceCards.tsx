@@ -7,8 +7,8 @@ const sliceCards = createSlice({
   name: 'cards',
   initialState: INITIAL_STATE,
   reducers: {
-    setCards(state, { payload }: PayloadAction<ICard[]>) {
-      return { ...state, payload };
+    setCards(_state, { payload }: PayloadAction<ICard[]>) {
+      return payload;
     },
   },
 });

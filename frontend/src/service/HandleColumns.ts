@@ -10,7 +10,7 @@ export default class HandleColumns {
     this.columns = 'columns';
   }
 
-  public getter = async (workspaceId: string, token: string) => {
+  public getter = async (workspaceId: number, token: string) => {
     try {
       const { data, status } = await axios.get(
         `${this.urlBase}/${this.columns}/${workspaceId}`,
