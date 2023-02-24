@@ -15,4 +15,4 @@ const sliceColumns = createSlice({
 
 export default sliceColumns.reducer;
 export const { setColumns } = sliceColumns.actions;
-export const getColumns = (state: any) => state.workspaces as IColumn[];
+export const getColumns = (state: any) => state.columns as IColumn[];
