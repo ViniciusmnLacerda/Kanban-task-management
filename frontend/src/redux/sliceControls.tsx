@@ -3,6 +3,7 @@ import { IControls } from '../interfaces';
 
 const INITIAL_STATE: IControls = {
   isCreatingWorkspace: false,
+  workspaceId: '',
 };
 
 const sliceControls = createSlice({
@@ -11,6 +12,9 @@ const sliceControls = createSlice({
   reducers: {
     setCreatingWorkspace(state, { payload }: PayloadAction<boolean>) {
       return { ...state, isCreatingWorkspace: payload };
+    },
+    setWorkspaceId(state, { payload }: PayloadAction<string>) {
+      return { ...state, workspaceId: payload };
     },
   },
 });
