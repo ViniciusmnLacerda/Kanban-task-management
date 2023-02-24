@@ -20,5 +20,5 @@ const sliceControls = createSlice({
 });
 
 export default sliceControls.reducer;
-export const { setCreatingWorkspace } = sliceControls.actions;
+export const { setCreatingWorkspace, setWorkspaceId } = sliceControls.actions;
 export const getControls = (state: any) => state.controls as IControls;
