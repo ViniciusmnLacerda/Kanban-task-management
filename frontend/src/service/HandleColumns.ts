@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export default class HandleWorkspaces {
+export default class HandleColumns {
   private urlBase: string;
 
   private columns: string;
@@ -10,7 +10,7 @@ export default class HandleWorkspaces {
     this.columns = 'columns';
   }
 
-  public getter = async (workspaceId: number, token: string) => {
+  public getter = async (workspaceId: string, token: string) => {
     try {
       const { data, status } = await axios.get(
         `${this.urlBase}/${this.columns}/${workspaceId}`,

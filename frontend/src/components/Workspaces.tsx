@@ -5,11 +5,11 @@ import { FcTodoList } from 'react-icons/fc';
 import { MdDone } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
 import IWorkspace from '../interfaces/IWorkspaces';
-import { setCreatingWorkspace } from '../redux/sliceControls';
+import { setCreatingWorkspace, setWorkspaceId } from '../redux/sliceControls';
 import { getUser } from '../redux/sliceUser';
 import { getWorkspaces, setWorkspaces } from '../redux/sliceWorkspaces';
 import HandleWorkspaces from '../service/HandleWorkspaces';
@@ -22,10 +22,16 @@ export default function Workspaces() {
   const [toEdit, setToEdit] = useState('');
   const handleWorkspaces = new HandleWorkspaces();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
     setTitle(value);
+  };
+
+  const handleClick = (workspaceId: number) => {
+    dispatch(setWorkspaceId(`${workspaceId}`));
+    navigate(`/workspace/${workspaceId}`);
   };
 
   const changeTitle = async (workspaceId: number) => {
@@ -63,11 +69,13 @@ export default function Workspaces() {
                     />
                   </form>
                 ) : (
-                  <Link
-                    to={ `/workspace/${workspace.workspaceId}` }
+                  <button
+                    className="wk-btn"
+                    type="button"
+                    onClick={ () => handleClick(workspace.workspaceId) }
                   >
                     {workspace.workspace.title}
-                  </Link>
+                  </button>
                 )}
               </div>
               {+toEdit === workspace.workspaceId ? (
