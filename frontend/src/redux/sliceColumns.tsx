@@ -7,8 +7,8 @@ const sliceColumns = createSlice({
   name: 'columns',
   initialState: INITIAL_STATE,
   reducers: {
-    setColumns(state, { payload }: PayloadAction<IColumn[]>) {
-      return { ...payload, payload };
+    setColumns(_state, { payload }: PayloadAction<IColumn[]>) {
+      return payload;
     },
   },
 });
