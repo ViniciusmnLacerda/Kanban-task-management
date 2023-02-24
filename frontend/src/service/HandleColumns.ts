@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { INewColumn } from './interfaces';
 
 export default class HandleColumns {
   private urlBase: string;
@@ -21,6 +22,26 @@ export default class HandleColumns {
         },
       );
       return { data, status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public create = async ({ title, workspaceId }: INewColumn, token: string) => {
+    try {
+      const { status } = await axios.post(
+        `${this.urlBase}/${this.columns}/${workspaceId}`,
+        { title },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
     } catch (err) {
       const errors = err as Error | AxiosError;
       if (axios.isAxiosError(errors)) {
