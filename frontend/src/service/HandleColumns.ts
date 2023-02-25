@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { IRemove } from '../interfaces';
-import { INewColumn } from './interfaces';
+import { INewColumn, IRemove, IUpdate } from './interfaces';
 
 export default class HandleColumns {
   private urlBase: string;
@@ -55,6 +54,29 @@ export default class HandleColumns {
     try {
       const { status } = await axios.delete(
         `${this.urlBase}/${this.columns}/${id}/${key}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public update = async (
+    { id, title }: Omit<IUpdate, 'content' | 'key'>,
+    token: string,
+  ) => {
+    try {
+      const { status } = await axios.patch(
+        `${this.urlBase}/${this.columns}/${id}`,
+        { title },
         {
           headers: {
             authorization: token,

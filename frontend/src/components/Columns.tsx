@@ -42,6 +42,15 @@ export default function Columns() {
     }
   };
 
+  const updateColumn = async (e: React.FormEvent<HTMLFormElement>, columnId: number) => {
+    e.preventDefault();
+    const response = await handleColumns.update({ id: columnId, title: newTitle }, token);
+    if (response?.status === StatusCode.UPDATE) {
+      dispatch(setEditingColumn({ isEditing: false, columnId: '' }));
+      fetchColumns();
+    }
+  };
+
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await handleColumns
@@ -73,7 +82,10 @@ export default function Columns() {
           style={ { height: setHeight(columnId) } }
         >
           {controls.column.isEditing && +controls.column.columnId === columnId ? (
-            <form className="form-new-title">
+            <form
+              onSubmit={ (e) => updateColumn(e, columnId) }
+              className="form-new-title"
+            >
               <label>
                 <div className="form-new-title-btns">
                   <button
