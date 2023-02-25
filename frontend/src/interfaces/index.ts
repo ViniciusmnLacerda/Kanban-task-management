@@ -3,6 +3,7 @@ import IColumn from './IColumns';
 import IControls from './IControls';
 import ICreatingCard from './ICreatingCard';
 import ICredentials from './ICredentials';
+import IEditingCard from './IEditingCard';
 import IPeople from './IPeople';
 import IProps from './IProps';
 import IToken from './IToken';
@@ -21,6 +22,6 @@ export type {
   IColumn,
   ICard,
   IProps,
-  ICreatingCard
+  ICreatingCard,
+  IEditingCard,
 };
-

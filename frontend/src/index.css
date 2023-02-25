@@ -12,3 +12,9 @@ body {
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+  

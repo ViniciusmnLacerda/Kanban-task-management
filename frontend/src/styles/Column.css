@@ -1,6 +1,6 @@
 .columns {
   display: flex;
-  width: 80%;
+  width: 95%;
   height: 85%;
   gap: 30px;
   margin-top: 20px;
@@ -9,7 +9,9 @@
 
 .column {
   background-color: #fff;
-  width: 250px;
+  max-width: 200px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  padding: 1em;
   overflow-y: scroll;
   max-height: 100%;
   display: flex;
@@ -19,11 +21,56 @@
 
 .column header {
   width: 100%;
-  height: 38px;
-  border-bottom: 2px solid rgb(247, 247, 247);
+  height: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.form-new-title {
+  width: 100%;
+  height: 40px;
+}
+
+.form-new-title label {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.form-new-title input {
+  width: 100%;
+}
+
+.form-new-title-btns {
+  display: flex;
+  position: absolute;
+  align-items: center;
   justify-content: center;
+  width: 50px;
+}
+
+.column-header-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.column-header-btns button {
+  background-color: transparent;
+  border: unset;
+}
+
+.column-header-btns button:hover {
+  cursor: pointer;
+}
+
+.column header h4 {
+  color: #607D8B;
 }
 
 .column label {
@@ -40,10 +87,6 @@
   margin: 0;
 }
 
-.column header h3 {
-  font-weight: 800;
-  font-size: 1.0rem;
-}
 
 .new-column {
   border: 0;
@@ -70,8 +113,8 @@
 .form-col-btn {
   background-color: transparent;
   border: 0;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 
