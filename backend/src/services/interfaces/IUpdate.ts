@@ -3,4 +3,4 @@ export default interface IUpdate {
   key: number;
   title: string;
   content: string;
-};
+}
