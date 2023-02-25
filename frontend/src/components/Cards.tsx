@@ -39,6 +39,22 @@ export default function Cards({ columnId }: IProps) {
     dispatch(setCards(allCards));
   };
 
+  const createCard = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await handleCards
+      .create({ ...body, columnId }, token);
+
+    if (response?.status === StatusCode.UPDATE) {
+      fetchCards();
+      dispatch(setCreatingTask({
+        isCreating: false,
+        isEditing: false,
+        columnId: '',
+      }));
+      setBody({ title: '', content: '' });
+    }
+  };
+
   useEffect(() => {
     fetchCards();
   }, []);
@@ -52,7 +68,10 @@ export default function Cards({ columnId }: IProps) {
         </li>
       ))}
       {(controls.card.isCreating && +controls.card.columnId === columnId) ? (
-        <form className="form-new-card">
+        <form
+          onSubmit={ (e) => createCard(e) }
+          className="form-new-card"
+        >
           <label htmlFor="title">
             <div className="new-card-btns">
               <button

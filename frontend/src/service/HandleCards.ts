@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { INewCard } from './interfaces';
 
 export default class HandleCards {
   private urlBase: string;
@@ -9,6 +10,26 @@ export default class HandleCards {
     this.urlBase = 'http://localhost:3001';
     this.cards = 'cards';
   }
+
+  public create = async ({ title, content, columnId }: INewCard, token: string) => {
+    try {
+      const { status } = await axios.post(
+        `${this.urlBase}/${this.cards}/${columnId}`,
+        { title, content },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
 
   public getter = async (columnId: number, token: string) => {
     try {

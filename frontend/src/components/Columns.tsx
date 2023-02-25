@@ -51,7 +51,7 @@ export default function Columns() {
     }
   };
 
-  const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createColumn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await handleColumns
       .create({ title: columnTitle, workspaceId: +controls.workspaceId }, token);
@@ -144,7 +144,7 @@ export default function Columns() {
       ))}
       {controls.isCreatingColumn ? (
         <form
-          onSubmit={ (e) => handleClick(e) }
+          onSubmit={ (e) => createColumn(e) }
           className="column column-form"
         >
           <label>

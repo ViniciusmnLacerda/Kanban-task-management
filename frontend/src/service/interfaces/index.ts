@@ -1,3 +1,4 @@
+import INewCard from './INewCard';
 import INewColumn from './INewColumn';
 import INewWorkspace from './INewWorkspace';
 import IRemove from './IRemove';
@@ -8,4 +9,5 @@ export type {
   INewColumn,
   IUpdate,
   IRemove,
+  INewCard,
 };
