@@ -34,6 +34,14 @@ export default function Columns() {
     }
   };
 
+  const deleteColumn = async (columnId: number) => {
+    const response = await handleColumns
+      .remove({ id: columnId, key: +controls.workspaceId }, token);
+    if (response?.status === StatusCode.DELETE) {
+      fetchColumns();
+    }
+  };
+
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await handleColumns
@@ -110,7 +118,10 @@ export default function Columns() {
                 >
                   <BsPencil fontSize={ 15 } />
                 </button>
-                <button>
+                <button
+                  type="button"
+                  onClick={ () => deleteColumn(columnId) }
+                >
                   <BsTrash fontSize={ 15 } />
                 </button>
               </div>
@@ -134,14 +145,14 @@ export default function Columns() {
                   dispatch(setCreatingColumn(false));
                 } }
               >
-                <RxCross1 fontSize={ 15 } color="red" />
+                <RxCross1 color="red" />
               </button>
               <button
                 type="submit"
                 className="form-col-btn"
                 disabled={ columnTitle.length <= 1 }
               >
-                <MdDone fontSize={ 15 } color="green" />
+                <MdDone color="green" />
               </button>
             </div>
             <input

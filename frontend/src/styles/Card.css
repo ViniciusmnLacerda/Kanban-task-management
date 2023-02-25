@@ -131,6 +131,7 @@
 
 .form-card-btn:not(:disabled):hover {
   cursor: pointer;
+  background-color: rgb(247, 247, 247);
 }
 
 .form-card-btn:disabled {
@@ -141,6 +142,16 @@
 .form-card-btn {
   background-color: transparent;
   border: 0;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
+  border-radius: 40%;
+}
+
+.form-card-btn:hover {
+
+}
+
+.form-card-btn svg {
+  width: 15px;
+  height: 15px;
 }

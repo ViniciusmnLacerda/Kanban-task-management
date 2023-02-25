@@ -6,6 +6,7 @@ import ICredentials from './ICredentials';
 import IEditingCard from './IEditingCard';
 import IPeople from './IPeople';
 import IProps from './IProps';
+import IRemove from './IRemove';
 import IToken from './IToken';
 import IUser from './IUser';
 import IUserAdmin from './IUserAdmin';
@@ -24,4 +25,5 @@ export type {
   IProps,
   ICreatingCard,
   IEditingCard,
+  IRemove,
 };

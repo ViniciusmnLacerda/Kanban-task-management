@@ -63,6 +63,20 @@
 .column-header-btns button {
   background-color: transparent;
   border: unset;
+  width: 25px;
+  height: 25px;
+  border-radius: 40%;
+  text-align: center;
+}
+
+.column-header-btns button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.column-header-btns button:hover {
+  cursor: pointer;
+  background-color: rgb(247, 247, 247);
 }
 
 .column-header-btns button:hover {

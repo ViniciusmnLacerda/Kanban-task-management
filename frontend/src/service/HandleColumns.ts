@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { IRemove } from '../interfaces';
 import { INewColumn } from './interfaces';
 
 export default class HandleColumns {
@@ -35,6 +36,25 @@ export default class HandleColumns {
       const { status } = await axios.post(
         `${this.urlBase}/${this.columns}/${workspaceId}`,
         { title },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public remove = async ({ id, key }: Omit<IRemove, 'email'>, token: string) => {
+    try {
+      const { status } = await axios.delete(
+        `${this.urlBase}/${this.columns}/${id}/${key}`,
         {
           headers: {
             authorization: token,
