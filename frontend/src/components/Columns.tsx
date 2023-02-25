@@ -10,7 +10,7 @@ import StatusCode from '../enums/StatusCode';
 import { getCards } from '../redux/sliceCards';
 import { getColumns, setColumns } from '../redux/sliceColumns';
 import {
-  getControls, setCreatingColumn, setEditingColumn, setNewColumnEmpty
+  getControls, setCreatingColumn, setEditingColumn
 } from '../redux/sliceControls';
 import { getUser } from '../redux/sliceUser';
 import HandleColumns from '../service/HandleColumns';
@@ -44,7 +44,6 @@ export default function Columns() {
     }
     setColumnTitle('');
     dispatch(setCreatingColumn(false));
-    dispatch(setNewColumnEmpty(true));
   };
 
   const setHeight = (columnId: number): number => {

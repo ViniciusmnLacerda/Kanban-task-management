@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable array-callback-return */
 import { useEffect, useState } from 'react';
@@ -41,155 +43,74 @@ export default function Cards({ columnId }: IProps) {
     fetchCards();
   }, []);
 
-  console.log(`Coluna ${columnId}: `, cardsToRender);
-
   return (
     <ol>
-      {cardsToRender.length > 0 ? (
-        cardsToRender.map(({ card: { cardId, title, content } }, index) => {
-          if (index < cardsToRender.length - 1) {
-            return (
-              <li className="task" key={ cardId }>
-                <h3>{title}</h3>
-                <p>{content}</p>
-              </li>
-            );
-          }
-          if (index === cardsToRender.length - 1) {
-            return (
-              <>
-                <li className="task" key={ `${cardId}_${columnId}_${title}}` }>
-                  <h3>{title}</h3>
-                  <p>{content}</p>
-                </li>
-                {(controls.card.isCreating && +controls.card.columnId === columnId) ? (
-                  <form className="form-new-card">
-                    <label htmlFor="title">
-                      <div className="new-card-btns">
-                        <button
-                          type="button"
-                          className="form-card-btn"
-                          onClick={ () => dispatch(setCreatingTask({
-                            isEditing: false,
-                            isCreating: false,
-                            columnId: '' })) }
-                        >
-                          <RxCross1 fontSize={ 15 } color="red" />
-                        </button>
-                        <button
-                          type="submit"
-                          className="form-card-btn"
-                          disabled={ body.title.length < 2 || body.content.length < 2 }
-                        >
-                          <MdDone fontSize={ 15 } color="green" />
-                        </button>
-                      </div>
-                      <input
-                        onChange={ (e) => setBody({
-                          ...body, [e.target.name]: e.target.value }) }
-                        name="title"
-                        value={ body.title }
-                        type="text"
-                        placeholder="Title"
-                        id="title"
-                      />
-                    </label>
-                    <textarea
-                      name="content"
-                      onChange={ (e) => setBody({
-                        ...body, [e.target.name]: e.target.value }) }
-                      value={ body.content }
-                      placeholder="Description"
-                    />
-                  </form>
-                ) : (
-                  <li
-                    className="task new-task"
-                    key={ `${cardId}_${columnId}}` }
-                  >
-                    <button
-                      type="button"
-                      onClick={ () => {
-                        dispatch(setCreatingTask({
-                          isEditing: false,
-                          isCreating: true,
-                          columnId: `${columnId}` }));
-                        setBody({ title: '', content: '' });
-                      } }
-                    >
-                      <span>
-                        <AiOutlinePlus />
-                        ADD NEW
-                      </span>
-                    </button>
-                  </li>
-                )}
-              </>
-            );
-          }
-        })
-      ) : (
-        (controls.card.isCreating && +controls.card.columnId === columnId) ? (
-          <form className="form-new-card">
-            <label htmlFor="title">
-              <div className="new-card-btns">
-                <button
-                  type="button"
-                  className="form-card-btn"
-                  onClick={ () => dispatch(setCreatingTask({
-                    isEditing: false,
-                    isCreating: false,
-                    columnId: '' })) }
-                >
-                  <RxCross1 fontSize={ 15 } color="red" />
-                </button>
-                <button
-                  type="submit"
-                  className="form-card-btn"
-                  disabled={ body.title.length < 2 || body.content.length < 2 }
-                >
-                  <MdDone fontSize={ 15 } color="green" />
-                </button>
-              </div>
-              <input
-                onChange={ (e) => setBody({
-                  ...body, [e.target.name]: e.target.value }) }
-                name="title"
-                value={ body.title }
-                type="text"
-                placeholder="Title"
-                id="title"
-              />
-            </label>
-            <textarea
-              name="content"
+      {cardsToRender.map(({ card: { cardId, title, content } }) => (
+        <li className="task" key={ cardId }>
+          <h3>{title}</h3>
+          <p>{content}</p>
+        </li>
+      ))}
+      {(controls.card.isCreating && +controls.card.columnId === columnId) ? (
+        <form className="form-new-card">
+          <label htmlFor="title">
+            <div className="new-card-btns">
+              <button
+                type="button"
+                className="form-card-btn"
+                onClick={ () => dispatch(setCreatingTask({
+                  isEditing: false,
+                  isCreating: false,
+                  columnId: '' })) }
+              >
+                <RxCross1 fontSize={ 15 } color="red" />
+              </button>
+              <button
+                type="submit"
+                className="form-card-btn"
+                disabled={ body.title.length < 2 || body.content.length < 2 }
+              >
+                <MdDone fontSize={ 15 } color="green" />
+              </button>
+            </div>
+            <input
               onChange={ (e) => setBody({
                 ...body, [e.target.name]: e.target.value }) }
-              value={ body.content }
-              placeholder="Description"
+              name="title"
+              value={ body.title }
+              type="text"
+              placeholder="Title"
+              id="title"
             />
-          </form>
-        ) : (
-          <li
-            className="task new-task"
+          </label>
+          <textarea
+            name="content"
+            onChange={ (e) => setBody({
+              ...body, [e.target.name]: e.target.value }) }
+            value={ body.content }
+            placeholder="Description"
+          />
+        </form>
+      ) : (
+        <li
+          className="task new-task"
+        >
+          <button
+            type="button"
+            onClick={ () => {
+              dispatch(setCreatingTask({
+                isEditing: false,
+                isCreating: true,
+                columnId: `${columnId}` }));
+              setBody({ title: '', content: '' });
+            } }
           >
-            <button
-              type="button"
-              onClick={ () => {
-                dispatch(setCreatingTask({
-                  isEditing: false,
-                  isCreating: true,
-                  columnId: `${columnId}` }));
-                setBody({ title: '', content: '' });
-              } }
-            >
-              <span>
-                <AiOutlinePlus />
-                ADD NEW
-              </span>
-            </button>
-          </li>
-        )
+            <span>
+              <AiOutlinePlus />
+              ADD NEW
+            </span>
+          </button>
+        </li>
       )}
     </ol>
   );

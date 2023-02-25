@@ -3,7 +3,6 @@ export default interface IControls {
   isCreatingColumn: boolean;
   workspaceId: string;
   isCreatingTask: boolean;
-  newColumnEmpty: boolean;
   card: {
     isCreating: boolean;
     isEditing: boolean;
@@ -13,4 +12,4 @@ export default interface IControls {
     isEditing: boolean;
     columnId: string;
   }
-}
+};

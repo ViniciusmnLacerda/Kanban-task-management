@@ -6,7 +6,6 @@ const INITIAL_STATE: IControls = {
   isCreatingColumn: false,
   isCreatingTask: false,
   workspaceId: '',
-  newColumnEmpty: false,
   card: {
     isCreating: false,
     isEditing: false,
@@ -34,9 +33,6 @@ const sliceControls = createSlice({
     setCreatingTask(state, { payload }: PayloadAction<ICreatingCard>) {
       return { ...state, card: payload };
     },
-    setNewColumnEmpty(state, { payload }: PayloadAction<boolean>) {
-      return { ...state, newColumnEmpty: payload };
-    },
     setEditingColumn(state, { payload }: PayloadAction<IEditingCard>) {
       return { ...state, column: payload };
     },
@@ -46,6 +42,6 @@ const sliceControls = createSlice({
 export default sliceControls.reducer;
 export const {
   setCreatingWorkspace, setEditingColumn,
-  setWorkspaceId, setCreatingColumn, setCreatingTask, setNewColumnEmpty,
+  setWorkspaceId, setCreatingColumn, setCreatingTask,
 } = sliceControls.actions;
 export const getControls = (state: any) => state.controls as IControls;
