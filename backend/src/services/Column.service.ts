@@ -1,4 +1,7 @@
+/* eslint-disable max-lines-per-function */
 import sequelize from '../database/models';
+import cardsModel from '../database/models/Cards';
+import cardsColumnModel from '../database/models/CardsColumn';
 import columnModel from '../database/models/Column';
 import columnWorkspacesModel from '../database/models/ColumnWorkspace';
 import { IColumn, IToken } from '../interfaces';
@@ -50,8 +53,16 @@ export default class ColumnService implements IService<IColumn[], INewColumn> {
     user: IToken,
   ): Promise<void> => {
     await this.service.getter(workspaceId, user);
+    const cardIds = await cardsColumnModel.findAll({ 
+      where: { columnId }, raw: true, attributes: ['cardId'],
+    });
+    const destroyPromise = cardIds.map(async ({ cardId }) => {
+      await cardsModel.destroy({ where: { id: cardId } });
+    });
     try {
       await sequelize.transaction(async (t) => {
+        await cardsColumnModel.destroy({ where: { columnId }, transaction: t });
+        await Promise.all(destroyPromise);
         await columnWorkspacesModel.destroy({ where: { workspaceId, columnId }, transaction: t });
         await columnModel.destroy({ where: { id: columnId }, transaction: t });
       });
