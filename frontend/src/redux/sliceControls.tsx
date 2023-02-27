@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IControls, ICreatingCard, IEditingCard } from '../interfaces';
+import { IControls, ICreatingCard, IEditingCard } from './interfaces';
 
 const INITIAL_STATE: IControls = {
   isCreatingWorkspace: false,

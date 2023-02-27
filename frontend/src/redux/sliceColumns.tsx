@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IColumn } from '../interfaces';
+import { IColumn } from './interfaces';
 
 const INITIAL_STATE: IColumn[] = [];
 

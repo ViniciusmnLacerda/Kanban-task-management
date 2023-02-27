@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Navbar from '../components/Navbar';
 import StatusCode from '../enums/StatusCode';
-import IWorkspace from '../interfaces/IWorkspaces';
+import IWorkspace from '../redux/interfaces/IWorkspaces';
 import { setCreatingWorkspace, setWorkspaceId } from '../redux/sliceControls';
 import { getUser } from '../redux/sliceUser';
 import { getWorkspaces, setWorkspaces } from '../redux/sliceWorkspaces';

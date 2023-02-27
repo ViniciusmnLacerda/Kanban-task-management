@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import IWorkspace from '../interfaces/IWorkspaces';
+import { IWorkspace } from './interfaces';
 
 const INITIAL_STATE: IWorkspace[] = [];
 
