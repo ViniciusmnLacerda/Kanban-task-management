@@ -3,6 +3,7 @@ export default interface IControls {
   isCreatingColumn: boolean;
   workspaceId: string;
   isCreatingTask: boolean;
+  changedPositionCards: boolean,
   card: {
     isCreating: boolean;
     isEditing: boolean;
