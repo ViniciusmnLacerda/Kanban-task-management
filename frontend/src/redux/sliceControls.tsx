@@ -1,16 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IControls, ICreatingCard, IEditingCard } from './interfaces';
+import { IControls, ICreatingCard, IEditingCard, IPopup } from './interfaces';
 
 const INITIAL_STATE: IControls = {
   isCreatingWorkspace: false,
   isCreatingColumn: false,
   isCreatingTask: false,
+  getCards: false,
   workspaceId: '',
+  popup: {
+    open: false,
+    cardId: '',
+    columnId: '',
+    xPos: '',
+    yPos: '',
+  },
   changedPositionCards: false,
   card: {
     isCreating: false,
     isEditing: false,
     columnId: '',
+    cardId: '',
   },
   column: {
     isEditing: false,
@@ -40,7 +49,12 @@ const sliceControls = createSlice({
     setChangedPositionCards(state, { payload }: PayloadAction<boolean>) {
       return { ...state, changedPositionCards: payload };
     },
-
+    setPopup(state, { payload }: PayloadAction<IPopup>) {
+      return { ...state, popup: payload };
+    },
+    setGetCards(state, { payload }: PayloadAction<boolean>) {
+      return { ...state, getCards: payload };
+    },
   },
 });
 
@@ -48,6 +62,6 @@ export default sliceControls.reducer;
 export const {
   setCreatingWorkspace, setEditingColumn,
   setWorkspaceId, setCreatingColumn, setCreatingTask,
-  setChangedPositionCards,
+  setChangedPositionCards, setPopup, setGetCards,
 } = sliceControls.actions;
 export const getControls = (state: any) => state.controls as IControls;

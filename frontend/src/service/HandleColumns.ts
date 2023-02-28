@@ -50,7 +50,7 @@ export default class HandleColumns {
     }
   };
 
-  public remove = async ({ id, key }: Omit<IRemove, 'email'>, token: string) => {
+  public remove = async ({ id, key }: IRemove, token: string) => {
     try {
       const { status } = await axios.delete(
         `${this.urlBase}/${this.columns}/${id}/${key}`,

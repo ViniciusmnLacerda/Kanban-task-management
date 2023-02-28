@@ -4,6 +4,7 @@ import IControls from './IControls';
 import ICreatingCard from './ICreatingCard';
 import IEditingCard from './IEditingCard';
 import IPeople from './IPeople';
+import IPopup from './IPopup';
 import IUser from './IUser';
 import IWorkspace from './IWorkspaces';
 
@@ -16,4 +17,5 @@ export type {
   IWorkspace,
   ICreatingCard,
   IEditingCard,
+  IPopup,
 };

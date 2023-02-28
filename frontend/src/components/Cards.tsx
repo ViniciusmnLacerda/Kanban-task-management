@@ -1,9 +1,8 @@
 /* eslint-disable comma-dangle */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { MdDone } from 'react-icons/md';
-import { RxCross1 } from 'react-icons/rx';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import StatusCode from '../enums/StatusCode';
 import { ICard, IProps } from '../interfaces';
@@ -12,19 +11,21 @@ import { getColumns } from '../redux/sliceColumns';
 import {
   getControls,
   setChangedPositionCards,
-  setCreatingTask
+  setCreatingTask,
+  setGetCards,
+  setPopup
 } from '../redux/sliceControls';
 import { getUser } from '../redux/sliceUser';
 import HandleCards from '../service/HandleCards';
 import '../styles/Card.css';
+import FormCard from './FormCard';
 
-export default function Cards({ columnId }: IProps) {
+export default function Cards({ columnId }: Omit<IProps, 'cardId'>) {
   const cards = useSelector(getCards);
   const columns = useSelector(getColumns);
   const controls = useSelector(getControls);
   const { token } = useSelector(getUser);
   const handleCards = new HandleCards();
-  const [body, setBody] = useState({ title: '', content: '' });
   const cardsToRender = cards.filter((card) => card.columnId === columnId);
 
   const dispatch = useDispatch();
@@ -41,22 +42,6 @@ export default function Cards({ columnId }: IProps) {
     dispatch(setCards(allCards));
   };
 
-  const createCard = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await handleCards
-      .create({ ...body, columnId }, token);
-
-    if (response?.status === StatusCode.UPDATE) {
-      fetchCards();
-      dispatch(setCreatingTask({
-        isCreating: false,
-        isEditing: false,
-        columnId: '',
-      }));
-      setBody({ title: '', content: '' });
-    }
-  };
-
   useEffect(() => {
     fetchCards();
   }, []);
@@ -66,7 +51,23 @@ export default function Cards({ columnId }: IProps) {
       dispatch(setChangedPositionCards(false));
       fetchCards();
     }
+    if (controls.getCards) {
+      dispatch(setGetCards(false));
+      fetchCards();
+    }
   }, [controls]);
+
+  const openMenu = (e: React.MouseEvent, cardId: number) => {
+    const xPos = `${e.pageX}px`;
+    const yPos = `${e.pageY}px`;
+    dispatch(setPopup({
+      open: true,
+      cardId: `${cardId}`,
+      columnId: `${columnId}`,
+      xPos,
+      yPos,
+    }));
+  };
 
   return (
     <Droppable droppableId={ `${columnId}-cards` }>
@@ -83,62 +84,33 @@ export default function Cards({ columnId }: IProps) {
               key={ cardId }
             >
               {(prov) => (
-                <li
-                  ref={ prov.innerRef }
-                  { ...prov.draggableProps }
-                  { ...prov.dragHandleProps }
-                  className="task"
-                >
-                  <h3>{title}</h3>
-                  <p>{content}</p>
-                </li>
+                (controls.card.isEditing && +controls.card.cardId === cardId ? (
+                  <FormCard columnId={ columnId } cardId={ cardId } />
+                ) : (
+                  <li
+                    ref={ prov.innerRef }
+                    { ...prov.draggableProps }
+                    { ...prov.dragHandleProps }
+                    className="task"
+                  >
+                    <header>
+                      <h3>{title}</h3>
+                      <button
+                        type="button"
+                        onClick={ (e) => openMenu(e, cardId) }
+                      >
+                        <BiDotsVerticalRounded />
+                      </button>
+                    </header>
+                    <p>{content}</p>
+                  </li>
+                ))
               )}
             </Draggable>
           ))}
           {provided.placeholder}
           {(controls.card.isCreating && +controls.card.columnId === columnId) ? (
-            <form
-              onSubmit={ (e) => createCard(e) }
-              className="form-new-card"
-            >
-              <label htmlFor="title">
-                <div className="new-card-btns">
-                  <button
-                    type="button"
-                    className="form-card-btn"
-                    onClick={ () => dispatch(setCreatingTask({
-                      isEditing: false,
-                      isCreating: false,
-                      columnId: '' })) }
-                  >
-                    <RxCross1 fontSize={ 15 } color="red" />
-                  </button>
-                  <button
-                    type="submit"
-                    className="form-card-btn"
-                    disabled={ body.title.length < 2 || body.content.length < 2 }
-                  >
-                    <MdDone fontSize={ 15 } color="green" />
-                  </button>
-                </div>
-                <input
-                  onChange={ (e) => setBody({
-                    ...body, [e.target.name]: e.target.value }) }
-                  name="title"
-                  value={ body.title }
-                  type="text"
-                  placeholder="Title"
-                  id="title"
-                />
-              </label>
-              <textarea
-                name="content"
-                onChange={ (e) => setBody({
-                  ...body, [e.target.name]: e.target.value }) }
-                value={ body.content }
-                placeholder="Description"
-              />
-            </form>
+            <FormCard columnId={ columnId } cardId={ 0 } />
           ) : (
             <li
               className="task new-task"
@@ -149,8 +121,9 @@ export default function Cards({ columnId }: IProps) {
                   dispatch(setCreatingTask({
                     isEditing: false,
                     isCreating: true,
-                    columnId: `${columnId}` }));
-                  setBody({ title: '', content: '' });
+                    columnId: `${columnId}`,
+                    cardId: '',
+                  }));
                 } }
               >
                 <span>

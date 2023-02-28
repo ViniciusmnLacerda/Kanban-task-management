@@ -113,120 +113,126 @@ export default function Columns() {
   }, []);
 
   return (
-    <DragDropContext onDragEnd={ handleOnDragEnd }>
-      <main className="columns">
-        {columns.map(({ column: { columnId, title } }) => (
-          <section
-            className="column"
-            key={ columnId }
-            style={ { height: setHeight(columnId) } }
-          >
-            {controls.column.isEditing && +controls.column.columnId === columnId ? (
-              <form
-                onSubmit={ (e) => updateColumn(e, columnId) }
-                className="form-new-title"
-              >
-                <label>
-                  <div className="form-new-title-btns">
+    <section className="board">
+      <DragDropContext onDragEnd={ handleOnDragEnd }>
+        <main className="columns">
+          {columns.map(({ column: { columnId, title } }) => (
+            <section
+              className="column"
+              key={ columnId }
+              style={ { height: setHeight(columnId) } }
+            >
+              {controls.column.isEditing && +controls.column.columnId === columnId ? (
+                <form
+                  onSubmit={ (e) => updateColumn(e, columnId) }
+                  className="form-new-title"
+                >
+                  <label>
+                    <div className="form-new-title-btns">
+                      <button
+                        type="button"
+                        className="form-col-btn"
+                        onClick={ () => {
+                          dispatch(setEditingColumn({ isEditing: false, columnId: '' }));
+                          setNewTitle('');
+                        } }
+                      >
+                        <RxCross1 fontSize={ 15 } color="red" />
+                      </button>
+                      <button
+                        type="submit"
+                        className="form-col-btn"
+                        disabled={ newTitle.length <= 1 }
+                      >
+                        <MdDone fontSize={ 15 } color="green" />
+                      </button>
+                    </div>
+                    <input
+                      placeholder="New title"
+                      name="newTitle"
+                      value={ newTitle }
+                      onChange={ (e) => setNewTitle(e.target.value) }
+                      type="text"
+                    />
+                  </label>
+                </form>
+              ) : (
+                <header>
+                  <h4>
+                    {`${title} (${cards
+                      .filter((card) => card.columnId === columnId).length})`}
+                  </h4>
+                  <div className="column-header-btns">
                     <button
                       type="button"
-                      className="form-col-btn"
                       onClick={ () => {
-                        dispatch(setEditingColumn({ isEditing: false, columnId: '' }));
-                        setNewTitle('');
+                        dispatch(setEditingColumn({
+                          isEditing: true,
+                          columnId: `${columnId}`
+                        }));
+                        setNewTitle(title);
                       } }
                     >
-                      <RxCross1 fontSize={ 15 } color="red" />
+                      <BsPencil fontSize={ 15 } />
                     </button>
                     <button
-                      type="submit"
-                      className="form-col-btn"
-                      disabled={ newTitle.length <= 1 }
+                      type="button"
+                      onClick={ () => deleteColumn(columnId) }
                     >
-                      <MdDone fontSize={ 15 } color="green" />
+                      <BsTrash fontSize={ 15 } />
                     </button>
                   </div>
-                  <input
-                    placeholder="New title"
-                    name="newTitle"
-                    value={ newTitle }
-                    onChange={ (e) => setNewTitle(e.target.value) }
-                    type="text"
-                  />
-                </label>
-              </form>
-            ) : (
-              <header>
-                <h4>
-                  {`${title} (${cards
-                    .filter((card) => card.columnId === columnId).length})`}
-                </h4>
-                <div className="column-header-btns">
+                </header>
+              )}
+              <Cards columnId={ columnId } />
+            </section>
+          ))}
+          {controls.isCreatingColumn ? (
+            <form
+              onSubmit={ (e) => createColumn(e) }
+              className="column column-form"
+            >
+              <label>
+                <div className="form-btns">
                   <button
                     type="button"
-                    onClick={ () => dispatch(setEditingColumn(
-                      { isEditing: true, columnId: `${columnId}` }
-                    )) }
+                    className="form-col-btn"
+                    onClick={ () => {
+                      setColumnTitle('');
+                      dispatch(setCreatingColumn(false));
+                    } }
                   >
-                    <BsPencil fontSize={ 15 } />
+                    <RxCross1 color="red" />
                   </button>
                   <button
-                    type="button"
-                    onClick={ () => deleteColumn(columnId) }
+                    type="submit"
+                    className="form-col-btn"
+                    disabled={ columnTitle.length <= 1 }
                   >
-                    <BsTrash fontSize={ 15 } />
+                    <MdDone color="green" />
                   </button>
                 </div>
-              </header>
-            )}
-            <Cards columnId={ columnId } />
-          </section>
-        ))}
-        {controls.isCreatingColumn ? (
-          <form
-            onSubmit={ (e) => createColumn(e) }
-            className="column column-form"
-          >
-            <label>
-              <div className="form-btns">
-                <button
-                  type="button"
-                  className="form-col-btn"
-                  onClick={ () => {
-                    setColumnTitle('');
-                    dispatch(setCreatingColumn(false));
-                  } }
-                >
-                  <RxCross1 color="red" />
-                </button>
-                <button
-                  type="submit"
-                  className="form-col-btn"
-                  disabled={ columnTitle.length <= 1 }
-                >
-                  <MdDone color="green" />
-                </button>
-              </div>
-              <input
-                placeholder="Column title"
-                value={ columnTitle }
-                onChange={ (e) => setColumnTitle(e.target.value) }
-              />
-            </label>
-          </form>
-        ) : (
-          <button
-            className="column new-column"
-            type="button"
-            onClick={ () => dispatch(setCreatingColumn(true)) }
-          >
-            <span>
-              <AiOutlinePlus />
-              ADD NEW COLUMN
-            </span>
-          </button>
-        )}
-      </main>
-    </DragDropContext>
+                <input
+                  placeholder="Column title"
+                  value={ columnTitle }
+                  onChange={ (e) => setColumnTitle(e.target.value) }
+                />
+              </label>
+            </form>
+          ) : (
+            <button
+              className="column new-column"
+              type="button"
+              onClick={ () => dispatch(setCreatingColumn(true)) }
+            >
+              <span>
+                <AiOutlinePlus />
+                ADD NEW COLUMN
+              </span>
+            </button>
+          )}
+        </main>
+      </DragDropContext>
+    </section>
   );
 }

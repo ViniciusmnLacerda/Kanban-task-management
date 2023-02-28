@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { INewCard } from './interfaces';
+import { INewCard, IRemove, IUpdate } from './interfaces';
 
 export default class HandleCards {
   private urlBase: string;
@@ -42,6 +42,48 @@ export default class HandleCards {
         },
       );
       return { data, status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public remove = async ({ id, key }: IRemove, token: string) => {
+    try {
+      const { status } = await axios.delete(
+        `${this.urlBase}/${this.cards}/${id}/${key}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
+    } catch (err) {
+      const errors = err as Error | AxiosError;
+      if (axios.isAxiosError(errors)) {
+        return { data: errors.response, status: errors.status };
+      }
+    }
+  };
+
+  public update = async (
+    { id, title, content }: Omit<IUpdate, 'key'>,
+    token: string,
+  ) => {
+    try {
+      const { status } = await axios.patch(
+        `${this.urlBase}/${this.cards}/${id}`,
+        { title, content },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      );
+      return { status };
     } catch (err) {
       const errors = err as Error | AxiosError;
       if (axios.isAxiosError(errors)) {
