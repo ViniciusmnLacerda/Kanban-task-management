@@ -85,7 +85,9 @@ export default function Cards({ columnId }: Omit<IProps, 'cardId'>) {
             >
               {(prov) => (
                 (controls.card.isEditing && +controls.card.cardId === cardId ? (
-                  <FormCard columnId={ columnId } cardId={ cardId } />
+                  <li className="task">
+                    <FormCard columnId={ columnId } cardId={ cardId } />
+                  </li>
                 ) : (
                   <li
                     ref={ prov.innerRef }
@@ -110,7 +112,9 @@ export default function Cards({ columnId }: Omit<IProps, 'cardId'>) {
           ))}
           {provided.placeholder}
           {(controls.card.isCreating && +controls.card.columnId === columnId) ? (
-            <FormCard columnId={ columnId } cardId={ 0 } />
+            <li className="task">
+              <FormCard columnId={ columnId } cardId={ 0 } />
+            </li>
           ) : (
             <li
               className="task new-task"
