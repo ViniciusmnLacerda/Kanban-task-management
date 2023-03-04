@@ -36,14 +36,10 @@ New cards are editable and it is possible to change their position.
     - Git
 
 ## Local Usage
-### Installing dependencies
-```bash
-cd kanban-task-management && cd backend && npm install
-``` 
 ### Running Docker Containers:
 > Run the command below in the ```/backend``` directory 
 ```bash
-docker-compose up -d --build && npm run db:reset
+npm run compose:up
 ``` 
 This command will start containers called ```db```, ```backend``` and ```frontend```, create and populate the database. There are four previously registered accounts. The backend server is now available and it is possible to interact with the API. To make requests locally - with ThunderClient, for example - use the endpoint http://localhost:3001/
 
